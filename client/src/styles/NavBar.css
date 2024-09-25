@@ -1,0 +1,60 @@
+.nav-icon {
+    font-size: 30px;
+    height: 33px;
+    margin: 0px 20px;
+    cursor: pointer;
+}
+
+.nav-icon:hover {
+    transform: scale(1.2, 1.2)
+}
+
+.home {
+    padding-right: 22px;
+    border-right: 1px solid #E8FF79;
+}
+
+.actions {
+    border-left: 1px solid #E8FF79;
+    border-right: 1px solid #E8FF79;
+}
+
+.categories {
+    border-left: 1px solid #E8FF79;
+    padding: 0px 22px;
+}
+
+/*/ Must fix spacing inconsistency when there are no tabs vs when there are tabs /*/
+
+.date-display {
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    padding: 0px 65px;
+    text-transform: uppercase;
+    height: 33px;
+    border-left: 1px solid #E8FF79;
+    border-right: 1px solid #E8FF79;
+    display: flex;
+    align-items: center;
+    margin-left: 30px; /*/delete later/*/
+  }
+
+#nav-completion-bar-box {
+    margin: -10px 0px -10px 50px;
+}
+
+#nav-completion-bar {
+    height: 28px;
+    width: 380px;
+}
+
+.hover-text {
+    left: 20px;
+    top: -30px;
+    position: relative;
+    color: #E8FF79;
+    text-transform: uppercase;
+    background-color: rgb(64, 37, 182);
+    padding: 5px;
+}

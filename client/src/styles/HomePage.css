@@ -1,0 +1,58 @@
+
+.overview-container {
+    width: 100%;
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-around;
+}
+
+.overview-header {
+    width: 100%;
+    margin-bottom: 1px solid blue;
+}
+
+.goals-overview {
+    background-color: white;
+    padding: 40px;
+}
+
+.tab-overview-box {
+    background-color: #E8FF79;
+    overflow: hidden;
+    border-radius: 30px;
+    width: 400px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid blue;
+    color: blue;
+}
+
+.plan-container {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.day-plan {
+    width: 50%;
+}
+
+.plan-row {
+    border: 1px solid #3a2dd2;
+    margin: 10px 0px;
+    width: 80%;
+    display: flex;
+    border-radius: 20px;
+}
+
+.time-slot {
+    border-right: 1px solid #3a2dd2;
+    height: 100%;
+    width: 50px;
+    padding: 15px;
+    background-color: #3a2dd2;
+    color: #E8FF79;
+    border-radius: 20px 0px 0px 20px;
+}
+

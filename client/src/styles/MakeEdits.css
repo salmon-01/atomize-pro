@@ -1,0 +1,65 @@
+.all-data-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.all-stored-items-box {
+    width: 260px;
+    text-align: center;
+    border: 1px solid #E8FF79;
+    border-radius: 10px;
+    color: white;
+    overflow: auto;
+    height: 280px;
+}
+
+.selector-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    cursor: pointer;
+    padding: 18px 25px 18px 18px;
+}
+
+.selector-box:hover {
+    background-color: #90eebd;
+    color: #533dc9;
+}
+
+.item-chosen {
+    background-color: #90eebd;
+    color: #533dc9;
+}
+
+.selector-text {
+    font-size: 16px;
+}
+
+.tab-selector-icon {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.action-icon {
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.edit-item {
+    width: 60px;
+    padding: 8px;
+    font-size: 11px;
+    margin: 0px 5px;
+}
+
+.edit-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#selected-obj-name {
+    color: rgb(255, 207, 119);
+}

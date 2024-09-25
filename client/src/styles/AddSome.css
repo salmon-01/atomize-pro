@@ -1,0 +1,104 @@
+.rounded-input {
+    background-color: #5B33BF;
+    border: 1px solid #E8FF79;
+    color: #E8FF79;
+    margin: 5px 0px;
+    align-items: center;
+    border-radius: 30px;
+    text-align: center;
+    padding: 8px;
+    font-size: 18px;
+}
+
+.name-small-input {
+    width: 170px;
+}
+
+.small-input {
+    width: 80px;
+}
+
+.col {
+    width: 100px;
+    font-size: 15px;
+}
+
+.dropdown {
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+    width: 100px;
+}
+
+.add {
+    padding: 60px 20px;
+    margin-top: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid #E8FF79;
+}
+
+.add:hover {
+    background-color: #E8FF79;
+}
+
+.goal-option-button {
+    padding: 5px 15px;
+}
+
+.goal-option-button:hover {
+    color: #b139d9;
+    text-decoration: underline;
+}
+
+.add .goal-options {
+    display: none;
+}
+
+.add:hover .goal-options {
+    display: block;
+    height: 100%;
+}
+
+.add:hover .block-text {
+    display: none;
+}
+
+.section-header {
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.turq-gradient {
+    background: linear-gradient(28deg, rgba(112,255,109,1) 15%, rgba(69,241,222,1) 100%);
+    color: rgb(61, 32, 168);
+}
+
+.purple-gradient {
+    background: linear-gradient(333deg, rgba(158,68,255,1) 8%, rgba(28,43,238,1) 100%);
+    color: white;
+}
+
+.orange-gradient {
+    background: linear-gradient(333deg, rgba(255,178,62,1) 6%, rgba(250,67,101,1) 100%);
+    color: white;
+}
+
+.yellow-gradient {
+    background: linear-gradient(333deg, rgba(254,255,107,1) 0%, rgba(255,173,65,1) 76%);
+    color: rgb(203, 75, 0);
+}
+
+.remove-by-index {
+    margin-left: 30px;
+    cursor: pointer;
+}
+
+.delete-icon {
+    height: 22px;
+}
+
+
+.delete-icon:hover {
+    transform: scale(1.1, 1.1);
+}

@@ -1,0 +1,79 @@
+.levels-block-pink {
+    background: #FD81D3;
+    width: 80px;
+    height: 65px;
+    border-radius: 25px;
+    border-style: solid;
+    border-width: 8px;
+    border-color: #FF96DB #F670C9 #F670C9 #FF96DB;
+    padding: 18px;
+    color: white;
+    line-height: 1.8;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin: 5px;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+  }
+  
+  .levels-block-pink:hover {
+    background-color: #F670C9;
+    border-color: #F45DC1 #FD81D3 #FD81D3 #F45DC1;
+  }
+  
+  .levels-block-purple {
+    background: #8471E1;
+    width: 70px;
+    height: 55px;
+    border-radius: 25px;
+    border-style: solid;
+    border-width: 8px;
+    border-color: #9989ED #7866D4 #7866D4 #9989ED;
+    padding: 18px;
+    color: white;
+    line-height: 1.8;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin: 5px;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .levels-block-purple:hover {
+    background-color: #7866D4;
+    border-color: #6E5CC8 #8471E1 #8471E1 #6E5CC8;
+  }
+
+  .isOff {
+    background-color: #DBD9DF;
+  }
+
+  .isDone {
+    background-color: #B8FF8C;
+  }
+
+  .isPartway {
+    background-color: #FFFE84;
+  }
+
+  .isStarted {
+    background-color: #FFD09A;
+  }
+
+  .fullBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;    
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: -10px;
+  }
+
+  .lightTracker {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }

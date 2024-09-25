@@ -1,0 +1,195 @@
+#name-your-list {
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #E8FF79;
+    border: 1px solid white;
+    width: 300px;
+    text-align: center;
+}
+
+button {
+    padding: 5px;
+    width: 70%;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Futura', Calibri;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: auto;
+}
+
+#create-new-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.template-options {
+    text-align: center;
+    border: 1px solid #E8FF79;
+    border-radius: 20px;
+    color: white;
+    overflow: hidden;
+}
+
+.chosen-tab {
+    margin: 7px 0px 20px 0px;
+}
+
+.chosen-tab-selected {
+    background-color: #473cd6;
+    border-radius: 50%;
+}
+
+.template-item {
+    display: block;
+    padding: 12px 0px;
+    cursor: pointer;
+}
+
+.template-item:hover {
+    background-color: #473cd6;
+}
+
+.template-item-chosen {
+    display: block;
+    padding: 12px 0px;
+    cursor: pointer;
+    background-color: #473cd6;
+}
+
+#add-goals-to-list {
+    padding: 10px 18px;
+    background-color: #473cd6;
+    color: #E8FF79;;
+}
+
+.preview-vid {
+    height: 130px;
+    flex: 1;
+    margin-right: 30px;
+    margin-top: 10px;
+}
+
+.preview-items {
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-text-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 20px;
+    font-size: 18px;
+    color: #bc2fd7;
+}
+
+.great-for-text {
+    display: block;
+    color: #4d42c8;
+}
+
+.name-goal {
+    margin: 5px 0px;
+    align-items: center;
+    border: none;
+    border-radius: 30px;
+    text-align: center;
+    padding: 7px;
+    font-size: 17px;
+}
+
+.name-simple {
+    width: 280px;
+    background-color: #5B33BF;
+    color: white;
+}
+
+.color-box {
+    border-radius: 30%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    margin-left: 30px;
+}
+
+#add-another-goal {
+    margin: 5px 0px 0px 10px;
+    background-color: #E8FF79;
+    width: 60px;
+    border-width: 3px;
+    border-color: #E9FA97 #E1F67B #E1F67B #E9FA97;
+    border-style: solid;
+    font-size: 10px;
+}
+
+#add-another-goal:hover {
+    background-color: #E1F67B;
+}
+
+input {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#submit-list-goals {
+    border-radius: 30px;
+    font-size: 18px;
+    padding: 20px;
+    line-height: 1.5;
+    width: 120px;
+    background-color: orange;
+    color: white;
+}
+
+.color-choices {
+    display: none; /* Initially hidden */
+    position: absolute; /* Position it absolutely */
+    z-index: 10; /* Ensure it appears in front */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 50px;
+    height: 80px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.color-option {
+    height: 20px;
+    cursor: pointer;
+}
+
+.purple {
+    background-color: #5B33BF;
+}
+
+.pink {
+    background-color: #d8449f;
+}
+
+.orange {
+    background-color: #ff9509;
+}
+
+.yellow-green {
+    background-color: #E8FF79;
+    color: black;
+}
+
+.red {
+    background-color: #e92338;
+}
+
+#list-title {
+    background: linear-gradient(333deg, rgba(209,144,251,1) 8%, rgba(48,48,207,1) 100%);
+    color: white;
+    padding: 10px 30px;
+    border-radius: 10px;
+    position: sticky;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 20px 0px 25px 0px;
+}

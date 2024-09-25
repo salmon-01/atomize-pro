@@ -1,0 +1,86 @@
+SimpleGoal.css
+
+.simpleGoal-yellow {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: yellow;
+}
+
+.simple-red {
+  background-color: #F13647;
+  border-color: #FD5665 #E82839 #E82839 #FD5665;
+}
+
+.simple-purple {
+  color: white;
+  background-color: #5B33BF;
+  border-color: #673CD4 #5530AF #5530AF #673CD4;
+}
+
+.simple-orange {
+  color: white;
+  background-color: #FF6C02;
+  border-color: #FF7F38 #E86100 #E86100 #FF7F38;
+}
+
+.simple-container {
+    width: 420px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.simpleBlock {
+    display: flex;
+    width: 75%;
+    flex-direction: row;
+    cursor: pointer;
+    margin: 7px 10px 7px 0px;
+    align-items: center;
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 30px;
+    padding: 4px;
+    justify-content: space-between;
+}
+
+.simpleGoalText {
+    font-size: 13px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.isOff {
+    background-color: #DBD9DF;
+  }
+
+.isDone {
+    background-color: #B8FF8C;
+  }
+
+.statusLight-simple {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #D6D4DB #CDCCD1 #CDCCD1 #D6D4DB;
+    margin: 5px -7px 5px 15px;
+  }
+
+  .more-options {
+    margin-left: 10px;
+  }
+
+  .options {
+    height: 22px;
+    margin-left: 3px;
+  }
+
+  .hidden {
+    display: none;
+  }

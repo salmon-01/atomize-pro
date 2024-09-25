@@ -1,0 +1,98 @@
+.progress-container {
+  width: 340px;
+  height: 35px;
+  background-color: #e0e0e0;
+  border-radius: 25px;
+  padding: 4px;
+  margin: 8px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.goalName {
+  margin-right: 5px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: white;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  border-radius: 25px;
+  transition: width 0.4s ease;
+}
+
+.green-fill {
+  background: linear-gradient(28deg, rgba(112,255,109,1) 15%, rgba(69,241,222,1) 100%);
+}
+
+.orange-fill {
+  background: linear-gradient(162deg, rgba(255,195,84,100) 0%, rgba(255,113,113,100) 80%);
+}
+
+.xpbar-fill {
+  background: rgb(232,255,121);
+  background: linear-gradient(333deg, rgba(232,255,121,1) 0%, rgba(129,255,151,1) 47%, rgba(176,255,253,1) 100%);
+}
+
+.fullBar {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #E8FF79;
+  border-top: 1px solid #E8FF79;
+  padding: 10px;
+}
+
+.left-box-prog {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.barBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.addProgress {
+  height: 30px;
+  width: 40%;
+  font-size: 22px;
+  border-radius: 50px;
+  padding: 0px 12px;
+  border: none;
+  background-color: #494DB1;
+  color: #91A6FF
+}
+
+.addProgress:hover {
+  background-color: turquoise;
+}
+
+.progressIncrease {
+  width: 80px;
+  padding: 8px;
+  border-radius: 30px;
+  text-align: center;
+  border: 1px solid #80decc;
+  margin: 10px 5px 10px 20px;
+}
+
+.progress-text {
+  line-height: 28px;
+  color: white;
+  position: absolute;
+  margin-left: 16%;
+}
+
+.inputBox {
+  display: flex;
+  flex-direction: row;
+}
