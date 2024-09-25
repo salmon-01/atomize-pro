@@ -1,8 +1,9 @@
 
-
 ## SCHEMA: goals
 
-Notes: 'order_no' was included to keep track of a specified order, allowing users to customise the order of goals. There was not enough time to implement this in the end.
+Notes: 'order_no' was included to keep track of a specified order, allowing users to customise the order of goals. There was not enough time to implement this in the end. 
+
+Similarly,'last_completed,' is also only there to potentially keep track of how often a user is completing certain goals - but I think more data is required in order for this feature to be meaningful. E.g. all completed dates so that we can have stats.
 
 ### Simple List Goals
 
