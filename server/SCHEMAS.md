@@ -17,6 +17,8 @@ TABLE goals.simple (
     type VARCHAR(15)
 )
 
+### Progress Bars
+
 TABLE goals.progbars (
     id SERIAL PRIMARY KEY,
     name VARCHAR(30),
@@ -33,6 +35,8 @@ TABLE goals.progbars (
     type VARCHAR(15)
 )
 
+### Levels
+
 TABLE goals.levels (
     id SERIAL PRIMARY KEY,
     name VARCHAR(30),
@@ -46,6 +50,8 @@ TABLE goals.levels (
     type VARCHAR(15),
     level INT
 )
+
+### Sets
 
 TABLE goals.sets (
     id SERIAL PRIMARY KEY,
@@ -61,4 +67,20 @@ TABLE goals.sets (
     sets INT,
     reps INT,
     completed_sets INT
+)
+
+## SCHEMA: userinfo
+
+### tabs
+
+TABLE userinfo.tabs (
+    name VARCHAR(30),
+    icon VARCHAR(80),
+    col_one VARCHAR(30),
+    col_one_b VARCHAR(30),
+    col_two VARCHAR(30),
+    col_two_b VARCHAR(30),
+    col_three VARCHAR(30),
+    col_three_b VARCHAR(30),
+    order_no INT
 )
