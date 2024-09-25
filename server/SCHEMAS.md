@@ -2,6 +2,8 @@
 
 ## SCHEMA: goals
 
+Notes: 'order_no' was included to keep track of a specified order, allowing users to customise the order of goals. There was not enough time to implement this in the end.
+
 ### Simple List Goals
 
 TABLE goals.simple (
@@ -84,3 +86,5 @@ TABLE userinfo.tabs (
     col_three_b VARCHAR(30),
     order_no INT
 )
+
+Notes: Numbered columns are meant to keep track of the arrangement and order of lists on a page. 'b' exists so that in the event that the full column is only half-full, you can add another list to 'b' to prevent wide gaping spaces. This is not a finished feature.
