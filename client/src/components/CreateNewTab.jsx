@@ -15,9 +15,10 @@ import PlaneGlobe from "../assets/icons/plane-globe-icon.png";
 import { createTab } from "../ApiService.jsx";
 import { useAppContext } from "../AppContext";
 
-export default function CreateNewTab({ tabs }) {
+export default function CreateNewTab() {
   const navigate = useNavigate();
   const { state, dispatch } = useAppContext();
+  const { tabs } = state;
 
   const allIcons = [
     Sprout,

@@ -14,13 +14,14 @@ import "./App.css";
 import { AppContext } from "./AppContext.js";
 
 function App() {
-  const [goals, setGoals] = useState([]);
+  // const [goals, setGoals] = useState([]);
   // const [lists, setLists] = useState([]);
 
   const [goalXPBar, setGoalXPBar] = useState(0);
   const [currentXP, setCurrentXP] = useState(0);
 
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { goals, tabs } = state;
 
   const calculateXPGoal = (goals) => {
     goals.forEach((goal) => {
@@ -97,31 +98,19 @@ function App() {
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       <div className="wrapper">
-        <NavBar goalXPBar={goalXPBar} currentXP={currentXP} tabs={state.tabs} />
+        <NavBar goalXPBar={goalXPBar} currentXP={currentXP} />
         <Routes>
-          <Route
-            path="/home/*"
-            element={<HomePage tabs={state.tabs} goals={state.goals} />}
-          />
+          <Route path="/home/*" element={<HomePage />} />
           <Route path="/create-new" element={<CreateNew />} />
           <Route
             path="/create-new/list"
-            element={<CreateNewList loadGoals={loadGoals} tabs={state.tabs} />}
+            element={<CreateNewList loadGoals={loadGoals} />}
           />
-          <Route
-            path="/create-new/tab"
-            element={<CreateNewTab tabs={state.tabs} />}
-          />
-          <Route
-            path="/create-new/goal"
-            element={<CreateNewGoal tabs={state.tabs} />}
-          />
-          <Route
-            path="/edit"
-            element={<MakeEdits tabs={state.tabs} goals={state.goals} />}
-          />
-          {state.tabs.length > 0 &&
-            state.tabs.map((tab) => {
+          <Route path="/create-new/tab" element={<CreateNewTab />} />
+          <Route path="/create-new/goal" element={<CreateNewGoal />} />
+          <Route path="/edit" element={<MakeEdits />} />
+          {tabs.length > 0 &&
+            tabs.map((tab) => {
               if (tab.name) {
                 const hyphenatedName = tab.name.replace(/\s+/g, "-");
                 return (
