@@ -46,7 +46,6 @@ export default function NavBar({ tabs, goalXPBar, currentXP }) {
             })}
         </div>
         <div className={`${tabs.length ? 'categories' : null}`}>
-          {/* <img src={PlanetButton} className="nav-icon" /> */}
           <Link to="/create-new">
             <img src={CreateButton} className="nav-icon" />
           </Link>
