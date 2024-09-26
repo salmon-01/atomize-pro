@@ -1,13 +1,13 @@
 import { React, useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import CreateNew from './components/CreateNew';
-import CreateNewList from './components/CreateNewList';
-import CreateNewTab from './components/CreateNewTab';
+import NavBar from './components/NavBar.jsx';
+import CreateNew from './components/CreateNew.jsx';
+import CreateNewList from './components/CreateNewList.jsx';
+import CreateNewTab from './components/CreateNewTab.jsx';
 import CreateNewGoal from './components/CreateNewGoal.jsx';
 import MakeEdits from './components/MakeEdits.jsx';
-import HomePage from './components/HomePage';
-import Tab from './components/Tab';
+import HomePage from './components/HomePage.jsx';
+import Tab from './components/Tab.jsx';
 import { fetchAllTabs, fetchAllGoals } from "./ApiService.jsx";
 import './App.css'
 
