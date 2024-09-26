@@ -21,8 +21,18 @@ function App() {
   const [currentXP, setCurrentXP] = useState(0);
 
   const calculateXPGoal = (goals) => {
-    goals.map(goal => goal.type === 'Simple List' ? setGoalXPBar(prev => prev + 1) : goal.type === 'Levels' ? setGoalXPBar(prev => prev + 3) : goal.type === 'Sets' ? setGoalXPBar(prev => prev + goal.sets) : goal.type === 'Progress Bar' ? setGoalXPBar(prev => prev + 10) : null);
-    goals.map(goal => goal.type === 'Simple List' && goal.complete ? setCurrentXP(prev => prev + 1) : goal.type === 'Sets' ? setCurrentXP(prev => prev + goal.completed_sets) : goal.type === 'Levels' ? setCurrentXP(prev => prev + goal.level) : goal.type === 'Progress Bar' ? setCurrentXP(prev => prev + Math.round(goal.current / goal.goal_number * 10)) : null)
+    goals.forEach(goal => {
+      goal.type === 'Simple List' && setGoalXPBar(prev => prev + 1);
+      goal.type === 'Levels' && setGoalXPBar(prev => prev + 3);
+      goal.type === 'Sets' && setGoalXPBar(prev => prev + goal.sets);
+      goal.type === 'Progress Bar' && setGoalXPBar(prev => prev + 10);
+    });
+    goals.forEach(goal => {
+      goal.type === 'Simple List' && goal.complete && setCurrentXP(prev => prev + 1);
+      goal.type === 'Sets' && setCurrentXP(prev => prev + goal.completed_sets);
+      goal.type === 'Levels' && setCurrentXP(prev => prev + goal.level);
+      goal.type === 'Progress Bar' && setCurrentXP(prev => prev + Math.round(goal.current / goal.goal_number * 10));
+    });
   };
 
   const loadTabs = async () => {

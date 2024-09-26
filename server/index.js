@@ -3,7 +3,7 @@ const cors = require("cors");
 const router = require('./router.js');
 
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost:5174',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true, // Allow credentials (like cookies) to be sent
@@ -19,9 +19,9 @@ app.use(express.json());
 app.use('/api', router);
 
 app.listen(PORT, (err) => {
-    if (err) {
-      console.log(`😞 Something went wrong connecting to the server! ${err}`);
-    } else {
-      console.log(`🚀 The server is running and listening on port ${PORT}!`);
-    }
-  });
+  if (err) {
+    console.log(`😞 Something went wrong connecting to the server! ${err}`);
+  } else {
+    console.log(`🚀 The server is running and listening on port ${PORT}!`);
+  }
+});

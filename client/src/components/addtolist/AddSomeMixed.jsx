@@ -50,7 +50,10 @@ export default function AddSomeMixed({listName, finalizeGoals, selectedTab}) {
                 <span className="goal-option-button" onClick={() => setThirdBlock('Set')}>Set</span>
             </div>
         </div> : null}
-        { thirdBlock === 'Simple List' ? <><AddSomeSimple listName={listName} selectedTab={selectedTab} finalizeGoals={finalizeGoals}/><br></br></> : thirdBlock === 'Progress Bar' ? <AddSomeBars listName={listName} selectedTab={selectedTab} finalizeGoals={finalizeGoals}/> : thirdBlock === 'Levels' ? <AddSomeLevels listName={listName} selectedTab={selectedTab} finalizeGoals={finalizeGoals}/> : thirdBlock === 'Set' ? <AddSomeSets listName={listName} selectedTab={selectedTab} finalizeGoals={finalizeGoals}/> : null}
+        { thirdBlock === 'Simple List' && <><AddSomeSimple listName={listName} selectedTab={selectedTab} finalizeGoals={finalizeGoals}/><br></br></> }
+        { thirdBlock === 'Progress Bar' && <AddSomeBars listName={listName} selectedTab={selectedTab} finalizeGoals={finalizeGoals}/> }
+        { thirdBlock === 'Levels' && <AddSomeLevels listName={listName} selectedTab={selectedTab} finalizeGoals={finalizeGoals}/> }
+        { thirdBlock === 'Set' && <AddSomeSets listName={listName} selectedTab={selectedTab} finalizeGoals={finalizeGoals}/> }
         </>
     )
 }
