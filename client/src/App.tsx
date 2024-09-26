@@ -11,9 +11,9 @@ import HomePage from "./components/HomePage.jsx";
 import Tab from "./components/Tab.jsx";
 import { fetchAllTabs, fetchAllGoals } from "./ApiService.jsx";
 import "./App.css";
+import { AppContext } from "./AppContext.js";
 
 function App() {
-  const [tabs, setTabs] = useState([]);
   const [goals, setGoals] = useState([]);
   // const [lists, setLists] = useState([]);
 
@@ -95,43 +95,48 @@ function App() {
   }, [goals]);
 
   return (
-    <div className="wrapper">
-      <NavBar goalXPBar={goalXPBar} currentXP={currentXP} tabs={state.tabs} />
-      <Routes>
-        <Route
-          path="/home/*"
-          element={<HomePage tabs={state.tabs} goals={state.goals} />}
-        />
-        <Route path="/create-new" element={<CreateNew />} />
-        <Route
-          path="/create-new/list"
-          element={<CreateNewList loadGoals={loadGoals} tabs={state.tabs} />}
-        />
-        <Route
-          path="/create-new/tab"
-          element={<CreateNewTab tabs={state.tabs} />}
-        />
-        <Route
-          path="/create-new/goal"
-          element={<CreateNewGoal tabs={state.tabs} />}
-        />
-        <Route path="/edit" element={<MakeEdits tabs={tabs} goals={goals} />} />
-        {tabs.length > 0 &&
-          tabs.map((tab) => {
-            if (tab.name) {
-              const hyphenatedName = tab.name.replace(/\s+/g, "-");
-              return (
-                <Route
-                  key={hyphenatedName}
-                  path={`/${hyphenatedName}`}
-                  element={<Tab tab={tab} goals={goals} />}
-                />
-              );
-            }
-            return null;
-          })}
-      </Routes>
-    </div>
+    <AppContext.Provider value={{ state, dispatch }}>
+      <div className="wrapper">
+        <NavBar goalXPBar={goalXPBar} currentXP={currentXP} tabs={state.tabs} />
+        <Routes>
+          <Route
+            path="/home/*"
+            element={<HomePage tabs={state.tabs} goals={state.goals} />}
+          />
+          <Route path="/create-new" element={<CreateNew />} />
+          <Route
+            path="/create-new/list"
+            element={<CreateNewList loadGoals={loadGoals} tabs={state.tabs} />}
+          />
+          <Route
+            path="/create-new/tab"
+            element={<CreateNewTab tabs={state.tabs} />}
+          />
+          <Route
+            path="/create-new/goal"
+            element={<CreateNewGoal tabs={state.tabs} />}
+          />
+          <Route
+            path="/edit"
+            element={<MakeEdits tabs={state.tabs} goals={state.goals} />}
+          />
+          {state.tabs.length > 0 &&
+            state.tabs.map((tab) => {
+              if (tab.name) {
+                const hyphenatedName = tab.name.replace(/\s+/g, "-");
+                return (
+                  <Route
+                    key={hyphenatedName}
+                    path={`/${hyphenatedName}`}
+                    element={<Tab tab={tab} goals={goals} />}
+                  />
+                );
+              }
+              return null;
+            })}
+        </Routes>
+      </div>
+    </AppContext.Provider>
   );
 }
 
