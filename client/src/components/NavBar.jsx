@@ -8,10 +8,10 @@ import "../styles/ProgressBar.css";
 import "../styles/NavBar.css";
 import { useAppContext } from "../AppContext";
 
-export default function NavBar({ goalXPBar, currentXP }) {
+export default function NavBar() {
   // const [hoveredText, setHoveredText] = ('');
   const { state } = useAppContext();
-  const { tabs } = state;
+  const { tabs, goalXPBar, currentXP } = state;
 
   const formattedDate = formatDate(new Date());
 

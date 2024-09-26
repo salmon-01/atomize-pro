@@ -14,52 +14,75 @@ import "./App.css";
 import { AppContext } from "./AppContext.js";
 
 function App() {
-  // const [goals, setGoals] = useState([]);
   // const [lists, setLists] = useState([]);
 
-  const [goalXPBar, setGoalXPBar] = useState(0);
-  const [currentXP, setCurrentXP] = useState(0);
+  // const [goalXPBar, setGoalXPBar] = useState(0);
+  // const [currentXP, setCurrentXP] = useState(0);
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { goals, tabs } = state;
+  const { goals, tabs, loading } = state;
 
-  const calculateXPGoal = (goals) => {
-    goals.forEach((goal) => {
-      goal.type === "Simple List" && setGoalXPBar((prev) => prev + 1);
-      goal.type === "Levels" && setGoalXPBar((prev) => prev + 3);
-      goal.type === "Sets" && setGoalXPBar((prev) => prev + goal.sets);
-      goal.type === "Progress Bar" && setGoalXPBar((prev) => prev + 10);
-    });
-    goals.forEach((goal) => {
-      goal.type === "Simple List" &&
-        goal.complete &&
-        setCurrentXP((prev) => prev + 1);
-      goal.type === "Sets" &&
-        setCurrentXP((prev) => prev + goal.completed_sets);
-      goal.type === "Levels" && setCurrentXP((prev) => prev + goal.level);
-      goal.type === "Progress Bar" &&
-        setCurrentXP(
-          (prev) => prev + Math.round((goal.current / goal.goal_number) * 10)
-        );
-    });
-  };
+  // const calculateXPGoal = (goals) => {
+  //   let totalGoalXPBar = 0;
+  //   let totalCurrentXP = 0;
 
-  const loadTabs = async () => {
+  //   goals.forEach((goal) => {
+  //     if (goal.type === "Simple List") {
+  //       totalGoalXPBar += 1;
+  //     }
+  //     if (goal.type === "Levels" && goal.level !== undefined) {
+  //       totalGoalXPBar += 3;
+  //     }
+  //     if (goal.type === "Sets" && goal.sets !== undefined) {
+  //       totalGoalXPBar += goal.sets;
+  //     }
+  //     if (goal.type === "Progress Bar") {
+  //       totalGoalXPBar += 10;
+  //     }
+  //   });
+
+  //   goals.forEach((goal) => {
+  //     if (goal.type === "Simple List" && goal.complete) {
+  //       totalCurrentXP += 1;
+  //     }
+  //     if (goal.type === "Sets" && goal.completed_sets !== undefined) {
+  //       totalCurrentXP += goal.completed_sets;
+  //     }
+  //     if (goal.type === "Levels" && goal.level !== undefined) {
+  //       totalCurrentXP += goal.level;
+  //     }
+  //     if (
+  //       goal.type === "Progress Bar" &&
+  //       goal.current !== undefined &&
+  //       goal.goal_number !== undefined
+  //     ) {
+  //       const progress =
+  //         goal.goal_number > 0
+  //           ? Math.round((goal.current / goal.goal_number) * 10)
+  //           : 0;
+  //       totalCurrentXP += progress;
+  //     }
+  //   });
+
+  //   setGoalXPBar(totalGoalXPBar);
+  //   setCurrentXP(totalCurrentXP);
+  // };
+
+  // Combined function to fetch tabs and goal data
+  const loadData = async () => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
-      const data = await fetchAllTabs();
-      dispatch({ type: "SET_TABS", payload: data });
-    } catch (error) {
-      console.error("There was an error loading tabs:", error);
-    } finally {
-      dispatch({ type: "SET_LOADING", payload: false });
-    }
-  };
 
-  const loadGoals = async () => {
-    try {
-      dispatch({ type: "SET_LOADING", payload: true });
-      const fetchedGoals = await fetchAllGoals();
+      // Fetch tabs and goals simultaneously
+      const [tabsData, fetchedGoals] = await Promise.all([
+        fetchAllTabs(),
+        fetchAllGoals(),
+      ]);
+
+      // Dispatch tabs data
+      dispatch({ type: "SET_TABS", payload: tabsData });
+
+      // Process and dispatch goals data
       if (
         fetchedGoals &&
         Array.isArray(fetchedGoals.simple) &&
@@ -78,38 +101,35 @@ function App() {
         dispatch({ type: "SET_GOALS", payload: [] });
       }
     } catch (error) {
-      console.error("There was an error loading tabs:", error);
+      console.error("There was an error loading data:", error);
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }
   };
 
   useEffect(() => {
-    loadTabs();
-    loadGoals();
+    loadData();
   }, []);
 
   useEffect(() => {
     if (goals.length > 0) {
-      calculateXPGoal(goals);
+      dispatch({ type: "CALCULATE_GOAL_XP", payload: goals });
     }
-  }, [goals]);
+  }, [goals, dispatch]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       <div className="wrapper">
-        <NavBar goalXPBar={goalXPBar} currentXP={currentXP} />
+        <NavBar />
         <Routes>
           <Route path="/home/*" element={<HomePage />} />
           <Route path="/create-new" element={<CreateNew />} />
-          <Route
-            path="/create-new/list"
-            element={<CreateNewList loadGoals={loadGoals} />}
-          />
+          <Route path="/create-new/list" element={<CreateNewList />} />
           <Route path="/create-new/tab" element={<CreateNewTab />} />
           <Route path="/create-new/goal" element={<CreateNewGoal />} />
           <Route path="/edit" element={<MakeEdits />} />
-          {tabs.length > 0 &&
+          {!loading &&
+            tabs.length > 0 &&
             tabs.map((tab) => {
               if (tab.name) {
                 const hyphenatedName = tab.name.replace(/\s+/g, "-");
@@ -117,11 +137,10 @@ function App() {
                   <Route
                     key={hyphenatedName}
                     path={`/${hyphenatedName}`}
-                    element={<Tab tab={tab} goals={goals} />}
+                    element={<Tab tab={tab} />}
                   />
                 );
               }
-              return null;
             })}
         </Routes>
       </div>
