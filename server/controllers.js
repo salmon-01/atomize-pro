@@ -8,23 +8,23 @@ const saveGoals = async (req, res) => {
     const { name, list, tab, color, order_no, active, complete, last_completed, type } = req.body;
 
     try {
-        if (!name || !list || !tab || !color || !type ) {
+        if (!name || !list || !tab || !color || !type) {
             return res.status(400).json({ message: 'Missing required fields' });
         }
         let tableName;
         let goalFields = [];
         let goalValues = [];
         let placeholders = [];
-    
+
         if (type === 'Simple List') {
-    
+
             tableName = 'goals.simple';
             goalFields = ['name', 'list', 'tab', 'color', 'order_no', 'active', 'complete', 'last_completed', 'type'];
             goalValues = [name, list, tab, color, order_no, active, complete, last_completed, type];
-    
+
         } else if (type === 'Progress Bar') {
             tableName = 'goals.progbars';
-    
+
             const { current, goal_number, units } = req.body;
             goalFields = ['name', 'list', 'tab', 'color', 'order_no', 'active', 'complete', 'last_completed', 'type', 'current', 'goal_number', 'units'];
             goalValues = [name, list, tab, color, order_no, active, complete, last_completed, type, current, goal_number, units];
@@ -43,7 +43,7 @@ const saveGoals = async (req, res) => {
             goalFields = ['name', 'list', 'tab', 'color', 'order_no', 'active', 'complete', 'last_completed', 'type', 'sets', 'reps', 'completed_sets'];
             goalValues = [name, list, tab, color, order_no, active, complete, last_completed, type, sets, reps, completed_sets];
         }
-    
+
         goalValues = goalValues.filter(val => val !== undefined);
         placeholders = goalValues.map((_, index) => `$${index + 1}`);
         const insertGoalQuery = `
@@ -52,11 +52,11 @@ const saveGoals = async (req, res) => {
             RETURNING *;
         `;
         const doesGoalExist = `SELECT * FROM ${tableName} WHERE name = $1`;
-            const result = await client.query(doesGoalExist, [name]);
-    
-            if (result.rows.length > 0) {
-                return res.status(400).json({ message: 'Goal with this name already exists' });
-            }
+        const result = await client.query(doesGoalExist, [name]);
+
+        if (result.rows.length > 0) {
+            return res.status(400).json({ message: 'Goal with this name already exists' });
+        }
         const newGoal = await client.query(insertGoalQuery, goalValues);
         res.status(201).json(newGoal.rows[0]);
 
@@ -68,7 +68,8 @@ const saveGoals = async (req, res) => {
 
 const saveTab = async (req, res) => {
     const { name, icon, col_one, col_one_b, col_two, col_two_b, col_three, col_three_b, order_no } = req.body;
-    if (!name || !icon ) {
+    console.log(req.body);
+    if (!name || !icon) {
         return res.status(400).json({ message: 'Missing required fields' });
     }
     try {
@@ -94,6 +95,7 @@ const saveTab = async (req, res) => {
         if (!newTab.rows.length) {
             return res.status(500).json({ message: 'Failed to insert the new tab' });
         }
+        console.log('Tab created!');
         res.status(201).json(newTab.rows[0]);
     } catch (error) {
         console.error(error);
@@ -108,7 +110,7 @@ const getAllTabs = async (req, res) => {
         const getTabsQuery = 'SELECT * FROM userinfo.tabs';
         const result = await client.query(getTabsQuery);
         if (result.rows.length === 0) {
-            return res.status(200).json([]); 
+            return res.status(200).json([]);
         }
         res.status(200).json(result.rows);
     } catch (error) {
@@ -121,15 +123,15 @@ const getAllGoals = async (req, res) => {
     try {
         // Step 1: Get the list of all tables in the goals schema
         const tablesQuery = `
-            SELECT table_name 
-            FROM information_schema.tables 
-            WHERE table_schema = 'goals' 
+            SELECT table_name
+            FROM information_schema.tables
+            WHERE table_schema = 'goals'
             AND table_type = 'BASE TABLE';
         `;
         const tablesResult = await client.query(tablesQuery);
 
         if (tablesResult.rows.length === 0) {
-            return res.status(200).json([]); 
+            return res.status(200).json([]);
         }
 
         // Step 2: Initialize an object to hold all data
@@ -167,7 +169,7 @@ const updateGoalStatus = async (req, res) => {
     // Determine the table and column based on the goal type
     if (type === 'Simple List') {
         tableName = 'goals.simple';
-        col = 'complete'; 
+        col = 'complete';
     } else if (type === 'Progress Bar') {
         tableName = 'goals.progbars';
         col = 'current';
@@ -177,7 +179,7 @@ const updateGoalStatus = async (req, res) => {
         tableName = 'goals.sets';
         col = 'completed_sets';
         condition = 'completed_sets = sets';
-        completeUpdate = `, complete = CASE WHEN ${condition} THEN true ELSE complete END`; 
+        completeUpdate = `, complete = CASE WHEN ${condition} THEN true ELSE complete END`;
     } else if (type === 'Levels') {
         tableName = 'goals.levels';
         col = 'level';
@@ -240,37 +242,37 @@ const deleteGoal = async (req, res) => {
         tableName = 'goals.sets';
     } else if (type === 'Levels') {
         tableName = 'goals.levels';
-    } 
-    try {
-      const deleteQuery = `DELETE FROM ${tableName} WHERE name = $1 RETURNING *;`;
-      const result = await client.query(deleteQuery, [goalName]);
-      if (result.rowCount === 0) {
-        return res.status(404).json({ message: 'Goal not found' });
-      }
-      res.status(200).json({ message: 'Goal deleted successfully', goal: result.rows[0] });
-    } catch (error) {
-      console.error('Error deleting goal:', error);
-      res.status(500).json({ message: 'Server error when deleting goal' });
     }
-  };
-  // Update to include more than goals.simple later;
+    try {
+        const deleteQuery = `DELETE FROM ${tableName} WHERE name = $1 RETURNING *;`;
+        const result = await client.query(deleteQuery, [goalName]);
+        if (result.rowCount === 0) {
+            return res.status(404).json({ message: 'Goal not found' });
+        }
+        res.status(200).json({ message: 'Goal deleted successfully', goal: result.rows[0] });
+    } catch (error) {
+        console.error('Error deleting goal:', error);
+        res.status(500).json({ message: 'Server error when deleting goal' });
+    }
+};
+// Update to include more than goals.simple later;
 
 const deleteTab = async (req, res) => {
     const { tabName } = req.params; // Must pass tab name
     try {
-      const deleteQuery = 'DELETE FROM userinfo.tabs WHERE name = $1 RETURNING *;';
-      const result = await client.query(deleteQuery, [tabName]);
-      if (result.rowCount === 0) {
-        return res.status(404).json({ message: 'Tab not found' });
-      }
-      res.status(200).json({ message: 'Tab deleted successfully', tab: result.rows[0] });
+        const deleteQuery = 'DELETE FROM userinfo.tabs WHERE name = $1 RETURNING *;';
+        const result = await client.query(deleteQuery, [tabName]);
+        if (result.rowCount === 0) {
+            return res.status(404).json({ message: 'Tab not found' });
+        }
+        res.status(200).json({ message: 'Tab deleted successfully', tab: result.rows[0] });
     } catch (error) {
-      console.error('Error deleting tab:', error);
-      res.status(500).json({ message: 'Server error when deleting tab' });
+        console.error('Error deleting tab:', error);
+        res.status(500).json({ message: 'Server error when deleting tab' });
     }
-  };
+};
 
-  const deleteListPos = async (req, res) => {
+const deleteListPos = async (req, res) => {
     const { tabName, listName } = req.params;
     try {
         // Find the tab by name
@@ -315,4 +317,4 @@ const deleteTab = async (req, res) => {
 // Still needed: resetGoals, editGoals, editTabs, editLists, deleteLists
 
 
-module.exports = { saveGoals, saveTab, getAllTabs, getAllGoals, insertListPos, deleteListPos, deleteGoal, deleteTab, updateGoalStatus};
+module.exports = { saveGoals, saveTab, getAllTabs, getAllGoals, insertListPos, deleteListPos, deleteGoal, deleteTab, updateGoalStatus };

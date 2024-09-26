@@ -2,7 +2,7 @@ import {React, useState, useEffect} from "react";
 import { Link } from 'react-router-dom';
 import HomeButton from '../assets/navigation/home-button.png';
 import CreateButton from '../assets/navigation/createnew-button.png';
-import PlanetButton from '../assets/navigation/planet-button.png';
+// import PlanetButton from '../assets/navigation/planet-button.png';
 import EditButton from '../assets/navigation/edit-button.png';
 import '../styles/ProgressBar.css';
 import '../styles/NavBar.css';
