@@ -1,5 +1,5 @@
 
-# What Needs Help
+# What's Not Working As Well As It Should
 
 As you've probably seen, a lot needs improving. The following are features that have observable bugs or other issues.
 
