@@ -1,20 +1,22 @@
-import React from "react";
+import { useAppContext } from "../AppContext";
 import HomePlanner from "./HomePage-Planner";
 import HomeOverview from "./HomePage-Overview";
-import { Routes, Route} from 'react-router-dom';
-import '../styles/HomePage.css'
+import { Routes, Route } from "react-router-dom";
+import "../styles/HomePage.css";
 // import {DndContext} from '@dnd-kit/core';
 // import {Draggable} from './Draggable';
 // import {Droppable} from './Droppable';
 
-export default function HomePage({tabs, goals}) {
+export default function HomePage() {
+  const { state } = useAppContext();
+  const { tabs, goals } = state;
 
-    return (
-        <div className="home-container">
-            <Routes>
-                <Route path="/plan" element={<HomePlanner tabs={tabs} goals={goals} />} />
-                <Route path="/" element={<HomeOverview tabs={tabs} goals={goals}/>} />
-            </Routes>
-        </div>
-    )
+  return (
+    <div className="home-container">
+      <Routes>
+        <Route path="/plan" element={<HomePlanner />} />
+        <Route path="/" element={<HomeOverview />} />
+      </Routes>
+    </div>
+  );
 }
