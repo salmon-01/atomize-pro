@@ -1,9 +1,11 @@
 const { Client } = require('pg');
 
+require("dotenv").config();
+
 const client = new Client({
-  user: 'joshtuddenham',
+  user: process.env.PSQL_USER,
   host: 'localhost',
-  database: 'atomizedb',
+  database: process.env.PSQL_DATABASE,
   port: 5432,
 });
 
