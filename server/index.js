@@ -1,11 +1,12 @@
-const express = require('express');
+const express = require("express");
 const cors = require("cors");
-const router = require('./router.js');
+const router = require("./router.js");
+require("dotenv").config();
 
 const corsOptions = {
-  origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: process.env.CORS_ORIGIN,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // Allow credentials (like cookies) to be sent
 };
 
@@ -16,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors(corsOptions));
 app.use(express.json());
 // app.use('/api', router);
-app.use('/api', router);
+app.use("/api", router);
 
 app.listen(PORT, (err) => {
   if (err) {
