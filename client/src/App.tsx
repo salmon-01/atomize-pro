@@ -16,51 +16,57 @@ import { AppContext } from "./AppContext.js";
 function App() {
   // const [lists, setLists] = useState([]);
 
-  const [goalXPBar, setGoalXPBar] = useState(0);
-  const [currentXP, setCurrentXP] = useState(0);
+  // const [goalXPBar, setGoalXPBar] = useState(0);
+  // const [currentXP, setCurrentXP] = useState(0);
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const { goals, tabs, loading } = state;
 
-  const calculateXPGoal = (goals) => {
-    goals.forEach((goal) => {
-      if (goal.type === "Simple List") {
-        setGoalXPBar((prev) => prev + 1);
-      }
-      if (goal.type === "Levels" && goal.level !== undefined) {
-        setGoalXPBar((prev) => prev + 3);
-      }
-      if (goal.type === "Sets" && goal.sets !== undefined) {
-        setGoalXPBar((prev) => prev + goal.sets);
-      }
-      if (goal.type === "Progress Bar") {
-        setGoalXPBar((prev) => prev + 10);
-      }
-    });
+  // const calculateXPGoal = (goals) => {
+  //   let totalGoalXPBar = 0;
+  //   let totalCurrentXP = 0;
 
-    goals.forEach((goal) => {
-      if (goal.type === "Simple List" && goal.complete) {
-        setCurrentXP((prev) => prev + 1);
-      }
-      if (goal.type === "Sets" && goal.completed_sets !== undefined) {
-        setCurrentXP((prev) => prev + goal.completed_sets);
-      }
-      if (goal.type === "Levels" && goal.level !== undefined) {
-        setCurrentXP((prev) => prev + goal.level);
-      }
-      if (
-        goal.type === "Progress Bar" &&
-        goal.current !== undefined &&
-        goal.goal_number !== undefined
-      ) {
-        const progress =
-          goal.goal_number > 0
-            ? Math.round((goal.current / goal.goal_number) * 10)
-            : 0;
-        setCurrentXP((prev) => prev + progress);
-      }
-    });
-  };
+  //   goals.forEach((goal) => {
+  //     if (goal.type === "Simple List") {
+  //       totalGoalXPBar += 1;
+  //     }
+  //     if (goal.type === "Levels" && goal.level !== undefined) {
+  //       totalGoalXPBar += 3;
+  //     }
+  //     if (goal.type === "Sets" && goal.sets !== undefined) {
+  //       totalGoalXPBar += goal.sets;
+  //     }
+  //     if (goal.type === "Progress Bar") {
+  //       totalGoalXPBar += 10;
+  //     }
+  //   });
+
+  //   goals.forEach((goal) => {
+  //     if (goal.type === "Simple List" && goal.complete) {
+  //       totalCurrentXP += 1;
+  //     }
+  //     if (goal.type === "Sets" && goal.completed_sets !== undefined) {
+  //       totalCurrentXP += goal.completed_sets;
+  //     }
+  //     if (goal.type === "Levels" && goal.level !== undefined) {
+  //       totalCurrentXP += goal.level;
+  //     }
+  //     if (
+  //       goal.type === "Progress Bar" &&
+  //       goal.current !== undefined &&
+  //       goal.goal_number !== undefined
+  //     ) {
+  //       const progress =
+  //         goal.goal_number > 0
+  //           ? Math.round((goal.current / goal.goal_number) * 10)
+  //           : 0;
+  //       totalCurrentXP += progress;
+  //     }
+  //   });
+
+  //   setGoalXPBar(totalGoalXPBar);
+  //   setCurrentXP(totalCurrentXP);
+  // };
 
   // Combined function to fetch tabs and goal data
   const loadData = async () => {
@@ -107,14 +113,14 @@ function App() {
 
   useEffect(() => {
     if (goals.length > 0) {
-      calculateXPGoal(goals);
+      dispatch({ type: "CALCULATE_GOAL_XP", payload: goals });
     }
-  }, [goals]);
+  }, [goals, dispatch]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       <div className="wrapper">
-        <NavBar goalXPBar={goalXPBar} currentXP={currentXP} />
+        <NavBar />
         <Routes>
           <Route path="/home/*" element={<HomePage />} />
           <Route path="/create-new" element={<CreateNew />} />
