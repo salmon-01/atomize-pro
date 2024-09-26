@@ -14,14 +14,13 @@ import "./App.css";
 import { AppContext } from "./AppContext.js";
 
 function App() {
-  // const [goals, setGoals] = useState([]);
   // const [lists, setLists] = useState([]);
 
   const [goalXPBar, setGoalXPBar] = useState(0);
   const [currentXP, setCurrentXP] = useState(0);
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { goals, tabs } = state;
+  const { goals, tabs, loading } = state;
 
   const calculateXPGoal = (goals) => {
     goals.forEach((goal) => {
@@ -44,22 +43,21 @@ function App() {
     });
   };
 
-  const loadTabs = async () => {
+  // Combined function to fetch tabs and goal data
+  const loadData = async () => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
-      const data = await fetchAllTabs();
-      dispatch({ type: "SET_TABS", payload: data });
-    } catch (error) {
-      console.error("There was an error loading tabs:", error);
-    } finally {
-      dispatch({ type: "SET_LOADING", payload: false });
-    }
-  };
 
-  const loadGoals = async () => {
-    try {
-      dispatch({ type: "SET_LOADING", payload: true });
-      const fetchedGoals = await fetchAllGoals();
+      // Fetch tabs and goals simultaneously
+      const [tabsData, fetchedGoals] = await Promise.all([
+        fetchAllTabs(),
+        fetchAllGoals(),
+      ]);
+
+      // Dispatch tabs data
+      dispatch({ type: "SET_TABS", payload: tabsData });
+
+      // Process and dispatch goals data
       if (
         fetchedGoals &&
         Array.isArray(fetchedGoals.simple) &&
@@ -78,15 +76,14 @@ function App() {
         dispatch({ type: "SET_GOALS", payload: [] });
       }
     } catch (error) {
-      console.error("There was an error loading tabs:", error);
+      console.error("There was an error loading data:", error);
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }
   };
 
   useEffect(() => {
-    loadTabs();
-    loadGoals();
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -102,14 +99,12 @@ function App() {
         <Routes>
           <Route path="/home/*" element={<HomePage />} />
           <Route path="/create-new" element={<CreateNew />} />
-          <Route
-            path="/create-new/list"
-            element={<CreateNewList loadGoals={loadGoals} />}
-          />
+          <Route path="/create-new/list" element={<CreateNewList />} />
           <Route path="/create-new/tab" element={<CreateNewTab />} />
           <Route path="/create-new/goal" element={<CreateNewGoal />} />
           <Route path="/edit" element={<MakeEdits />} />
-          {tabs.length > 0 &&
+          {!loading &&
+            tabs.length > 0 &&
             tabs.map((tab) => {
               if (tab.name) {
                 const hyphenatedName = tab.name.replace(/\s+/g, "-");
@@ -117,11 +112,10 @@ function App() {
                   <Route
                     key={hyphenatedName}
                     path={`/${hyphenatedName}`}
-                    element={<Tab tab={tab} goals={goals} />}
+                    element={<Tab tab={tab} />}
                   />
                 );
               }
-              return null;
             })}
         </Routes>
       </div>
