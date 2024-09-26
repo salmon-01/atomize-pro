@@ -24,22 +24,41 @@ function App() {
 
   const calculateXPGoal = (goals) => {
     goals.forEach((goal) => {
-      goal.type === "Simple List" && setGoalXPBar((prev) => prev + 1);
-      goal.type === "Levels" && setGoalXPBar((prev) => prev + 3);
-      goal.type === "Sets" && setGoalXPBar((prev) => prev + goal.sets);
-      goal.type === "Progress Bar" && setGoalXPBar((prev) => prev + 10);
+      if (goal.type === "Simple List") {
+        setGoalXPBar((prev) => prev + 1);
+      }
+      if (goal.type === "Levels" && goal.level !== undefined) {
+        setGoalXPBar((prev) => prev + 3);
+      }
+      if (goal.type === "Sets" && goal.sets !== undefined) {
+        setGoalXPBar((prev) => prev + goal.sets);
+      }
+      if (goal.type === "Progress Bar") {
+        setGoalXPBar((prev) => prev + 10);
+      }
     });
+
     goals.forEach((goal) => {
-      goal.type === "Simple List" &&
-        goal.complete &&
+      if (goal.type === "Simple List" && goal.complete) {
         setCurrentXP((prev) => prev + 1);
-      goal.type === "Sets" &&
+      }
+      if (goal.type === "Sets" && goal.completed_sets !== undefined) {
         setCurrentXP((prev) => prev + goal.completed_sets);
-      goal.type === "Levels" && setCurrentXP((prev) => prev + goal.level);
-      goal.type === "Progress Bar" &&
-        setCurrentXP(
-          (prev) => prev + Math.round((goal.current / goal.goal_number) * 10)
-        );
+      }
+      if (goal.type === "Levels" && goal.level !== undefined) {
+        setCurrentXP((prev) => prev + goal.level);
+      }
+      if (
+        goal.type === "Progress Bar" &&
+        goal.current !== undefined &&
+        goal.goal_number !== undefined
+      ) {
+        const progress =
+          goal.goal_number > 0
+            ? Math.round((goal.current / goal.goal_number) * 10)
+            : 0;
+        setCurrentXP((prev) => prev + progress);
+      }
     });
   };
 
