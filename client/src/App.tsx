@@ -14,59 +14,8 @@ import "./App.css";
 import { AppContext } from "./AppContext.js";
 
 function App() {
-  // const [lists, setLists] = useState([]);
-
-  // const [goalXPBar, setGoalXPBar] = useState(0);
-  // const [currentXP, setCurrentXP] = useState(0);
-
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { goals, tabs, loading } = state;
-
-  // const calculateXPGoal = (goals) => {
-  //   let totalGoalXPBar = 0;
-  //   let totalCurrentXP = 0;
-
-  //   goals.forEach((goal) => {
-  //     if (goal.type === "Simple List") {
-  //       totalGoalXPBar += 1;
-  //     }
-  //     if (goal.type === "Levels" && goal.level !== undefined) {
-  //       totalGoalXPBar += 3;
-  //     }
-  //     if (goal.type === "Sets" && goal.sets !== undefined) {
-  //       totalGoalXPBar += goal.sets;
-  //     }
-  //     if (goal.type === "Progress Bar") {
-  //       totalGoalXPBar += 10;
-  //     }
-  //   });
-
-  //   goals.forEach((goal) => {
-  //     if (goal.type === "Simple List" && goal.complete) {
-  //       totalCurrentXP += 1;
-  //     }
-  //     if (goal.type === "Sets" && goal.completed_sets !== undefined) {
-  //       totalCurrentXP += goal.completed_sets;
-  //     }
-  //     if (goal.type === "Levels" && goal.level !== undefined) {
-  //       totalCurrentXP += goal.level;
-  //     }
-  //     if (
-  //       goal.type === "Progress Bar" &&
-  //       goal.current !== undefined &&
-  //       goal.goal_number !== undefined
-  //     ) {
-  //       const progress =
-  //         goal.goal_number > 0
-  //           ? Math.round((goal.current / goal.goal_number) * 10)
-  //           : 0;
-  //       totalCurrentXP += progress;
-  //     }
-  //   });
-
-  //   setGoalXPBar(totalGoalXPBar);
-  //   setCurrentXP(totalCurrentXP);
-  // };
+  const { goals, tabs, isLoading } = state;
 
   // Combined function to fetch tabs and goal data
   const loadData = async () => {
@@ -107,10 +56,12 @@ function App() {
     }
   };
 
+  // Fetches tabs and goals once on app mount.
   useEffect(() => {
     loadData();
   }, []);
 
+  // If there are any goals, calculates the goal XP and updates the centralised state.
   useEffect(() => {
     if (goals.length > 0) {
       dispatch({ type: "CALCULATE_GOAL_XP", payload: goals });
@@ -128,7 +79,7 @@ function App() {
           <Route path="/create-new/tab" element={<CreateNewTab />} />
           <Route path="/create-new/goal" element={<CreateNewGoal />} />
           <Route path="/edit" element={<MakeEdits />} />
-          {!loading &&
+          {!isLoading &&
             tabs.length > 0 &&
             tabs.map((tab) => {
               if (tab.name) {
