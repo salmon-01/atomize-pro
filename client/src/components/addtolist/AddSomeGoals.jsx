@@ -55,7 +55,11 @@ export default function AddSomeGoals({listName, template, selectedTab, loadGoals
         <>
         <div className="add-some-goals-container">
             <div id="list-title">{listName}</div>
-            {template === 'Simple List' ? <AddSomeSimple listName={listName} finalizeGoals={finalizeGoals} selectedTab={selectedTab}/> : template === 'Progress Bar' ? <AddSomeBars listName={listName} finalizeGoals={finalizeGoals} selectedTab={selectedTab}/> : template === 'Levels' ? <AddSomeLevels listName={listName} finalizeGoals={finalizeGoals} selectedTab={selectedTab}/> : template === 'Sets' ? <AddSomeSets listName={listName} finalizeGoals={finalizeGoals} selectedTab={selectedTab}/> : template === 'Mixed' ? <AddSomeMixed listName={listName} finalizeGoals={finalizeGoals} selectedTab={selectedTab}/> : null}
+            {template === 'Simple List' && <AddSomeSimple listName={listName} finalizeGoals={finalizeGoals} selectedTab={selectedTab}/> }
+            {template === 'Progress Bar' && <AddSomeBars listName={listName} finalizeGoals={finalizeGoals} selectedTab={selectedTab}/> }
+            { template === 'Levels' && <AddSomeLevels listName={listName} finalizeGoals={finalizeGoals} selectedTab={selectedTab}/> }
+            { template === 'Sets' && <AddSomeSets listName={listName} finalizeGoals={finalizeGoals} selectedTab={selectedTab}/> }
+            { template === 'Mixed' && <AddSomeMixed listName={listName} finalizeGoals={finalizeGoals} selectedTab={selectedTab}/> }
         </div>
         <button className="create-list-goals-button" id="submit-list-goals" onClick={()=> {handleSubmit(finalGoals)}}>Create List &rarr;</button>
      </>

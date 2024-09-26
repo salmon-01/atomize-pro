@@ -11,7 +11,7 @@ export default function HomeOverview({tabs, goals}) {
                 <div className="tab-overview-box" key={tab.name}>
                     <h4 className="overview-header">{tab.name}</h4>
                     <div className="goals-overview">
-                        {goals.map(goal => 
+                        {goals.map(goal =>
                             goal.tab === tab.name ? <span key={goal.name}>O</span> : null
                         )}
                     </div>
