@@ -162,7 +162,6 @@ const saveGoals = async (req, res) => {
     const newGoal = await client.query(insertGoalQuery, goalValues);
     res.status(201).json(newGoal.rows[0]);
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ message: "Server error when saving goal" });
   }
 };
@@ -179,7 +178,7 @@ const saveTab = async (req, res) => {
     col_three_b,
     order_no,
   } = req.body;
-  console.log(req.body);
+
   if (!name || !icon) {
     return res.status(400).json({ message: "Missing required fields" });
   }
@@ -194,7 +193,7 @@ const saveTab = async (req, res) => {
       if (existingTabResult.rows[0].name === name) {
         return res
           .status(400)
-          .json({ message: "Tab with this name already exists" });
+          .json({ message: "Tab with this name or icon already exists" });
       }
       if (existingTabResult.rows[0].icon === icon) {
         return res
@@ -221,10 +220,8 @@ const saveTab = async (req, res) => {
     if (!newTab.rows.length) {
       return res.status(500).json({ message: "Failed to insert the new tab" });
     }
-    console.log("Tab created!");
     res.status(201).json(newTab.rows[0]);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Server error when saving tab" });
   }
 };
@@ -240,7 +237,6 @@ const getAllTabs = async (req, res) => {
     }
     res.status(200).json(result.rows);
   } catch (error) {
-    console.error("Error fetching tabs:", error);
     res.status(500).json({ message: "Server error when fetching tabs" });
   }
 };
@@ -271,12 +267,9 @@ const getAllGoals = async (req, res) => {
       allData[tableName] = dataResult.rows; // Store the data using the table name as the key
     }
 
-    console.log(allData);
-
     // Step 4: Send the collected data as the response
     res.status(200).json(allData);
   } catch (error) {
-    console.error(error);
     res
       .status(500)
       .json({ message: "Server error when fetching data from goals schema" });
@@ -328,14 +321,11 @@ const updateGoalStatus = async (req, res) => {
       return res.status(404).json({ message: "Goal not found" });
     }
 
-    res
-      .status(200)
-      .json({
-        message: "Goal updated successfully",
-        updatedGoal: result.rows[0],
-      });
+    res.status(200).json({
+      message: "Goal updated successfully",
+      updatedGoal: result.rows[0],
+    });
   } catch (error) {
-    console.error("Error updating goal status:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -361,7 +351,6 @@ const insertListPos = async (req, res) => {
     }
     res.status(200).json(result.rows[0]);
   } catch (error) {
-    console.error("Error updating tab:", error);
     res.status(500).json({ message: "Server error while updating the tab" });
   }
 };
@@ -390,7 +379,6 @@ const deleteGoal = async (req, res) => {
       .status(200)
       .json({ message: "Goal deleted successfully", goal: result.rows[0] });
   } catch (error) {
-    console.error("Error deleting goal:", error);
     res.status(500).json({ message: "Server error when deleting goal" });
   }
 };
@@ -409,7 +397,6 @@ const deleteTab = async (req, res) => {
       .status(200)
       .json({ message: "Tab deleted successfully", tab: result.rows[0] });
   } catch (error) {
-    console.error("Error deleting tab:", error);
     res.status(500).json({ message: "Server error when deleting tab" });
   }
 };
@@ -448,13 +435,10 @@ const deleteListPos = async (req, res) => {
     const updateResult = await client.query(updateQuery, queryValues);
 
     // If the update was successful
-    res
-      .status(200)
-      .json({
-        message: `List ${listName} deleted successfully from tab ${tabName}`,
-      });
+    res.status(200).json({
+      message: `List ${listName} deleted successfully from tab ${tabName}`,
+    });
   } catch (error) {
-    console.error("Error deleting list from tab:", error);
     res.status(500).json({ message: "Server error when deleting list" });
   }
 };
