@@ -44,14 +44,17 @@ export default function AddSomeLevels({
     setGoals(updatedGoals);
   };
 
-  function openColorBox(event) {
-    const colorChoices = event.target.nextElementSibling;
+  function openColorBox(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    const colorChoices = (event.target as HTMLElement)
+      .nextElementSibling as HTMLElement;
     colorChoices.style.display =
       colorChoices.style.display === "block" ? "none" : "block";
   }
 
   function removeItem(indexToRemove: number) {
-    const updatedGoals = goals.filter((goal, index) => index !== indexToRemove);
+    const updatedGoals = goals.filter(
+      (_, index: number) => index !== indexToRemove
+    );
     setGoals(updatedGoals);
   }
 
