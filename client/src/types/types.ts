@@ -5,9 +5,9 @@ export interface Tab {
 }
 
 export interface Goal {
-  id: number;
+  id?: number | string;
   name: string;
-  current: number;
+  current?: number;
   list: string;
   tab: string;
   color: string;

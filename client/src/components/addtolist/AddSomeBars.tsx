@@ -61,8 +61,9 @@ export default function AddSomeBars({
     setGoals(updatedGoals);
   };
 
-  function openColorBox(event) {
-    const colorChoices = event.target.nextElementSibling;
+  function openColorBox(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    const colorChoices = (event.target as HTMLElement)
+      .nextElementSibling as HTMLElement;
     colorChoices.style.display =
       colorChoices.style.display === "block" ? "none" : "block";
   }

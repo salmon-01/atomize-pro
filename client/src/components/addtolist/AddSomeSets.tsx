@@ -10,6 +10,8 @@ interface AddSomeSetsProps {
   finalizeGoals: (goals: Goal[]) => void;
 }
 
+type GoalField = "name" | "sets" | "reps";
+
 export default function AddSomeSets({
   listName,
   finalizeGoals,
@@ -32,7 +34,7 @@ export default function AddSomeSets({
     },
   ]);
 
-  const handleChange = (index: number, field, value: string) => {
+  const handleChange = (index: number, field: GoalField, value: string) => {
     const updatedGoals = goals.map((goal, i) =>
       i === index ? { ...goal, [field]: value } : goal
     );
@@ -110,7 +112,7 @@ export default function AddSomeSets({
               <td>
                 <div
                   className={`color-box ${goal.color}`}
-                  value={goal.color}
+                  data-value={goal.color}
                   onClick={openColorBox}
                 ></div>
                 <div className="color-choices">
