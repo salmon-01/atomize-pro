@@ -8,6 +8,7 @@ import AddSomeMixed from "./AddSomeMixed";
 import { createGoal, insertListPosition } from "../../ApiService.jsx";
 import { Tab } from "../../types/types.js";
 
+
 interface AddSomeGoalsProps {
   listName: string;
   template: string;

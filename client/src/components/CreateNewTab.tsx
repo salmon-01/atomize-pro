@@ -14,10 +14,15 @@ import Lightbulb from "../assets/icons/lightbulb-icon.png";
 import PlaneGlobe from "../assets/icons/plane-globe-icon.png";
 import { createTab } from "../ApiService.js";
 import { useAppContext } from "../AppContext.js";
+import { State, Action, Tab } from "../types/types.js";
 
 export default function CreateNewTab() {
   const navigate = useNavigate();
-  const { state, dispatch } = useAppContext();
+  // const { state, dispatch } = useAppContext();
+  const { state, dispatch } = useAppContext() as {
+    state: State;
+    dispatch: (action: Action) => void;
+  };
   const { tabs } = state;
 
   const allIcons = [
@@ -48,11 +53,11 @@ export default function CreateNewTab() {
     order_no: tabs.length + 1,
   });
 
-  const handleTabNameChange = (event) => {
+  const handleTabNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTabName(event.target.value);
   };
 
-  const handleChooseIcon = (icon) => {
+  const handleChooseIcon = (icon: string) => {
     setChosenIcon(icon);
   };
 
@@ -68,7 +73,7 @@ export default function CreateNewTab() {
     setTabData({ ...tabData, name: tabName });
   }, [tabName]);
 
-  const handleCreateTab = async (tab) => {
+  const handleCreateTab = async (tab: Tab) => {
     if (!tabName) {
       alert("Please choose a name for your tab");
       return;
