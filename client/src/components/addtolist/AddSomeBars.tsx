@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-// import Delete from "../../assets/other/delete-button.png";
+import Delete from "../../assets/other/delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
 import "../../styles/AddSome.css";
-import { Goal, Tab } from "../../types/types";
+import { Tab, Goal } from "../../types/types";
 
 interface AddSomeBarsProps {
   selectedTab: Tab;
@@ -14,7 +14,7 @@ export default function AddSomeBars({
   listName,
   finalizeGoals,
   selectedTab,
-}): AddSomeBarsProps {
+}: AddSomeBarsProps) {
   const [goals, setGoals] = useState([
     {
       name: "",
@@ -61,15 +61,14 @@ export default function AddSomeBars({
     setGoals(updatedGoals);
   };
 
-  function openColorBox(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    const colorChoices = (event.target as HTMLDivElement)
-      .nextElementSibling as HTMLElement;
+  function openColorBox(event) {
+    const colorChoices = event.target.nextElementSibling;
     colorChoices.style.display =
       colorChoices.style.display === "block" ? "none" : "block";
   }
 
   function removeItem(indexToRemove: number) {
-    const updatedGoals = goals.filter((_, index) => index !== indexToRemove);
+    const updatedGoals = goals.filter((goal, index) => index !== indexToRemove);
     setGoals(updatedGoals);
   }
 
