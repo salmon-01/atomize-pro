@@ -9,18 +9,19 @@ import { createGoal, insertListPosition } from "../../ApiService.jsx";
 import { Goal, Tab } from "../../types/types.js";
 
 interface AddSomeGoalsProps {
+  tabs: Tab[];
   listName: string;
   template: string;
-  selectedTab: Tab;
-  loadGoals: string;
+  selectedTab: Tab | null;
+  // loadGoals: string;
 }
 
 export default function AddSomeGoals({
   listName,
   template,
   selectedTab,
-  loadGoals,
-}: AddSomeGoalsProps) {
+}: // loadGoals,
+AddSomeGoalsProps) {
   const navigate = useNavigate(); // Must use at the top of the component
 
   const [finalGoals, setFinalGoals] = useState([]);

@@ -7,12 +7,11 @@ import ProgressBarVideo from "../assets/vids/progressbar-animation.mp4";
 import "../styles/CreateNewList.css";
 import AddSomeGoals from "./addtolist/AddSomeGoals";
 import { useAppContext } from "../AppContext";
-import { State, Action, Tab } from "../types/types";
+import { State, Tab } from "../types/types";
 
 export default function CreateNewList() {
-  const { state, dispatch } = useAppContext() as {
+  const { state } = useAppContext() as {
     state: State;
-    dispatch: (action: Action) => void;
   };
   const { tabs } = state; // Access tabs from the global state
 

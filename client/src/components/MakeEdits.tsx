@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Delete from "../assets/other/delete-button.png";
 import Edit from "../assets/other/edit-button.png";
 import {
