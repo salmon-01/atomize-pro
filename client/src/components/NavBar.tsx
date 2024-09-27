@@ -1,19 +1,20 @@
-import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import HomeButton from "../assets/navigation/home-button.png";
 import CreateButton from "../assets/navigation/createnew-button.png";
-// import PlanetButton from '../assets/navigation/planet-button.png';
 import EditButton from "../assets/navigation/edit-button.png";
 import "../styles/ProgressBar.css";
 import "../styles/NavBar.css";
 import { useAppContext } from "../AppContext";
+import { State } from "../types/types";
 
 export default function NavBar() {
   // const [hoveredText, setHoveredText] = ('');
-  const { state } = useAppContext();
+  const { state } = useAppContext() as {
+    state: State;
+  };
   const { tabs, goalXPBar, currentXP } = state;
 
-  const formatDate = (date) => {
+  const formatDate = (date: Date) => {
     const dateFormat = date.toLocaleDateString("en-GB", {
       weekday: "long",
       day: "2-digit",
@@ -51,7 +52,6 @@ export default function NavBar() {
             })}
         </div>
         <div className={`${tabs.length ? "categories" : null}`}>
-          {/* <img src={PlanetButton} className="nav-icon" /> */}
           <Link to="/create-new">
             <img src={CreateButton} className="nav-icon" />
           </Link>
@@ -69,7 +69,6 @@ export default function NavBar() {
           </div>
         </div>
       </div>
-      {/* <span className="hover-text">{hoveredText}</span> */}
     </>
   );
 }
