@@ -2,7 +2,7 @@ import { useState, useEffect, useReducer } from "react";
 import { initialState, reducer } from "./store/reducer.js";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar.jsx";
-import CreateNew from "./components/CreateNew.jsx";
+import CreateNew from "./components/CreateNew.js";
 import CreateNewList from "./components/CreateNewList.jsx";
 import CreateNewTab from "./components/CreateNewTab.jsx";
 import CreateNewGoal from "./components/CreateNewGoal.jsx";
