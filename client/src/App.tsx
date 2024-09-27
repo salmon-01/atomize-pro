@@ -9,7 +9,7 @@ import CreateNewGoal from "./components/CreateNewGoal.js";
 import MakeEdits from "./components/MakeEdits.js";
 import HomePage from "./components/HomePage.js";
 import Tab from "./components/Tab.js";
-import { fetchAllTabs, fetchAllGoals } from "./ApiService.jsx";
+import { fetchAllTabs, fetchAllGoals } from "./ApiService.js";
 import "./App.css";
 import { AppContext } from "./AppContext.js";
 

@@ -1,18 +1,25 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AddSomeSimple from "./AddSomeSimple.js";
 import AddSomeBars from "./AddSomeBars.js";
 import AddSomeLevels from "./AddSomeLevels.js";
 import AddSomeSets from "./AddSomeSets.js";
 import AddSomeMixed from "./AddSomeMixed.js";
-import { createGoal, insertListPosition } from "../../ApiService.jsx";
-import { Goal, Tab } from "../../types/types.js";
+import { createGoal, insertListPosition } from "../../ApiService.js";
+import { Goal, State, Action } from "../../types/types.js";
+import { useAppContext } from "../../AppContext.js"
 
 interface AddSomeGoalsProps {
   tabs: Tab[];
   listName: string;
   selectedTab: Tab | null;
   template: string;
+}
+interface SelectedTab {
+  name: string;
+  col_one?: boolean;
+  col_two?: boolean;
+  col_three?: boolean;
 }
 
 export default function AddSomeGoals({
@@ -22,10 +29,16 @@ export default function AddSomeGoals({
 }: AddSomeGoalsProps) {
   const navigate = useNavigate(); // Must use at the top of the component
 
-  const [finalGoals, setFinalGoals] = useState([]);
+  const { state, dispatch } = useAppContext() as {
+    state: State;
+    dispatch: (action: Action) => void;
+  }; // Access global state and dispatch
 
-  const finalizeGoals = (childGoals) => {
-    setFinalGoals(childGoals);
+  // Dispatch action to add goals to the global state
+  const finalizeGoals = (childGoals: Goal[]) => {
+    childGoals.forEach((goal) => {
+      dispatch({ type: "CREATE_GOAL", payload: goal });
+    });
   };
 
   const findPath = () => {
@@ -42,17 +55,19 @@ export default function AddSomeGoals({
     }
   };
 
-  const handleSubmit = async (goals: Goal[]) => {
-    console.log(goals);
+  const handleSubmit = async () => {
     try {
-      await Promise.all(goals.map((goal) => createGoal(goal)));
+      // Use state.goals instead of finalGoals
+      await Promise.all(state.goals.map((goal) => createGoal(goal)));
       console.log("All goals have been submitted successfully");
+
       try {
         const col = findColPosition();
         await insertListPosition(selectedTab.name, listName, col);
       } catch (error) {
         console.log("Error inserting list position:", error);
       }
+
       const path = findPath();
       navigate(`/${path}`);
     } catch (error) {
@@ -103,9 +118,7 @@ export default function AddSomeGoals({
       <button
         className="create-list-goals-button"
         id="submit-list-goals"
-        onClick={() => {
-          handleSubmit(finalGoals);
-        }}
+        onClick={handleSubmit}
       >
         Create List &rarr;
       </button>

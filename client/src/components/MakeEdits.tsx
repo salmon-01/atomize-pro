@@ -6,7 +6,7 @@ import {
   deleteGoal,
   insertListPosition,
   deleteListPosition,
-} from "../ApiService.jsx";
+} from "../ApiService.js";
 import "../styles/MakeEdits.css";
 import { useAppContext } from "../AppContext.js";
 
