@@ -6,8 +6,8 @@ import AddSomeLevels from "./AddSomeLevels.js";
 import AddSomeSets from "./AddSomeSets.js";
 import AddSomeMixed from "./AddSomeMixed.js";
 import { createGoal, insertListPosition } from "../../ApiService.js";
-import { Goal, State, Action } from "../../types/types.js";
-import { useAppContext } from "../../AppContext.js"
+import { Goal, State, Action, Tab } from "../../types/types.js";
+import { useAppContext } from "../../AppContext.js";
 
 interface AddSomeGoalsProps {
   tabs: Tab[];

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { updateGoalProgress } from "../../ApiService";
 import "../../styles/LevelsBlock.css";
+import { updateGoalProgress } from "../../ApiService";
 
 export default function LevelsBlock({ goal }) {
   const [progress, setProgress] = useState(goal.level);
