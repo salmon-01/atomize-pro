@@ -1,4 +1,5 @@
-// IMPORT TAB, GOAL AS TYPES
+import { calculateGoalXP } from "../utils/calcXP";
+import { Goal, Tab, State } from "../types/types";
 
 export type Action =
   | { type: "SET_TABS"; payload: Tab[] }
@@ -13,7 +14,7 @@ export type Action =
   // | { type: 'DELETE_LIST_POSITION'; payload: UNSURE_YET };
   | { type: "SET_LOADING"; payload: boolean };
 
-export const initialState = {
+export const initialState: State = {
   tabs: [] as Tab[],
   goals: [] as Goal[],
   isLoading: false,
@@ -47,46 +48,9 @@ export function reducer(
         tabs: [...state.goals, action.payload],
       };
     case "CALCULATE_GOAL_XP":
-      // Perform XP calculations
-      let totalGoalXPBar = 0;
-      let totalCurrentXP = 0;
-
-      action.payload.forEach((goal) => {
-        if (goal.type === "Simple List") {
-          totalGoalXPBar += 1;
-        }
-        if (goal.type === "Levels" && goal.level !== undefined) {
-          totalGoalXPBar += 3;
-        }
-        if (goal.type === "Sets" && goal.sets !== undefined) {
-          totalGoalXPBar += goal.sets;
-        }
-        if (goal.type === "Progress Bar") {
-          totalGoalXPBar += 10;
-        }
-
-        // Calculate XP based on completion
-        if (goal.type === "Simple List" && goal.complete) {
-          totalCurrentXP += 1;
-        }
-        if (goal.type === "Sets" && goal.completed_sets !== undefined) {
-          totalCurrentXP += goal.completed_sets;
-        }
-        if (goal.type === "Levels" && goal.level !== undefined) {
-          totalCurrentXP += goal.level;
-        }
-        if (
-          goal.type === "Progress Bar" &&
-          goal.current !== undefined &&
-          goal.goal_number !== undefined
-        ) {
-          const progress =
-            goal.goal_number > 0
-              ? Math.round((goal.current / goal.goal_number) * 10)
-              : 0;
-          totalCurrentXP += progress;
-        }
-      });
+      const { totalGoalXPBar, totalCurrentXP } = calculateGoalXP(
+        action.payload
+      );
 
       return {
         ...state,
