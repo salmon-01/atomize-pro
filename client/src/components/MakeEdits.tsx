@@ -8,7 +8,7 @@ import {
   deleteListPosition,
 } from "../ApiService.jsx";
 import "../styles/MakeEdits.css";
-import { useAppContext } from "../AppContext";
+import { useAppContext } from "../AppContext.js";
 
 export default function MakeEdits() {
   const { state } = useAppContext();
