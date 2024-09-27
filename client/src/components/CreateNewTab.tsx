@@ -13,7 +13,7 @@ import Lightning from "../assets/icons/lightning-icon.png";
 import Lightbulb from "../assets/icons/lightbulb-icon.png";
 import PlaneGlobe from "../assets/icons/plane-globe-icon.png";
 import { createTab } from "../ApiService.jsx";
-import { useAppContext } from "../AppContext";
+import { useAppContext } from "../AppContext.js";
 
 export default function CreateNewTab() {
   const navigate = useNavigate();

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import "../styles/Tab.css";
-import { useAppContext } from "../AppContext";
-import List from "./List.jsx";
+import { useAppContext } from "../AppContext.js";
+import List from "./List.js";
 
 function BlankPage() {
   return (
