@@ -1,10 +1,14 @@
-import { useEffect } from "react";
 import "../../styles/SimpleGoal.css";
+import { useCallback } from "react";
 import { useAppContext } from "../../AppContext";
 import { updateGoalProgress } from "../../ApiService";
 import { State, Action } from "../../types/types";
 
-export default function SimpleGoal({ goalID }) {
+interface SimpleGoalProps {
+  goalID: number;
+}
+
+export default function SimpleGoal({ goalID }: SimpleGoalProps) {
   const { state, dispatch } = useAppContext() as {
     state: State;
     dispatch: (action: Action) => void;
@@ -13,15 +17,8 @@ export default function SimpleGoal({ goalID }) {
   // Get the goal from the global state using goalID
   const goal = state.goals.find((g) => g.id === goalID);
 
-  useEffect(() => {
-    if (!goal) {
-      console.log(`Goal with ID ${goalID} not found`);
-    } else {
-      console.log("Goal updated:", goal); // Check if the goal updates correctly
-    }
-  }, [goal, goalID]); // Trigger whenever goal or goalID changes
-
-  const completeGoal = () => {
+  // Memoize the completeGoal function to prevent unnecessary re-creation
+  const completeGoal = useCallback(() => {
     if (goal && !goal.complete) {
       // Dispatch action to update the global state
       dispatch({
@@ -32,38 +29,39 @@ export default function SimpleGoal({ goalID }) {
       // Update goal progress on the backend
       updateGoalProgress(goal.name, goal.type, true);
     }
-  };
+  }, [goal, dispatch]);
 
-  const renderSimpleGoal = (goal) => {
-    const goalClass =
-      goal.color === "red"
-        ? "simple-red"
-        : goal.color === "purple"
-        ? "simple-purple"
-        : "simple-orange";
-    return (
-      <div className="goal-container">
-        <div className="simple-container">
-          <div className={`simpleBlock ${goalClass}`} onClick={completeGoal}>
-            <div
-              className={`statusLight-simple ${
-                goal.complete ? "isDone" : "isOff"
-              }`}
-              key={goal.name}
-            ></div>
-            <div className="simpleGoalText" onClick={completeGoal}>
-              {goal.name}
-            </div>
+  // Return early if the goal is not found
+  if (!goal) {
+    return <div>Goal not found</div>;
+  }
+
+  // Determine goalClass based on goal color
+  const goalClass = (() => {
+    switch (goal.color) {
+      case "red":
+        return "simple-red";
+      case "purple":
+        return "simple-purple";
+      default:
+        return "simple-orange";
+    }
+  })();
+
+  return (
+    <div className="goal-container">
+      <div className="simple-container">
+        <div className={`simpleBlock ${goalClass}`} onClick={completeGoal}>
+          <div
+            className={`statusLight-simple ${
+              goal.complete ? "isDone" : "isOff"
+            }`}
+          ></div>
+          <div className="simpleGoalText" onClick={completeGoal}>
+            {goal.name}
           </div>
-          {/* <div className="more-options">
-                    <img src={Skip} className={`options ${goalHovered ? null : 'hidden' }`} />
-                    <img src={Edit} className={`options ${goalHovered ? null : 'hidden' }`} />
-                    <img src={Delete} className={`options ${goalHovered ? null : 'hidden' }`} />
-                </div> */}
         </div>
       </div>
-    );
-  };
-
-  return renderSimpleGoal(goal);
+    </div>
+  );
 }

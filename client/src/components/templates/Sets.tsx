@@ -1,12 +1,12 @@
-import { React, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { updateGoalProgress } from "../../ApiService";
 
 export default function Sets({ goal }) {
-  const [circleSpacing, setCircleSpacing] = "standard-space";
+  // const [circleSpacing, setCircleSpacing] = "standard-space";
   const [sets, setSets] = useState(goal.sets);
   const [completedSets, setCompletedSets] = useState(goal.completed_sets);
 
-  const setSpacing = (numberOfSets) => {
+  const setSpacing = (numberOfSets: number) => {
     if (numberOfSets > 3) {
       return "smaller-space";
     }

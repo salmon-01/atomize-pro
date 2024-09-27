@@ -12,7 +12,7 @@ import PiggyBank from "../assets/icons/piggybank-icon.png";
 import Lightning from "../assets/icons/lightning-icon.png";
 import Lightbulb from "../assets/icons/lightbulb-icon.png";
 import PlaneGlobe from "../assets/icons/plane-globe-icon.png";
-import { createTab } from "../ApiService.jsx";
+import { createTab } from "../ApiService.js";
 import { useAppContext } from "../AppContext.js";
 
 export default function CreateNewTab() {
