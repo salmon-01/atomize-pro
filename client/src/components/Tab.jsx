@@ -28,11 +28,8 @@ export default function Tab() {
   );
 
   const tabGoals = tab ? goals.filter((goal) => goal.tab === tab.name) : [];
-  console.log("Tabgoals:", tabGoals);
 
   const tabLists = Array.from(new Set(tabGoals.map((goal) => goal.list)));
-
-  console.log("Tablists:", tabLists);
 
   if (!tab) {
     return <p>Tab not found</p>;

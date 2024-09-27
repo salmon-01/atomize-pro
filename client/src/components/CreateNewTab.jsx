@@ -89,6 +89,7 @@ export default function CreateNewTab() {
       };
 
       // Dispatch the action to create the tab
+      createTab(newTab);
       dispatch({ type: "CREATE_TAB", payload: newTab });
 
       console.log("New tab has been created successfully");

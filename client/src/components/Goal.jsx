@@ -3,7 +3,7 @@ import ProgressBar from "./templates/ProgressBar.jsx";
 import LevelsBlock from "./templates/LevelsBlock.jsx";
 import Sets from "./templates/Sets.jsx";
 
-export default function Goal({ goal, blockCount }) {
+export default function Goal({ goal }) {
   return (
     <div className="goal-container">
       {goal.type === "Simple List" ? (
