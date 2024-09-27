@@ -83,13 +83,8 @@ function App() {
             tabs.length > 0 &&
             tabs.map((tab) => {
               if (tab.name) {
-                const hyphenatedName = tab.name.replace(/\s+/g, "-");
                 return (
-                  <Route
-                    key={hyphenatedName}
-                    path={`/${hyphenatedName}`}
-                    element={<Tab tab={tab} />}
-                  />
+                  <Route key={tab.name} path={`/:tabName`} element={<Tab />} />
                 );
               }
             })}

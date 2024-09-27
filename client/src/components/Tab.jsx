@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "../styles/Tab.css";
 import { useAppContext } from "../AppContext";
 import List from "./List.jsx";
@@ -16,42 +16,50 @@ function BlankPage() {
   );
 }
 
-export default function Tab({ tab }) {
+export default function Tab() {
   const { state } = useAppContext();
-  const { goals } = state;
-  // Rendering and styling still incomplete
+  const { goals, tabs, isLoading } = state;
+  const { tabName } = useParams();
 
-  const [tabGoals, setTabGoals] = useState([]);
-  const [tabLists, setTabLists] = useState([]);
+  const normalizedTabName = decodeURIComponent(tabName).trim().toLowerCase();
 
-  const sortData = () => {
-    const result = goals.filter((goal) => goal.tab === tab.name);
-    setTabGoals(result);
-    const uniqueLists = Array.from(new Set(result.map((goal) => goal.list)));
-    setTabLists(uniqueLists);
-  };
-  useEffect(() => {
-    sortData();
-  }, []);
+  const tab = tabs.find(
+    (tab) => tab.name.trim().toLowerCase() === normalizedTabName
+  );
+
+  const tabGoals = tab ? goals.filter((goal) => goal.tab === tab.name) : [];
+  console.log("Tabgoals:", tabGoals);
+
+  const tabLists = Array.from(new Set(tabGoals.map((goal) => goal.list)));
+
+  console.log("Tablists:", tabLists);
+
+  if (!tab) {
+    return <p>Tab not found</p>;
+  }
 
   return (
     <>
-      <h2 className="tab-header">⸻ {tab.name} ⸻</h2>
-      {!tab.col_one &&
-      !tab.col_one_b &&
-      !tab.col_two &&
-      !tab.col_two_b &&
-      !tab.col_three &&
-      !tab.col_three_b ? (
-        <div className="blank-prompt-container">
-          <BlankPage />
-        </div>
-      ) : (
-        <div className="all-lists-container">
-          {tabLists.map((list) => (
-            <List tab={tab} list={list} tabGoals={tabGoals} />
-          ))}
-        </div>
+      {!isLoading && (
+        <>
+          <h2 className="tab-header">⸻ {tab.name} ⸻</h2>
+          {!tab.col_one &&
+          !tab.col_one_b &&
+          !tab.col_two &&
+          !tab.col_two_b &&
+          !tab.col_three &&
+          !tab.col_three_b ? (
+            <div className="blank-prompt-container">
+              <BlankPage />
+            </div>
+          ) : (
+            <div className="all-lists-container">
+              {tabLists.map((list) => (
+                <List key={list} tab={tab} list={list} tabGoals={tabGoals} />
+              ))}
+            </div>
+          )}
+        </>
       )}
     </>
   );
