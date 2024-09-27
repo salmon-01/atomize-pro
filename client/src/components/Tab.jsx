@@ -17,7 +17,7 @@ function BlankPage() {
 }
 
 export default function Tab({ tab }) {
-  const { state, dispatch } = useAppContext();
+  const { state } = useAppContext();
   const { goals } = state;
   // Rendering and styling still incomplete
 
