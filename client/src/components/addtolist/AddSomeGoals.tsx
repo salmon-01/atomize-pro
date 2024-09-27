@@ -6,11 +6,12 @@ import AddSomeLevels from "./AddSomeLevels.js";
 import AddSomeSets from "./AddSomeSets.js";
 import AddSomeMixed from "./AddSomeMixed.js";
 import { createGoal, insertListPosition } from "../../ApiService.jsx";
-import { Goal } from "../../types/types.js";
+import { Goal, Tab } from "../../types/types.js";
 
 interface AddSomeGoalsProps {
+  tabs: Tab[];
   listName: string;
-  selectedTab: string;
+  selectedTab: Tab | null;
   template: string;
 }
 

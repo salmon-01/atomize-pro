@@ -7,7 +7,7 @@ import ProgressBarVideo from "../assets/vids/progressbar-animation.mp4";
 import "../styles/CreateNewList.css";
 import AddSomeGoals from "./addtolist/AddSomeGoals";
 import { useAppContext } from "../AppContext";
-import { State, Action } from "../types/types";
+import { State, Action, Tab } from "../types/types";
 
 export default function CreateNewList() {
   const { state, dispatch } = useAppContext() as {
@@ -17,7 +17,7 @@ export default function CreateNewList() {
   const { tabs } = state; // Access tabs from the global state
 
   // Local component state
-  const [selectedTab, setSelectedTab] = useState([]);
+  const [selectedTab, setSelectedTab] = useState<Tab | null>(null);
   const [listName, setListName] = useState("");
   const [template, setTemplate] = useState("");
   const [hoveredTemplate, setHoveredTemplate] = useState("");
@@ -25,23 +25,27 @@ export default function CreateNewList() {
 
   const listTypes = ["Simple List", "Progress Bar", "Sets", "Levels", "Mixed"];
 
+  // console.log(selectedTab);
+
   // Handle input changes for list name
-  const handleNameChange = (event) => {
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setListName(event.target.value);
   };
 
   // Handle template selection
-  const handleChooseTemplate = (template) => {
+  const handleChooseTemplate = (template: string) => {
     setTemplate(template);
   };
 
   // Handle template hover to show the preview video
-  const handleHover = (template) => {
+  const handleHover = (template: string) => {
     setHoveredTemplate(template);
   };
 
   // Proceed to adding goals
-  const handleAddSomeGoals = (event) => {
+  const handleAddSomeGoals: React.FormEventHandler<HTMLFormElement> = (
+    event
+  ) => {
     event.preventDefault();
     if (!listName) {
       alert("Please give your list a name");
@@ -51,7 +55,7 @@ export default function CreateNewList() {
       alert("Please choose a template");
       return;
     }
-    if (selectedTab.length === 0) {
+    if (!selectedTab) {
       alert("Please choose a tab for your list");
       return;
     }
@@ -59,7 +63,7 @@ export default function CreateNewList() {
   };
 
   // Handle selecting a tab from global state
-  const handleSelectTab = (selectedTabIcon) => {
+  const handleSelectTab = (selectedTabIcon: Tab) => {
     setSelectedTab(selectedTabIcon);
     console.log(selectedTab);
   };
@@ -179,7 +183,6 @@ export default function CreateNewList() {
           listName={listName}
           template={template}
           selectedTab={selectedTab}
-          loadGoals={() => dispatch({ type: "SET_GOALS" })}
         />
       )}
     </>
