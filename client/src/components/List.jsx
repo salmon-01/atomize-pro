@@ -1,22 +1,13 @@
 import { React, useState, useEffect } from "react";
+import { useAppContext } from "../AppContext";
 import Goal from "./Goal";
 
 export default function List({ list, tabGoals, tab }) {
+  const { state } = useAppContext();
+  const { goals } = state;
   // Rendering and styling still incomplete
 
-  const [listGoals, setListGoals] = useState([]);
-
-  let blockCount = 0;
-
-  const sortGoals = () => {
-    const thisListGoals = tabGoals.filter((goal) => goal.list === list);
-    setListGoals(thisListGoals);
-    thisListGoals.map((goal) => (goal.type === "Levels" ? blockCount++ : null));
-  };
-
-  useEffect(() => {
-    sortGoals();
-  }, []);
+  const listGoals = goals.filter((goal) => goal.list === list);
 
   return (
     <div
@@ -30,7 +21,7 @@ export default function List({ list, tabGoals, tab }) {
       <div id="list-heading">{list}</div>
       <div className="goal-content-container">
         {listGoals.map((goal) => (
-          <Goal key={goal.name} goal={goal} blockCount={blockCount} />
+          <Goal key={goal.name} goal={goal} />
         ))}
       </div>
     </div>
