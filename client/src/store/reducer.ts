@@ -1,5 +1,5 @@
 import { calculateGoalXP } from "../utils/calcXP";
-import { Goal, Tab, State } from "../types/types";
+import { Action, Goal, Tab, State } from "../types/types";
 
 export const initialState: State = {
   tabs: [] as Tab[],
