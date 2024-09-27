@@ -2,6 +2,12 @@ export interface Tab {
   name: string;
   icon: string;
   order_no: number;
+  col_one: string | null;
+  col_one_b: string | null;
+  col_three: string | null;
+  col_three_b: string | null;
+  col_two: string | null;
+  col_two_b: string | null;
 }
 
 export interface Goal {
