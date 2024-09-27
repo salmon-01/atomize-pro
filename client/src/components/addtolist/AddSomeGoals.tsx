@@ -6,8 +6,7 @@ import AddSomeLevels from "./AddSomeLevels";
 import AddSomeSets from "./AddSomeSets";
 import AddSomeMixed from "./AddSomeMixed";
 import { createGoal, insertListPosition } from "../../ApiService.jsx";
-import { Tab } from "../../types/types.js";
-
+import { Goal, Tab } from "../../types/types.js";
 
 interface AddSomeGoalsProps {
   listName: string;
@@ -44,10 +43,10 @@ export default function AddSomeGoals({
     }
   };
 
-  const handleSubmit = async (goals) => {
+  const handleSubmit = async (goals: Goal[]) => {
     console.log(goals);
     try {
-      await Promise.all(goals.map((goal) => createGoal(goal)));
+      await Promise.all(goals.map((goal: Goal) => createGoal(goal)));
       console.log("All goals have been submitted successfully");
       try {
         const col = findColPosition();

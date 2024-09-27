@@ -7,6 +7,7 @@ export interface Tab {
 export interface Goal {
   id: number;
   name: string;
+  current: number;
   list: string;
   tab: string;
   color: string;
