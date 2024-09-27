@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Delete from "../../assets/other/delete-button.png";
+// import Delete from "../../assets/other/delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
 import "../../styles/AddSome.css";
 import { Goal, Tab } from "../../types/types";

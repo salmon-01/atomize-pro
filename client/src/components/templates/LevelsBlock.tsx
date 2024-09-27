@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import "../../styles/LevelsBlock.css";
 import { updateGoalProgress } from "../../ApiService";
+import { Goal } from "../../types/types";
 
-export default function LevelsBlock({ goal }) {
-  const [progress, setProgress] = useState(goal.level);
+interface LevelsBlockProps {
+  goal: Goal;
+}
+
+export default function LevelsBlock({ goal }: LevelsBlockProps) {
+  const [progress, setProgress] = useState<number>(goal.level);
 
   useEffect(() => {
     updateGoalProgress(goal.name, goal.type, progress);

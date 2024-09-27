@@ -4,8 +4,19 @@ import AddSomeLevels from "./AddSomeLevels";
 import AddSomeSets from "./AddSomeSets";
 import AddSomeBars from "./AddSomeBars";
 import "../../styles/AddSome.css";
+import { Goal, Tab } from "../../types/types";
 
-export default function AddSomeMixed({ listName, finalizeGoals, selectedTab }) {
+interface AddSomeMixedProps {
+  listName: string;
+  selectedTab: Tab;
+  finalizeGoals: (goals: Goal[]) => void;
+}
+
+export default function AddSomeMixed({
+  listName,
+  finalizeGoals,
+  selectedTab,
+}: AddSomeMixedProps) {
   // This component has not yet been updated to reflect changes in other goal AddSome components.
 
   const [goals, setGoals] = useState([]);
@@ -173,7 +184,6 @@ export default function AddSomeMixed({ listName, finalizeGoals, selectedTab }) {
         </div>
       ) : null}
       {thirdBlock === "Simple List" ? (
-
         <>
           <AddSomeSimple
             listName={listName}
@@ -183,28 +193,24 @@ export default function AddSomeMixed({ listName, finalizeGoals, selectedTab }) {
           <br></br>
         </>
       ) : thirdBlock === "Progress Bar" ? (
-
         <AddSomeBars
           listName={listName}
           selectedTab={selectedTab}
           finalizeGoals={finalizeGoals}
         />
       ) : thirdBlock === "Levels" ? (
-
         <AddSomeLevels
           listName={listName}
           selectedTab={selectedTab}
           finalizeGoals={finalizeGoals}
         />
       ) : thirdBlock === "Set" ? (
-
         <AddSomeSets
           listName={listName}
           selectedTab={selectedTab}
           finalizeGoals={finalizeGoals}
         />
       ) : null}
-
     </>
   );
 }

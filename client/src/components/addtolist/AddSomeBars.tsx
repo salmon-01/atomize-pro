@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Delete from "../../assets/other/delete-button.png";
+// import Delete from "../../assets/other/delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
 import "../../styles/AddSome.css";
 import { Tab, Goal } from "../../types/types";
@@ -15,7 +15,7 @@ export default function AddSomeBars({
   finalizeGoals,
   selectedTab,
 }: AddSomeBarsProps) {
-  const [goals, setGoals] = useState([
+  const [goals, setGoals] = useState<Goal[]>([
     {
       name: "",
       list: listName,
@@ -68,7 +68,7 @@ export default function AddSomeBars({
   }
 
   function removeItem(indexToRemove: number) {
-    const updatedGoals = goals.filter((goal, index) => index !== indexToRemove);
+    const updatedGoals = goals.filter((_, index) => index !== indexToRemove);
     setGoals(updatedGoals);
   }
 

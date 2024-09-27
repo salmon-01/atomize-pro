@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react";
-import Delete from "../../assets/other/delete-button.png";
+// import Delete from "../../assets/other/delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
 import "../../styles/AddSome.css";
+import { Goal, Tab } from "../../types/types";
+
+interface AddSomeLevelsProps {
+  listName: string;
+  selectedTab: Tab;
+  finalizeGoals: (goals: Goal[]) => void;
+}
 
 export default function AddSomeLevels({
   listName,
   finalizeGoals,
   selectedTab,
-}) {
+}: AddSomeLevelsProps) {
   const [goals, setGoals] = useState([
     {
       name: "",
