@@ -13,6 +13,19 @@ export default function NavBar() {
   const { state } = useAppContext();
   const { tabs, goalXPBar, currentXP } = state;
 
+  const formatDate = (date) => {
+    const dateFormat = date.toLocaleDateString("en-GB", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+    const parts = dateFormat.split(" ");
+    const dayOfWeek = parts[0];
+    const restOfDate = parts.slice(1).join(" ");
+    return `${dayOfWeek}, ${restOfDate}`;
+  };
+
   const formattedDate = formatDate(new Date());
 
   return (
@@ -60,16 +73,3 @@ export default function NavBar() {
     </>
   );
 }
-
-const formatDate = (date) => {
-  const dateFormat = date.toLocaleDateString("en-GB", {
-    weekday: "long",
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-  const parts = dateFormat.split(" ");
-  const dayOfWeek = parts[0];
-  const restOfDate = parts.slice(1).join(" ");
-  return `${dayOfWeek}, ${restOfDate}`;
-};

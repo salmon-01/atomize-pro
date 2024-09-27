@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import Goal from "./Goal";
 
 export default function List({ list, tabGoals, tab }) {
