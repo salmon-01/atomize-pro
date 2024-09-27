@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import "../styles/Tab.css";
 import { useAppContext } from "../AppContext.js";
 import List from "./List.js";
+import { State } from "../types/types.js";
 
 function BlankPage() {
   return (
@@ -17,11 +17,16 @@ function BlankPage() {
 }
 
 export default function Tab() {
-  const { state } = useAppContext();
+  const { state } = useAppContext() as {
+    state: State;
+  };
   const { goals, tabs, isLoading } = state;
   const { tabName } = useParams();
 
-  const normalizedTabName = decodeURIComponent(tabName).trim().toLowerCase();
+  // const normalizedTabName = decodeURIComponent(tabName).trim().toLowerCase();
+  const normalizedTabName = decodeURIComponent(tabName ?? "")
+    .trim()
+    .toLowerCase();
 
   const tab = tabs.find(
     (tab) => tab.name.trim().toLowerCase() === normalizedTabName
