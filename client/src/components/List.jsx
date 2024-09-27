@@ -1,6 +1,8 @@
-import { React, useState, useEffect } from "react";
 import { useAppContext } from "../AppContext";
-import Goal from "./Goal";
+import SimpleGoal from "./templates/SimpleGoal";
+import ProgressBar from "./templates/ProgressBar";
+import LevelsBlock from "./templates/LevelsBlock";
+import Sets from "./templates/Sets";
 
 export default function List({ list, tabGoals, tab }) {
   const { state } = useAppContext();
@@ -20,9 +22,19 @@ export default function List({ list, tabGoals, tab }) {
     >
       <div id="list-heading">{list}</div>
       <div className="goal-content-container">
-        {listGoals.map((goal) => (
-          <Goal key={goal.name} goal={goal} />
-        ))}
+        {listGoals.map(
+          (goal) =>
+            goal.type === "Simple List" ? (
+              <SimpleGoal goalID={goal.id} key={goal.id} />
+            ) : goal.type === "Progress Bar" ? (
+              <ProgressBar goal={goal} />
+            ) : goal.type === "Levels" ? (
+              <LevelsBlock goal={goal} />
+            ) : goal.type === "Sets" ? (
+              <Sets goal={goal} />
+            ) : null
+          //   <Goal key={goal.name} goal={goal} />
+        )}
       </div>
     </div>
   );
