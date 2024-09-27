@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { useAppContext } from "../AppContext";
+import { State } from "../types/types";
 
 export default function HomeOverview() {
   // Home will show a simple overview of all tabs and the lists inside them.
 
-  const { state } = useAppContext();
+  const { state } = useAppContext() as {
+    state: State;
+  };
   const { tabs, goals } = state;
 
   return (
@@ -19,9 +22,6 @@ export default function HomeOverview() {
           </div>
         </div>
       ))}
-
-      {/* <Link to="/home/plan">Click here to go to the planner</Link>
-            Here's an overview of all goals */}
     </div>
   );
 }
