@@ -6,7 +6,7 @@ export type Action =
   | { type: "SET_GOALS"; payload: Goal[] }
   | { type: "CREATE_TAB"; payload: Tab }
   | { type: "CREATE_GOAL"; payload: Goal }
-  | { type: "CALCULATE_GOAL_XP"; payload: Goal[] } // New action
+  | { type: "CALCULATE_GOAL_XP"; payload: Goal[] }
   // | { type: 'UPDATE_GOAL'; payload: UNSURE_YET }
   // | { type: 'UPDATE_LIST'; payload: UNSURE_YET }
   // | { type: 'DELETE_TAB'; payload: UNSURE_YET };
@@ -45,7 +45,7 @@ export function reducer(
     case "CREATE_GOAL":
       return {
         ...state,
-        tabs: [...state.goals, action.payload],
+        goals: [...state.goals, action.payload],
       };
     case "CALCULATE_GOAL_XP":
       const { totalGoalXPBar, totalCurrentXP } = calculateGoalXP(
