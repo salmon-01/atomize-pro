@@ -24,3 +24,16 @@ export interface State {
   goalXPBar: number;
   currentXP: number;
 }
+
+export type Action =
+  | { type: "SET_TABS"; payload: Tab[] }
+  | { type: "SET_GOALS"; payload: Goal[] }
+  | { type: "CREATE_TAB"; payload: Tab }
+  | { type: "CREATE_GOAL"; payload: Goal }
+  | { type: "CALCULATE_GOAL_XP"; payload: Goal[] }
+  | { type: "UPDATE_GOAL"; payload: { id: number; updates: Partial<Goal> } } // New action to update goal
+  // | { type: 'UPDATE_LIST'; payload: UNSURE_YET }
+  // | { type: 'DELETE_TAB'; payload: UNSURE_YET };
+  // | { type: 'DELETE_GOAL'; payload: UNSURE_YET };
+  // | { type: 'DELETE_LIST_POSITION'; payload: UNSURE_YET };
+  | { type: "SET_LOADING"; payload: boolean };

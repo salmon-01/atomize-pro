@@ -21,7 +21,7 @@ export default function AddSomeBars({ listName, finalizeGoals, selectedTab }) {
     },
   ]);
 
-  const handleGoalNameChange = (index, value) => {
+  const handleGoalNameChange = (index: number, value: string) => {
     const updatedGoals = goals.map((goal, i) =>
       i === index ? { ...goal, name: value } : goal
     );
@@ -29,21 +29,21 @@ export default function AddSomeBars({ listName, finalizeGoals, selectedTab }) {
     console.log(goals);
   };
 
-  const handleGoalNumberChange = (index, value) => {
+  const handleGoalNumberChange = (index: number, value: string) => {
     const updatedGoals = goals.map((goal, i) =>
       i === index ? { ...goal, goal_number: value } : goal
     );
     setGoals(updatedGoals);
   };
 
-  const handleGoalUnitsChange = (index, value) => {
+  const handleGoalUnitsChange = (index: number, value: string) => {
     const updatedGoals = goals.map((goal, i) =>
       i === index ? { ...goal, units: value } : goal
     );
     setGoals(updatedGoals);
   };
 
-  const handleGoalColorChange = (index, value) => {
+  const handleGoalColorChange = (index: number, value: string) => {
     const updatedGoals = goals.map((goal, i) =>
       i === index ? { ...goal, color: value } : goal
     );
@@ -56,7 +56,7 @@ export default function AddSomeBars({ listName, finalizeGoals, selectedTab }) {
       colorChoices.style.display === "block" ? "none" : "block";
   }
 
-  function removeItem(indexToRemove) {
+  function removeItem(indexToRemove: number) {
     const updatedGoals = goals.filter((goal, index) => index !== indexToRemove);
     setGoals(updatedGoals);
   }

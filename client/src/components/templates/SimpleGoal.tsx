@@ -2,9 +2,14 @@ import { useEffect } from "react";
 import "../../styles/SimpleGoal.css";
 import { useAppContext } from "../../AppContext";
 import { updateGoalProgress } from "../../ApiService";
+import { State, Action } from "../../types/types";
 
 export default function SimpleGoal({ goalID }) {
-  const { state, dispatch } = useAppContext();
+  const { state, dispatch } = useAppContext() as {
+    state: State;
+    dispatch: (action: Action) => void;
+  };
+
   // Get the goal from the global state using goalID
   const goal = state.goals.find((g) => g.id === goalID);
 
