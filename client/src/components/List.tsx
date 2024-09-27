@@ -4,11 +4,12 @@ import ProgressBar from "./templates/ProgressBar";
 import LevelsBlock from "./templates/LevelsBlock";
 import Sets from "./templates/Sets";
 
-import { State, Tab } from "../types/types";
+import { State, Tab, Goal } from "../types/types";
 
 interface ListProps {
   list: string;
   tab: Tab;
+  tabGoals: Goal[];
 }
 
 export default function List({ list, tab }: ListProps) {
