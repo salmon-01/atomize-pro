@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import AddSomeSimple from "./AddSomeSimple";
-import AddSomeBars from "./AddSomeBars";
-import AddSomeLevels from "./AddSomeLevels";
-import AddSomeSets from "./AddSomeSets";
-import AddSomeMixed from "./AddSomeMixed";
+import AddSomeSimple from "./AddSomeSimple.js";
+import AddSomeBars from "./AddSomeBars.js";
+import AddSomeLevels from "./AddSomeLevels.js";
+import AddSomeSets from "./AddSomeSets.js";
+import AddSomeMixed from "./AddSomeMixed.js";
 import { createGoal, insertListPosition } from "../../ApiService.jsx";
+import { Goal } from "../../types/types.js";
+
+interface AddSomeGoalsProps {
+  listName: string;
+  selectedTab: string;
+  template: string;
+}
 
 export default function AddSomeGoals({
   listName,
-  template,
   selectedTab,
-  loadGoals,
-}) {
+  template,
+}: AddSomeGoalsProps) {
   const navigate = useNavigate(); // Must use at the top of the component
 
   const [finalGoals, setFinalGoals] = useState([]);
@@ -35,7 +41,7 @@ export default function AddSomeGoals({
     }
   };
 
-  const handleSubmit = async (goals) => {
+  const handleSubmit = async (goals: Goal[]) => {
     console.log(goals);
     try {
       await Promise.all(goals.map((goal) => createGoal(goal)));
@@ -48,8 +54,6 @@ export default function AddSomeGoals({
       }
       const path = findPath();
       navigate(`/${path}`);
-      loadGoals();
-      window.location.reload();
     } catch (error) {
       console.log("Error submitting goals:", error);
     }
