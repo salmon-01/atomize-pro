@@ -1,12 +1,7 @@
+// ! HomePage-Planner isn't functional at the moment.
 import { useState } from "react";
-import {
-  DndContext,
-  useDraggable,
-  useDroppable,
-  rectIntersection,
-  pointerWithin,
-} from "@dnd-kit/core";
-import { Column } from "./dragdrop/Column";
+import { DndContext, useDroppable, rectIntersection } from "@dnd-kit/core";
+// import { Column } from "./dragdrop/Column";
 import { useAppContext } from "../AppContext";
 
 function Droppable({ id, children }) {
