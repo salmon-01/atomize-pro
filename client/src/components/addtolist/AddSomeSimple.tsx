@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from "react";
-import Delete from "../../assets/other/delete-button.png";
-import ShinyDelete from "../../assets/other/shiny-delete-button.png";
+import { useState, useEffect } from "react";
+// import Delete from "../../assets/other/delete-button.png";
+// import ShinyDelete from "../../assets/other/shiny-delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
+import { Goal, Tab } from "../../types/types";
+
+interface AddSomeSimpleProps {
+  listName: string;
+  finalizeGoals: (goals: Goal[]) => void;
+  selectedTab: Tab;
+}
 
 export default function AddSomeSimple({
   listName,
   finalizeGoals,
   selectedTab,
-}) {
+}: AddSomeSimpleProps) {
   const [goals, setGoals] = useState([
     {
       name: "",
@@ -22,28 +29,29 @@ export default function AddSomeSimple({
     },
   ]);
 
-  const handleGoalNameChange = (index, value) => {
+  const handleGoalNameChange = (index: number, value: string) => {
     const updatedGoals = goals.map((goal, i) =>
       i === index ? { ...goal, name: value } : goal
     );
     setGoals(updatedGoals);
   };
 
-  const handleGoalColorChange = (index, value) => {
+  const handleGoalColorChange = (index: number, value: string) => {
     const updatedGoals = goals.map((goal, i) =>
       i === index ? { ...goal, color: value } : goal
     );
     setGoals(updatedGoals);
   };
 
-  function openColorBox(event) {
-    const colorChoices = event.target.nextElementSibling;
+  const openColorBox = (event: React.MouseEvent<HTMLDivElement>) => {
+    const colorChoices = (event.target as HTMLDivElement)
+      .nextElementSibling as HTMLElement;
     colorChoices.style.display =
       colorChoices.style.display === "block" ? "none" : "block";
-  }
+  };
 
-  function removeItem(indexToRemove) {
-    const updatedGoals = goals.filter((goal, index) => index !== indexToRemove);
+  function removeItem(indexToRemove: number) {
+    const updatedGoals = goals.filter((_, index) => index !== indexToRemove);
     setGoals(updatedGoals);
   }
 

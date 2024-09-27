@@ -1,18 +1,23 @@
 import { useState, useEffect, useRef } from "react";
 import "../../styles/ProgressBar.css";
 import { updateGoalProgress } from "../../ApiService";
+import { Goal } from "../../types/types";
 
-export default function ProgressBar({ goal }) {
-  const [current, setCurrent] = useState(goal.current);
-  const [progressToAdd, setToAdd] = useState("");
-  const progressBarRef = useRef(null);
-  const progressTextRef = useRef(null);
+interface ProgressBarProps {
+  goal: Goal;
+}
+
+export default function ProgressBar({ goal }: ProgressBarProps) {
+  const [current, setCurrent] = useState<number>(goal.current);
+  const [progressToAdd, setToAdd] = useState<string>("");
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const progressTextRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     updateGoalProgress(goal.name, goal.type, current);
   }, [current]);
 
-  function updateProgressBar(percentage) {
+  function updateProgressBar(percentage: number) {
     if (progressBarRef.current && progressTextRef.current) {
       progressTextRef.current.textContent = `${current} / ${goal.goal_number} ${
         goal.units

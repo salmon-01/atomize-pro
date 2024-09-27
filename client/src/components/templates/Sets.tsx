@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { updateGoalProgress } from "../../ApiService";
+import { Goal } from "../../types/types";
 
-export default function Sets({ goal }) {
+interface SetsProps {
+  goal: Goal;
+}
+
+export default function Sets({ goal }: SetsProps) {
   // const [circleSpacing, setCircleSpacing] = "standard-space";
   const [sets, setSets] = useState(goal.sets);
   const [completedSets, setCompletedSets] = useState(goal.completed_sets);

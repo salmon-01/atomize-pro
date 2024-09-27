@@ -172,7 +172,8 @@ export default function AddSomeMixed({ listName, finalizeGoals, selectedTab }) {
           </div>
         </div>
       ) : null}
-      {thirdBlock === "Simple List" && (
+      {thirdBlock === "Simple List" ? (
+
         <>
           <AddSomeSimple
             listName={listName}
@@ -181,28 +182,29 @@ export default function AddSomeMixed({ listName, finalizeGoals, selectedTab }) {
           />
           <br></br>
         </>
-      )}
-      {thirdBlock === "Progress Bar" && (
+      ) : thirdBlock === "Progress Bar" ? (
+
         <AddSomeBars
           listName={listName}
           selectedTab={selectedTab}
           finalizeGoals={finalizeGoals}
         />
-      )}
-      {thirdBlock === "Levels" && (
+      ) : thirdBlock === "Levels" ? (
+
         <AddSomeLevels
           listName={listName}
           selectedTab={selectedTab}
           finalizeGoals={finalizeGoals}
         />
-      )}
-      {thirdBlock === "Set" && (
+      ) : thirdBlock === "Set" ? (
+
         <AddSomeSets
           listName={listName}
           selectedTab={selectedTab}
           finalizeGoals={finalizeGoals}
         />
-      )}
+      ) : null}
+
     </>
   );
 }

@@ -1,44 +1,33 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AddSomeSimple from "./AddSomeSimple.js";
-import AddSomeBars from "./AddSomeBars.js";
-import AddSomeLevels from "./AddSomeLevels.js";
-import AddSomeSets from "./AddSomeSets.js";
-import AddSomeMixed from "./AddSomeMixed.js";
-import { createGoal, insertListPosition } from "../../ApiService.js";
-import { Goal, State, Action, Tab } from "../../types/types.js";
-import { useAppContext } from "../../AppContext.js";
+import AddSomeSimple from "./AddSomeSimple";
+import AddSomeBars from "./AddSomeBars";
+import AddSomeLevels from "./AddSomeLevels";
+import AddSomeSets from "./AddSomeSets";
+import AddSomeMixed from "./AddSomeMixed";
+import { createGoal, insertListPosition } from "../../ApiService.jsx";
+import { Tab } from "../../types/types.js";
+
 
 interface AddSomeGoalsProps {
-  tabs: Tab[];
   listName: string;
-  selectedTab: Tab | null;
   template: string;
-}
-interface SelectedTab {
-  name: string;
-  col_one?: boolean;
-  col_two?: boolean;
-  col_three?: boolean;
+  selectedTab: Tab;
+  loadGoals: string;
 }
 
 export default function AddSomeGoals({
   listName,
-  selectedTab,
   template,
+  selectedTab,
+  loadGoals,
 }: AddSomeGoalsProps) {
   const navigate = useNavigate(); // Must use at the top of the component
 
-  const { state, dispatch } = useAppContext() as {
-    state: State;
-    dispatch: (action: Action) => void;
-  }; // Access global state and dispatch
+  const [finalGoals, setFinalGoals] = useState([]);
 
-  // Dispatch action to add goals to the global state
-  const finalizeGoals = (childGoals: Goal[]) => {
-    childGoals.forEach((goal) => {
-      dispatch({ type: "CREATE_GOAL", payload: goal });
-    });
+  const finalizeGoals = (childGoals) => {
+    setFinalGoals(childGoals);
   };
 
   const findPath = () => {
@@ -55,21 +44,21 @@ export default function AddSomeGoals({
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (goals) => {
+    console.log(goals);
     try {
-      // Use state.goals instead of finalGoals
-      await Promise.all(state.goals.map((goal) => createGoal(goal)));
+      await Promise.all(goals.map((goal) => createGoal(goal)));
       console.log("All goals have been submitted successfully");
-
       try {
         const col = findColPosition();
         await insertListPosition(selectedTab.name, listName, col);
       } catch (error) {
         console.log("Error inserting list position:", error);
       }
-
       const path = findPath();
       navigate(`/${path}`);
+      loadGoals();
+      window.location.reload();
     } catch (error) {
       console.log("Error submitting goals:", error);
     }
@@ -79,46 +68,44 @@ export default function AddSomeGoals({
     <>
       <div className="add-some-goals-container">
         <div id="list-title">{listName}</div>
-        {template === "Simple List" && (
+        {template === "Simple List" ? (
           <AddSomeSimple
             listName={listName}
             finalizeGoals={finalizeGoals}
             selectedTab={selectedTab}
           />
-        )}
-        {template === "Progress Bar" && (
+        ) : template === "Progress Bar" ? (
           <AddSomeBars
             listName={listName}
             finalizeGoals={finalizeGoals}
             selectedTab={selectedTab}
           />
-        )}
-        {template === "Levels" && (
+        ) : template === "Levels" ? (
           <AddSomeLevels
             listName={listName}
             finalizeGoals={finalizeGoals}
             selectedTab={selectedTab}
           />
-        )}
-        {template === "Sets" && (
+        ) : template === "Sets" ? (
           <AddSomeSets
             listName={listName}
             finalizeGoals={finalizeGoals}
             selectedTab={selectedTab}
           />
-        )}
-        {template === "Mixed" && (
+        ) : template === "Mixed" ? (
           <AddSomeMixed
             listName={listName}
             finalizeGoals={finalizeGoals}
             selectedTab={selectedTab}
           />
-        )}
+        ) : null}
       </div>
       <button
         className="create-list-goals-button"
         id="submit-list-goals"
-        onClick={handleSubmit}
+        onClick={() => {
+          handleSubmit(finalGoals);
+        }}
       >
         Create List &rarr;
       </button>
