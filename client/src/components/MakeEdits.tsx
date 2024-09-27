@@ -9,16 +9,22 @@ import {
 } from "../ApiService.js";
 import "../styles/MakeEdits.css";
 import { useAppContext } from "../AppContext.js";
+import { State, Tab } from "../types/types.js";
 
 export default function MakeEdits() {
-  const { state } = useAppContext();
+  const { state } = useAppContext() as {
+    state: State;
+  };
   const { tabs, goals } = state;
   // Styling and rendering not fully complete. Will add 'edit' functionalities.
 
-  const [selectedObject, setSelectedObject] = useState([]);
+  //? Why are we calling it 'selectedObject' here?
+  const [selectedObject, setSelectedObject] = useState<Tab | null>(null);
   const [selectedType, setSelectedType] = useState("");
   const [selectedTab, setSelectedTab] = useState([]);
   const [selectedList, setSelectedList] = useState("");
+
+  console.log(selectedTab);
 
   const tabAttributes = [
     "col_one",
@@ -29,7 +35,9 @@ export default function MakeEdits() {
     "col_three_b",
   ];
 
-  const handleSelectObject = (obj) => {
+  const handleSelectObject = (obj: Tab) => {
+    console.log(obj);
+
     setSelectedObject(obj);
     if (obj.icon) {
       setSelectedType("Tab");
