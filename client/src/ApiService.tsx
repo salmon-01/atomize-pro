@@ -66,7 +66,7 @@ export const fetchAllTabs = async () => {
 
 export const fetchAllGoals = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/storedgoals`);
+    const response = await axios.get(`${BASE_URL}/tabs/lists/all`);
     console.log("Goals fetched!");
     return response.data;
   } catch (error) {
