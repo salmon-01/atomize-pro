@@ -43,7 +43,7 @@ export default function CreateNewTab() {
   const [tabName, setTabName] = useState("");
   const [tabData, setTabData] = useState({
     name: tabName,
-    icon: chosenIcon,
+    icon_name: chosenIcon,
     col_one: null,
     col_one_b: null,
     col_two: null,
@@ -66,12 +66,14 @@ export default function CreateNewTab() {
   };
 
   useEffect(() => {
-    setTabData({ ...tabData, icon: chosenIcon });
+    setTabData({ ...tabData, icon_name: chosenIcon });
   }, [chosenIcon]);
 
   useEffect(() => {
     setTabData({ ...tabData, name: tabName });
   }, [tabName]);
+
+  console.log(tabData);
 
   const handleCreateTab = async (tab: Tab) => {
     if (!tabName) {
@@ -87,10 +89,10 @@ export default function CreateNewTab() {
 
       // Create the tab object using the updated tabData
       const newTab = {
-        ...tabData,
+        // ...tabData,
         name: tabName,
-        icon: chosenIcon,
-        order_no: tabs.length + 1, // Use the current length of tabs to define order_no
+        icon_name: chosenIcon,
+        // order_no: tabs.length + 1, // Use the current length of tabs to define order_no
       };
 
       // Dispatch the action to create the tab
