@@ -23,9 +23,9 @@ function App() {
       dispatch({ type: "SET_LOADING", payload: true });
 
       // Fetch tabs and goals simultaneously
-      const [tabsData, fetchedGoals] = await Promise.all([
+      const [tabsData] = await Promise.all([
         fetchAllTabs(),
-        fetchAllGoals(),
+        // fetchAllGoals(),
       ]);
 
       // Dispatch tabs data
