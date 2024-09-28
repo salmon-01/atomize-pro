@@ -30,7 +30,7 @@ export const createTab = async (tab) => {
     body: JSON.stringify(tab),
   };
   try {
-    const response = await fetch(`${BASE_URL}/tabs`, postRequest);
+    const response = await fetch(`${BASE_URL}/tabs/`, postRequest);
     if (!response.ok) {
       console.log("Network response when creating a tab was not OK");
       return;
@@ -47,7 +47,7 @@ export const createTab = async (tab) => {
 
 export const fetchAllTabs = async () => {
   try {
-    const response = await fetch(`${BASE_URL}/tabs`, {
+    const response = await fetch(`${BASE_URL}/tabs/`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
