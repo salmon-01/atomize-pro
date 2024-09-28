@@ -23,28 +23,33 @@ function App() {
       dispatch({ type: "SET_LOADING", payload: true });
 
       // Fetch tabs and goals simultaneously
-      const [tabsData] = await Promise.all([
+      const [tabsData, fetchedGoals] = await Promise.all([
         fetchAllTabs(),
-        // fetchAllGoals(),
+        fetchAllGoals(),
       ]);
 
+      console.log("Fetched tabs:", tabsData);
+      console.log("Fetched goals:", fetchedGoals);
+
       // Dispatch tabs data
+      console.log("Dispatching tabs data:", tabsData);
       dispatch({ type: "SET_TABS", payload: tabsData });
 
       // Process and dispatch goals data
       if (
         fetchedGoals &&
-        Array.isArray(fetchedGoals.simple) &&
-        Array.isArray(fetchedGoals.progbars) &&
+        Array.isArray(fetchedGoals.simpleLists) &&
+        Array.isArray(fetchedGoals.progressBars) &&
         Array.isArray(fetchedGoals.levels) &&
         Array.isArray(fetchedGoals.sets)
       ) {
         const allGoals = [
-          ...fetchedGoals.simple,
-          ...fetchedGoals.progbars,
+          ...fetchedGoals.simpleLists,
+          ...fetchedGoals.progressBars,
           ...fetchedGoals.levels,
           ...fetchedGoals.sets,
         ];
+        console.log("Dispatching all goals:", allGoals);
         dispatch({ type: "SET_GOALS", payload: allGoals });
       } else {
         dispatch({ type: "SET_GOALS", payload: [] });
