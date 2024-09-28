@@ -1,5 +1,9 @@
+import { SimpleList } from "~/models/simpleList";
 import { Tabs } from "../models/tabs";
 import { Request, Response } from "express";
+import { ProgressBar } from "~/models/progressBar";
+import { Levels } from "~/models/levels";
+import { Sets } from "~/models/sets";
 
 // get all tabs
 
@@ -58,5 +62,49 @@ export const deleteTab = async (req: Request, res: Response): Promise<void> => {
       res.status(500).send({ error: error.message });
     }
     res.status(500).send({ error: "An unknown error occurred" });
+  }
+};
+
+// get all types of lists from a tab
+
+export const getAllListsFromTab = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { tabId } = req.params;
+
+    const tab = await Tabs.findByPk(tabId);
+
+    if (!tab) {
+      res.status(404).send({ message: "Tab not found" });
+      return;
+    }
+
+    const simpleLists = await SimpleList.findAll({
+      where: { tab: tabId },
+    });
+
+    const progressBar = await ProgressBar.findAll({
+      where: { tab: tabId },
+    });
+
+    const levels = await Levels.findAll({
+      where: { tab: tabId },
+    });
+
+    const sets = await Sets.findAll({
+      where: { tab: tabId },
+    });
+
+    const allListTypes = { simpleLists, progressBar, levels, sets };
+    res.status(200).send(allListTypes);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).send({ error: error.message });
+      return;
+    }
+    res.status(500).send({ message: "An unknown error occurred" });
+    return;
   }
 };
