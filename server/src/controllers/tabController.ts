@@ -108,3 +108,38 @@ export const getAllListsFromTab = async (
     return;
   }
 };
+
+// get all lists from all tabs
+
+export const getAllListsForAllTabs = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const simpleLists = await SimpleList.findAll({
+      include: [Tabs],
+    });
+
+    const progressBars = await ProgressBar.findAll({
+      include: [Tabs],
+    });
+
+    const levels = await Levels.findAll({
+      include: [Tabs],
+    });
+
+    const sets = await Sets.findAll({
+      include: [Tabs],
+    });
+
+    const allListTypes = { simpleLists, progressBars, levels, sets };
+
+    res.status(200).send(allListTypes);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).send({ error: error.message });
+      return;
+    }
+    res.status(500).send({ message: "An unknown error occurred" });
+  }
+};
