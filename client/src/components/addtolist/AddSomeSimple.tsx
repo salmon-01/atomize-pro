@@ -6,8 +6,8 @@ import OrangeDelete from "../../assets/other/orange-delete-button.png";
 // import { Goal, Tab } from "../../types/types";
 import { useFormContext } from "../../context/createListContext.js";
 
-export default function AddSomeSimple() {
-  const { register, control, setValue, watch } = useForm(); // Access react-hook-form's context
+export default function AddSomeSimple({ control, register, setValue }) {
+  // const { register, control, setValue, watch } = useForm(); // Access react-hook-form's context
   const { fields, append, remove } = useFieldArray({
     control,
     name: "goals", // The field array for goals
@@ -47,49 +47,12 @@ export default function AddSomeSimple() {
     });
   };
 
-  // const [goals, setGoals] = useState([
-  //   {
-  //     name: "",
-  //     list: listName,
-  //     tab: selectedTab.name,
-  //     type: "Simple List",
-  //     color: "purple",
-  //     order_no: 1,
-  //     active: true,
-  //     complete: false,
-  //     last_completed: null,
-  //   },
-  // ]);
-
-  // const handleGoalNameChange = (index: number, value: string) => {
-  //   const updatedGoals = goals.map((goal, i) =>
-  //     i === index ? { ...goal, name: value } : goal
-  //   );
-  //   setGoals(updatedGoals);
-  // };
-
-  // const handleGoalColorChange = (index: number, value: string) => {
-  //   const updatedGoals = goals.map((goal, i) =>
-  //     i === index ? { ...goal, color: value } : goal
-  //   );
-  //   setGoals(updatedGoals);
-  // };
-
   const openColorBox = (event: React.MouseEvent<HTMLDivElement>) => {
     const colorChoices = (event.target as HTMLDivElement)
       .nextElementSibling as HTMLElement;
     colorChoices.style.display =
       colorChoices.style.display === "block" ? "none" : "block";
   };
-
-  // function removeItem(indexToRemove: number) {
-  //   const updatedGoals = goals.filter((_, index) => index !== indexToRemove);
-  //   setGoals(updatedGoals);
-  // }
-
-  // useEffect(() => {
-  //   finalizeGoals(goals);
-  // }, [goals]);
 
   return (
     <>

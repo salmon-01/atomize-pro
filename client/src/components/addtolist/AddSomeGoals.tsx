@@ -15,26 +15,28 @@ type FormData = {
 };
 
 export default function AddSomeGoals() {
-  const navigate = useNavigate(); // Must use at the top of the component#
+  const navigate = useNavigate(); // For navigation
   const { listName, template, selectedTab } = useFormContext();
 
   const {
     register,
     handleSubmit,
+    control,
     setValue,
     formState: { errors },
   } = useForm<FormData>();
 
-  // const finalizeGoals = (childGoals) => {
-  //   setFinalGoals(childGoals);
+  // const findPath = () => {
+  //   return selectedTab?.name.replace(/\s+/g, "-");
   // };
 
-  const findPath = () => {
-    return selectedTab?.name.replace(/\s+/g, "-");
-  };
-
   const onSubmit = async (data: FormData) => {
-    const { goals } = data;
+    console.log("Form Data on Submit:", {
+      listName,
+      template,
+      selectedTab,
+      goals: data.goals,
+    });
 
     try {
       // Send the entire form data (listName, template, selectedTab, and goals) to the backend
@@ -42,7 +44,7 @@ export default function AddSomeGoals() {
         listName,
         template,
         selectedTab,
-        goals,
+        goals: data.goals,
       });
 
       if (response.success) {
@@ -53,41 +55,41 @@ export default function AddSomeGoals() {
     }
   };
 
-  // const handleSubmit = async (goals: Goal[]) => {
-  //   console.log(goals);
-  //   try {
-  //     await Promise.all(goals.map((goal: Goal) => createGoal(goal)));
-  //     console.log("All goals have been submitted successfully");
-  //     try {
-  //       const col = findColPosition();
-  //       await insertListPosition(selectedTab.name, listName, col);
-  //     } catch (error) {
-  //       console.log("Error inserting list position:", error);
-  //     }
-  //     const path = findPath();
-  //     navigate(`/${path}`);
-  //     loadGoals();
-  //     window.location.reload();
-  //   } catch (error) {
-  //     console.log("Error submitting goals:", error);
-  //   }
-  // };
-
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="add-some-goals-container">
           <div id="list-title">{listName}</div>
           {template === "Simple List" ? (
-            <AddSomeSimple />
+            <AddSomeSimple
+              control={control}
+              register={register}
+              setValue={setValue}
+            />
           ) : template === "Progress Bar" ? (
-            <AddSomeBars />
+            <AddSomeBars
+              control={control}
+              register={register}
+              setValue={setValue}
+            />
           ) : template === "Levels" ? (
-            <AddSomeLevels />
+            <AddSomeLevels
+              control={control}
+              register={register}
+              setValue={setValue}
+            />
           ) : template === "Sets" ? (
-            <AddSomeSets />
+            <AddSomeSets
+              control={control}
+              register={register}
+              setValue={setValue}
+            />
           ) : template === "Mixed" ? (
-            <AddSomeMixed />
+            <AddSomeMixed
+              control={control}
+              register={register}
+              setValue={setValue}
+            />
           ) : null}
         </div>
         <button
