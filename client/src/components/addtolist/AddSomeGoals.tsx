@@ -9,7 +9,6 @@ import { createGoal, insertListPosition } from "../../ApiService.jsx";
 import { Goal, Tab } from "../../types/types.js";
 
 interface AddSomeGoalsProps {
-  tabs: Tab[];
   listName: string;
   template: string;
   selectedTab: Tab | null;
@@ -34,15 +33,15 @@ AddSomeGoalsProps) {
     return selectedTab.name.replace(/\s+/g, "-");
   };
 
-  const findColPosition = () => {
-    if (!selectedTab.col_one) {
-      return "col_one";
-    } else if (!selectedTab.col_two) {
-      return "col_two";
-    } else if (!selectedTab.col_three) {
-      return "col_three";
-    }
-  };
+  // const findColPosition = () => {
+  //   if (!selectedTab.col_one) {
+  //     return "col_one";
+  //   } else if (!selectedTab.col_two) {
+  //     return "col_two";
+  //   } else if (!selectedTab.col_three) {
+  //     return "col_three";
+  //   }
+  // };
 
   const handleSubmit = async (goals: Goal[]) => {
     console.log(goals);
