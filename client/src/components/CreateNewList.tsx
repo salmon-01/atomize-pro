@@ -1,3 +1,4 @@
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import PreviewVideo from "./PreviewVideo";
 import SimpleListVideo from "../assets/vids/simplelist-animation.mp4";
@@ -9,75 +10,106 @@ import AddSomeGoals from "./addtolist/AddSomeGoals";
 import { useAppContext } from "../AppContext";
 import { State, Tab } from "../types/types";
 
+// The form data captured in this form
+type FormData = {
+  listName: string;
+  template: string;
+  selectedTab: Tab | null;
+};
+
 export default function CreateNewList() {
   const { state } = useAppContext() as {
     state: State;
   };
   const { tabs } = state; // Access tabs from the global state
-  // console.log(tabs);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>();
+
   // Local component state
-  const [selectedTab, setSelectedTab] = useState<Tab | null>(null);
-  const [listName, setListName] = useState("");
-  const [template, setTemplate] = useState("");
+  // const [selectedTab, setSelectedTab] = useState<Tab | null>(null);
+  // const [listName, setListName] = useState("");
+  // const [template, setTemplate] = useState("");
   const [hoveredTemplate, setHoveredTemplate] = useState("");
   const [firstStepDone, setFirstStepDone] = useState(false);
 
   const listTypes = ["Simple List", "Progress Bar", "Sets", "Levels", "Mixed"];
 
-  // console.log(selectedTab);
+  // Form inputs
+  const selectedTab = watch("selectedTab");
+  const template = watch("template");
+  const listName = watch("listName");
 
-  // Handle input changes for list name
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setListName(event.target.value);
-  };
-
-  // Handle template selection
-  const handleChooseTemplate = (template: string) => {
-    setTemplate(template);
-  };
-
-  // Handle template hover to show the preview video
-  const handleHover = (template: string) => {
-    setHoveredTemplate(template);
-  };
-
-  // Proceed to adding goals
-  const handleAddSomeGoals: React.FormEventHandler<HTMLFormElement> = (
-    event
-  ) => {
-    event.preventDefault();
-    if (!listName) {
-      alert("Please give your list a name");
-      return;
-    }
-    if (!template) {
-      alert("Please choose a template");
-      return;
-    }
-    if (!selectedTab) {
-      alert("Please choose a tab for your list");
+  // Handle form submission
+  const onSubmit = (data: FormData) => {
+    if (!data.selectedTab) {
+      alert("Please choose a tab for your list!");
       return;
     }
     setFirstStepDone(true);
   };
 
-  // Handle selecting a tab from global state
-  const handleSelectTab = (selectedTabIcon: Tab) => {
-    setSelectedTab(selectedTabIcon);
-    console.log(selectedTab);
+  const handleSelectTab = (tab: Tab) => {
+    setValue("selectedTab", tab);
   };
+
+  // // Handle input changes for list name
+  // const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setListName(event.target.value);
+  // };
+
+  // // Handle template selection
+  // const handleChooseTemplate = (template: string) => {
+  //   setTemplate(template);
+  // // };
+
+  // // Handle template hover to show the preview video
+  // const handleHover = (template: string) => {
+  //   setHoveredTemplate(template);
+  // };
+
+  // // Proceed to adding goals
+  // const handleAddSomeGoals: React.FormEventHandler<HTMLFormElement> = (
+  //   event
+  // ) => {
+  //   event.preventDefault();
+  //   if (!listName) {
+  //     alert("Please give your list a name");
+  //     return;
+  //   }
+  //   if (!template) {
+  //     alert("Please choose a template");
+  //     return;
+  //   }
+  //   if (!selectedTab) {
+  //     alert("Please choose a tab for your list");
+  //     return;
+  //   }
+  //   setFirstStepDone(true);
+  // };
+
+  // // Handle selecting a tab from global state
+  // const handleSelectTab = (selectedTabIcon: Tab) => {
+  //   setSelectedTab(selectedTabIcon);
+  //   console.log(selectedTab);
+  // };
 
   return (
     <>
       <div className="new-list-container">
-        <form id="create-new-list" onSubmit={handleAddSomeGoals}>
+        <form id="create-new-list" onSubmit={handleSubmit(onSubmit)}>
           <span className="form-text">NAME YOUR LIST:</span>
           <input
             type="text"
             id="name-your-list"
-            value={listName}
-            onChange={handleNameChange}
+            {...register("listName", { required: "List name is required" })}
           />
+          {errors.listName && <p>{errors.listName.message}</p>}
           <span className="form-text">CHOOSE TEMPLATE:</span>
           <div className="template-options">
             {listTypes.map((type) => (
@@ -86,42 +118,39 @@ export default function CreateNewList() {
                   className={`${
                     template === type ? "template-item-chosen" : "template-item"
                   }`}
-                  onClick={() => {
-                    handleChooseTemplate(type);
-                  }}
-                  onMouseEnter={() => {
-                    handleHover(type);
-                  }}
+                  onClick={() => setValue("template", type)}
+                  onMouseEnter={() => setHoveredTemplate(type)}
                 >
                   {type}
                 </span>
               </>
             ))}
           </div>
+          {errors.template && <p>Please choose a template</p>}
           <span className="form-text">ADD TO:</span>
           <div className="chosen-tab">
             {tabs.length > 0 ? (
               tabs.map((tab) => (
                 <img
-                  key={tab.name} // Ensure to add a unique key
+                  key={tab.id}
                   src={`/icons/${tab.icon_name}`}
                   className={`nav-icon ${
-                    selectedTab === tab ? "chosen-tab-selected" : ""
-                  }`} // Use empty string instead of 'null'
-                  onClick={() => {
-                    handleSelectTab(tab);
-                  }}
+                    selectedTab?.id === tab.id ? "chosen-tab-selected" : ""
+                  }`}
+                  onClick={() => handleSelectTab(tab)}
                 />
               ))
             ) : (
               <p>No existing tabs!</p>
             )}
           </div>
+          {errors.selectedTab && <p>Please choose a tab</p>}
           <button id="add-goals-to-list" type="submit">
             Add Goal Data &rarr;
           </button>
         </form>
       </div>
+
       {!firstStepDone ? (
         <div className="preview-list-container">
           <div className="preview-items">

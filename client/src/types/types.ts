@@ -1,4 +1,5 @@
 export interface Tab {
+  id?: number;
   name: string;
   icon_name: string;
   order_no: number;
