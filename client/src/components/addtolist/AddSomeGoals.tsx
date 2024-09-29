@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 // import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddSomeSimple from "./AddSomeSimple";
@@ -15,7 +15,8 @@ type FormData = {
 };
 
 export default function AddSomeGoals() {
-  const navigate = useNavigate(); // For navigation
+  const methods = useForm();
+  const navigate = useNavigate(); // Must use at the top of the component#
   const { listName, template, selectedTab } = useFormContext();
 
   const {
@@ -49,6 +50,10 @@ export default function AddSomeGoals() {
       selectedTab,
       goals: data.goals,
     });
+
+    console.log(data);
+
+    console.log(goals);
 
     try {
       // Send the entire form data (listName, template, selectedTab, and goals) to the backend
