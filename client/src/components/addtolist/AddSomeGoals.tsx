@@ -8,12 +8,14 @@ import AddSomeMixed from "./AddSomeMixed";
 import { createGoal } from "../../ApiService.jsx";
 import { Goal } from "../../types/types.js";
 import { useFormContext } from "../../context/createListContext.js";
+import { useAppContext } from "../../AppContext.js";
 
 type FormData = {
   goals: Goal[];
 };
 
 export default function AddSomeGoals() {
+  const { state, dispatch } = useAppContext();
   const navigate = useNavigate();
   const { listName, template, selectedTab } = useFormContext();
 
@@ -41,12 +43,22 @@ export default function AddSomeGoals() {
   });
 
   const onSubmit = async (data: FormData) => {
+    dispatch({ type: "SET_LOADING", payload: true });
     console.log("Form Data on Submit:", {
       listName,
       template,
       selectedTab,
       goals: data.goals,
     });
+
+    // Find the tab object by its ID
+    const selectedTabObj = state.tabs.find((tab) => tab.id === selectedTab);
+
+    if (!selectedTabObj) {
+      console.log("Tab not found");
+      dispatch({ type: "SET_LOADING", payload: false });
+      return;
+    }
 
     try {
       const promises = data.goals.map(async (goal) => {
@@ -69,6 +81,31 @@ export default function AddSomeGoals() {
 
       if (allSuccess) {
         console.log("All goals have been created successfully!");
+
+        // Update the global state using dispatch
+        data.goals.forEach((goal, index) => {
+          dispatch({
+            type: "CREATE_GOAL",
+            payload: {
+              id: Math.random(),
+              list_name: listName,
+              task_name: goal.task_name,
+              tab: selectedTab,
+              color: goal.color,
+              type: goal.type,
+              complete: false,
+            },
+          });
+        });
+
+        // Dispatch loading state when the request finishes
+        dispatch({ type: "SET_LOADING", payload: false });
+
+        // Redirect to the tab after creation
+        const normalizedTabName = encodeURIComponent(
+          selectedTabObj.name.replace(/\s+/g, "-")
+        );
+        navigate(`/${normalizedTabName}`); // Navigate to the tab's URL
       } else {
         console.log("Some goals failed to be created.");
       }

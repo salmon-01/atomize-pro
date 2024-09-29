@@ -1,20 +1,9 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "../styles/Tab.css";
 import { useAppContext } from "../AppContext.js";
 import List from "./List.js";
 import { State } from "../types/types.js";
-
-function BlankPage() {
-  return (
-    <div id="empty-page-prompt">
-      <h4 id="empty-page-text">This page is empty!</h4>Would you like to add a
-      new list now?
-      <Link to="/create-new/list">
-        <button id="empty-page-button">OK &rarr;</button>
-      </Link>
-    </div>
-  );
-}
+import { BlankPage } from "./BlankPage.js";
 
 export default function Tab() {
   const { state } = useAppContext() as {
@@ -61,22 +50,22 @@ export default function Tab() {
       {!isLoading && (
         <>
           <h2 className="tab-header">⸻ {tab.name} ⸻</h2>
-          <div className="all-lists-container">
-            {tabLists && tabLists.length > 0 ? (
-              tabLists.map((list) => (
+          {tabLists && tabLists.length > 0 ? (
+            <div className="all-lists-container">
+              {tabLists.map((list) => (
                 <List
                   key={list}
                   tab={tab}
                   list={list}
                   tabGoals={goalsByList[list]}
                 />
-              ))
-            ) : (
-              <div className="blank-prompt-container">
-                <BlankPage />
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="blank-prompt-container">
+              <BlankPage />
+            </div>
+          )}
         </>
       )}
     </>
