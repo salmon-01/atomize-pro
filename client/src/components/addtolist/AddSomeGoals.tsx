@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 // import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddSomeSimple from "./AddSomeSimple";
@@ -15,6 +15,7 @@ type FormData = {
 };
 
 export default function AddSomeGoals() {
+  const methods = useForm();
   const navigate = useNavigate(); // Must use at the top of the component#
   const { listName, template, selectedTab } = useFormContext();
 
@@ -35,6 +36,10 @@ export default function AddSomeGoals() {
 
   const onSubmit = async (data: FormData) => {
     const { goals } = data;
+
+    console.log(data);
+
+    console.log(goals);
 
     try {
       // Send the entire form data (listName, template, selectedTab, and goals) to the backend
@@ -75,29 +80,31 @@ export default function AddSomeGoals() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="add-some-goals-container">
-          <div id="list-title">{listName}</div>
-          {template === "Simple List" ? (
-            <AddSomeSimple />
-          ) : template === "Progress Bar" ? (
-            <AddSomeBars />
-          ) : template === "Levels" ? (
-            <AddSomeLevels />
-          ) : template === "Sets" ? (
-            <AddSomeSets />
-          ) : template === "Mixed" ? (
-            <AddSomeMixed />
-          ) : null}
-        </div>
-        <button
-          className="create-list-goals-button"
-          id="submit-list-goals"
-          type="submit"
-        >
-          Create List &rarr;
-        </button>
-      </form>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <div className="add-some-goals-container">
+            <div id="list-title">{listName}</div>
+            {template === "Simple List" ? (
+              <AddSomeSimple />
+            ) : template === "Progress Bar" ? (
+              <AddSomeBars />
+            ) : template === "Levels" ? (
+              <AddSomeLevels />
+            ) : template === "Sets" ? (
+              <AddSomeSets />
+            ) : template === "Mixed" ? (
+              <AddSomeMixed />
+            ) : null}
+          </div>
+          <button
+            className="create-list-goals-button"
+            id="submit-list-goals"
+            type="submit"
+          >
+            Create List &rarr;
+          </button>
+        </form>
+      </FormProvider>
     </>
   );
 }

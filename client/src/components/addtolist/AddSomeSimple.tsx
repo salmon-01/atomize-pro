@@ -1,20 +1,21 @@
 import { useEffect } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, useFormContext } from "react-hook-form";
 // import Delete from "../../assets/other/delete-button.png";
 // import ShinyDelete from "../../assets/other/shiny-delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
 // import { Goal, Tab } from "../../types/types";
-import { useFormContext } from "../../context/createListContext.js";
+import { useFormContext as useCustomFormContext } from "../../context/createListContext.js";
 
 export default function AddSomeSimple() {
-  const { register, control, setValue, watch } = useForm(); // Access react-hook-form's context
+  // const { register, control, setValue, watch } = useForm(); // Access react-hook-form's context
+  const { register, control, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "goals", // The field array for goals
   });
 
   // Get values for listName and selectedTab from context
-  const { listName, selectedTab } = useFormContext();
+  const { listName, selectedTab } = useCustomFormContext();
 
   useEffect(() => {
     if (fields.length === 0) {
