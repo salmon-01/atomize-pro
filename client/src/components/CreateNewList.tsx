@@ -15,7 +15,7 @@ import { State, Tab } from "../types/types";
 type FormData = {
   listName: string;
   template: string;
-  selectedTab: Tab | null;
+  selectedTab: string | null; // Storing just tab ID
 };
 
 export default function CreateNewList() {
@@ -39,13 +39,13 @@ export default function CreateNewList() {
   const listTypes = ["Simple List", "Progress Bar", "Sets", "Levels", "Mixed"];
 
   // Form inputs
-  const selectedTab = watch("selectedTab");
+  const selectedTab = watch("selectedTab"); // Now just the tab id
   const template = watch("template");
   const listName = watch("listName");
 
   // Form data (for useContext)
   const formData = {
-    selectedTab,
+    selectedTab, // Passing tab ID instead of the full Tab object
     listName,
     template,
   };
@@ -62,8 +62,9 @@ export default function CreateNewList() {
     setFirstStepDone(true);
   };
 
-  const handleSelectTab = (tab: Tab) => {
-    setValue("selectedTab", tab);
+  // Store just the tab id in selectedTab
+  const handleSelectTab = (tabId: string) => {
+    setValue("selectedTab", tabId);
   };
 
   return (
@@ -80,19 +81,18 @@ export default function CreateNewList() {
           <span className="form-text">CHOOSE TEMPLATE:</span>
           <div className="template-options">
             {listTypes.map((type) => (
-              <>
-                <span
-                  className={`${
-                    template === type ? "template-item-chosen" : "template-item"
-                  }`}
-                  onClick={() =>
-                    setValue("template", type, { shouldValidate: true })
-                  }
-                  onMouseEnter={() => setHoveredTemplate(type)}
-                >
-                  {type}
-                </span>
-              </>
+              <span
+                key={type}
+                className={`${
+                  template === type ? "template-item-chosen" : "template-item"
+                }`}
+                onClick={() =>
+                  setValue("template", type, { shouldValidate: true })
+                }
+                onMouseEnter={() => setHoveredTemplate(type)}
+              >
+                {type}
+              </span>
             ))}
           </div>
           {errors.template && <p>Please choose a template</p>}
@@ -104,9 +104,9 @@ export default function CreateNewList() {
                   key={tab.id}
                   src={`/icons/${tab.icon_name}`}
                   className={`nav-icon ${
-                    selectedTab?.id === tab.id ? "chosen-tab-selected" : ""
+                    selectedTab === tab.id ? "chosen-tab-selected" : ""
                   }`}
-                  onClick={() => handleSelectTab(tab)}
+                  onClick={() => handleSelectTab(tab.id)} // Compare selectedTab (tab id) with tab.id
                 />
               ))
             ) : (

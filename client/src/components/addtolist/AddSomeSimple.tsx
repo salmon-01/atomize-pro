@@ -1,13 +1,10 @@
-import { useEffect } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 // import Delete from "../../assets/other/delete-button.png";
 // import ShinyDelete from "../../assets/other/shiny-delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
-// import { Goal, Tab } from "../../types/types";
 import { useFormContext } from "../../context/createListContext.js";
 
 export default function AddSomeSimple({ control, register, setValue }) {
-  // const { register, control, setValue, watch } = useForm(); // Access react-hook-form's context
   const { fields, append, remove } = useFieldArray({
     control,
     name: "goals", // The field array for goals
@@ -16,31 +13,14 @@ export default function AddSomeSimple({ control, register, setValue }) {
   // Get values for listName and selectedTab from context
   const { listName, selectedTab } = useFormContext();
 
-  useEffect(() => {
-    if (fields.length === 0) {
-      // Initialize with one default goal
-      append({
-        name: "",
-        list: listName,
-        tab: selectedTab.name,
-        type: "Simple List",
-        color: "purple",
-        order_no: 1,
-        active: true,
-        complete: false,
-        last_completed: null,
-      });
-    }
-  }, [append, fields, listName, selectedTab]);
-
   const handleAddGoal = () => {
     append({
-      name: "",
-      list: listName,
-      tab: selectedTab.name,
+      task_name: "",
+      list_name: listName,
+      tab: selectedTab.id,
       type: "Simple List",
       color: "purple",
-      order_no: fields.length + 1,
+      // order_no: fields.length + 1,
       active: true,
       complete: false,
       last_completed: null,
@@ -72,7 +52,7 @@ export default function AddSomeSimple({ control, register, setValue }) {
                 <input
                   type="text"
                   className={`name-goal name-simple ${goal.color}`}
-                  {...register(`goals[${index}].name`, {
+                  {...register(`goals[${index}].task_name`, {
                     required: "Goal name is required",
                   })}
                 />

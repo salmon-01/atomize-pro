@@ -7,7 +7,7 @@ import AddSomeLevels from "./AddSomeLevels";
 import AddSomeSets from "./AddSomeSets";
 import AddSomeMixed from "./AddSomeMixed";
 import { createGoal, insertListPosition } from "../../ApiService.jsx";
-import { Goal, Tab } from "../../types/types.js";
+import { Goal } from "../../types/types.js";
 import { useFormContext } from "../../context/createListContext.js";
 
 type FormData = {
@@ -24,11 +24,23 @@ export default function AddSomeGoals() {
     control,
     setValue,
     formState: { errors },
-  } = useForm<FormData>();
-
-  // const findPath = () => {
-  //   return selectedTab?.name.replace(/\s+/g, "-");
-  // };
+  } = useForm<FormData>({
+    defaultValues: {
+      goals: [
+        {
+          task_name: "",
+          list_name: listName,
+          tab: selectedTab,
+          type: template,
+          color: "purple",
+          order_no: 1,
+          active: true,
+          complete: false,
+          last_completed: null,
+        },
+      ], // Set initial goal here
+    },
+  });
 
   const onSubmit = async (data: FormData) => {
     console.log("Form Data on Submit:", {
