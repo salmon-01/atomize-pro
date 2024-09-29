@@ -1,22 +1,22 @@
-import { useForm, FormProvider } from "react-hook-form";
-// import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import AddSomeSimple from "./AddSomeSimple";
 import AddSomeBars from "./AddSomeBars";
 import AddSomeLevels from "./AddSomeLevels";
 import AddSomeSets from "./AddSomeSets";
 import AddSomeMixed from "./AddSomeMixed";
-import { createGoal, insertListPosition } from "../../ApiService.jsx";
+import { createGoal } from "../../ApiService.jsx";
 import { Goal } from "../../types/types.js";
 import { useFormContext } from "../../context/createListContext.js";
+import { useAppContext } from "../../AppContext.js";
 
 type FormData = {
   goals: Goal[];
 };
 
 export default function AddSomeGoals() {
-  const methods = useForm();
-  const navigate = useNavigate(); // Must use at the top of the component#
+  const { state, dispatch } = useAppContext();
+  const navigate = useNavigate();
   const { listName, template, selectedTab } = useFormContext();
 
   const {
@@ -34,16 +34,16 @@ export default function AddSomeGoals() {
           tab: selectedTab,
           type: template,
           color: "purple",
-          order_no: 1,
           active: true,
           complete: false,
           last_completed: null,
         },
-      ], // Set initial goal here
+      ],
     },
   });
 
   const onSubmit = async (data: FormData) => {
+    dispatch({ type: "SET_LOADING", payload: true });
     console.log("Form Data on Submit:", {
       listName,
       template,
@@ -51,21 +51,63 @@ export default function AddSomeGoals() {
       goals: data.goals,
     });
 
-    console.log(data);
+    // Find the tab object by its ID
+    const selectedTabObj = state.tabs.find((tab) => tab.id === selectedTab);
 
-    console.log(goals);
+    if (!selectedTabObj) {
+      console.log("Tab not found");
+      dispatch({ type: "SET_LOADING", payload: false });
+      return;
+    }
 
     try {
-      // Send the entire form data (listName, template, selectedTab, and goals) to the backend
-      const response = await createListWithGoals({
-        listName,
-        template,
-        selectedTab,
-        goals: data.goals,
+      const promises = data.goals.map(async (goal) => {
+        // Make an API call for each goal
+        const response = await createGoal({
+          list_name: listName, // Pass the list name
+          task_name: goal.task_name, // Pass the goal task_name
+          tab: selectedTab, // Pass the selected tab ID
+          color: goal.color, // Pass the goal color
+          type: goal.type,
+        });
+
+        return response;
       });
 
-      if (response.success) {
-        console.log("List and goals have been created successfully!");
+      // Wait for all the requests to be completed
+      const results = await Promise.all(promises);
+
+      const allSuccess = results.every((res) => res.success);
+
+      if (allSuccess) {
+        console.log("All goals have been created successfully!");
+
+        // Update the global state using dispatch
+        data.goals.forEach((goal, index) => {
+          dispatch({
+            type: "CREATE_GOAL",
+            payload: {
+              id: Math.random(),
+              list_name: listName,
+              task_name: goal.task_name,
+              tab: selectedTab,
+              color: goal.color,
+              type: goal.type,
+              complete: false,
+            },
+          });
+        });
+
+        // Dispatch loading state when the request finishes
+        dispatch({ type: "SET_LOADING", payload: false });
+
+        // Redirect to the tab after creation
+        const normalizedTabName = encodeURIComponent(
+          selectedTabObj.name.replace(/\s+/g, "-")
+        );
+        navigate(`/${normalizedTabName}`); // Navigate to the tab's URL
+      } else {
+        console.log("Some goals failed to be created.");
       }
     } catch (error) {
       console.log("Error submitting list and goals:", error);

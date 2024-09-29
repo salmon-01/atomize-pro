@@ -16,7 +16,7 @@ export default function SimpleGoal({ goalID }: SimpleGoalProps) {
 
   // Get the goal from the global state using goalID
   const goal = state.goals.find((g) => g.id === goalID);
-
+  console.log(goal);
   // Memoize the completeGoal function to prevent unnecessary re-creation
   const completeGoal = useCallback(() => {
     if (goal && !goal.complete) {
@@ -58,7 +58,7 @@ export default function SimpleGoal({ goalID }: SimpleGoalProps) {
             }`}
           ></div>
           <div className="simpleGoalText" onClick={completeGoal}>
-            {goal.name}
+            {goal.task_name}
           </div>
         </div>
       </div>
