@@ -13,9 +13,9 @@ interface AddSomeSetsProps {
 type GoalField = "name" | "sets" | "reps";
 
 export default function AddSomeSets({
-  listName,
-  finalizeGoals,
-  selectedTab,
+  control,
+  register,
+  setValue,
 }: AddSomeSetsProps) {
   const [goals, setGoals] = useState([
     {

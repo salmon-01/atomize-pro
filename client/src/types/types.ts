@@ -1,4 +1,5 @@
 export interface Tab {
+  id?: number | null;
   name: string;
   icon_name: string;
   order_no: number;
@@ -6,9 +7,9 @@ export interface Tab {
 
 export interface Goal {
   id?: number | string;
-  name: string;
+  task_name: string;
   current?: number;
-  list: string;
+  list_name: string;
   tab: string;
   color: string;
   order_no: number;
