@@ -4,7 +4,7 @@ import ProgressBar from "./templates/ProgressBar";
 import LevelsBlock from "./templates/LevelsBlock";
 import Sets from "./templates/Sets";
 
-import { State, Tab, Goal } from "../types/types";
+import { Tab, Goal } from "../types/types";
 
 interface ListProps {
   list: string;
@@ -12,17 +12,11 @@ interface ListProps {
   tabGoals: Goal[];
 }
 
-export default function List({ list, tab }: ListProps) {
-  console.log(tab);
-
-  const { state } = useAppContext() as {
-    state: State;
-  };
-  const { goals } = state;
-  // Rendering and styling still incomplete
-
-  const listGoals = goals.filter((goal) => goal.list === list);
-
+export default function List({ list, tab, tabGoals }: ListProps) {
+  // Now using tabGoals prop passed from Tab component
+  console.log(tabGoals, "TABGOALS");
+  const listGoals = tabGoals.filter((goal) => goal.list_name === list);
+  console.log("listgoals:", listGoals);
   return (
     <div
       className="list-container"

@@ -31,37 +31,49 @@ export default function Tab() {
 
   const normalizedTabName = normalizeName(tabName);
 
+  // Find the current tab based on the normalized name from the URL params
   const tab = tabs.find((tab) => normalizeName(tab.name) === normalizedTabName);
 
-  const tabGoals = tab ? goals.filter((goal) => goal.tab === tab.name) : [];
+  // Filter goals for the current tab
+  const tabGoals = tab ? goals.filter((goal) => goal.tab === tab.id) : [];
 
-  const tabLists = Array.from(new Set(tabGoals.map((goal) => goal.list)));
+  // Group goals by list_name
+  const goalsByList = tabGoals.reduce((acc, goal) => {
+    // If the list_name doesn't exist in the accumulator, create a new array
+    if (!acc[goal.list_name]) {
+      acc[goal.list_name] = [];
+    }
+    // Add the current goal to the appropriate list_name group
+    acc[goal.list_name].push(goal);
+    return acc;
+  }, {});
 
+  console.log("GOALSBYLIST", goalsByList);
+  // Get an array of all list names
+  const tabLists = Object.keys(goalsByList);
   if (!tab) {
     return <p>Tab not found</p>;
   }
+  console.log("TABLISTS", goalsByList);
 
   return (
     <>
       {!isLoading && (
         <>
-          <h2 className="tab-header">⸻ {tab.name} ⸻</h2>
-          {!tab.col_one &&
-          !tab.col_one_b &&
-          !tab.col_two &&
-          !tab.col_two_b &&
-          !tab.col_three &&
-          !tab.col_three_b ? (
-            <div className="blank-prompt-container">
+          <div className="all-lists-container">
+            {tabLists && tabLists.length > 0 ? (
+              tabLists.map((list) => (
+                <List
+                  key={list}
+                  tab={tab}
+                  list={list}
+                  tabGoals={goalsByList[list]}
+                />
+              ))
+            ) : (
               <BlankPage />
-            </div>
-          ) : (
-            <div className="all-lists-container">
-              {tabLists.map((list) => (
-                <List key={list} tab={tab} list={list} tabGoals={tabGoals} />
-              ))}
-            </div>
-          )}
+            )}
+          </div>
         </>
       )}
     </>

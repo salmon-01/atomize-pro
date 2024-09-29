@@ -10,7 +10,7 @@ export interface Goal {
   task_name: string;
   current?: number;
   list_name: string;
-  tab: string;
+  tab: number;
   color: string;
   order_no: number;
   active: boolean;

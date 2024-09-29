@@ -1,12 +1,11 @@
-import { useForm, FormProvider } from "react-hook-form";
-// import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import AddSomeSimple from "./AddSomeSimple";
 import AddSomeBars from "./AddSomeBars";
 import AddSomeLevels from "./AddSomeLevels";
 import AddSomeSets from "./AddSomeSets";
 import AddSomeMixed from "./AddSomeMixed";
-import { createGoal, insertListPosition } from "../../ApiService.jsx";
+import { createGoal } from "../../ApiService.jsx";
 import { Goal } from "../../types/types.js";
 import { useFormContext } from "../../context/createListContext.js";
 
@@ -15,8 +14,7 @@ type FormData = {
 };
 
 export default function AddSomeGoals() {
-  const methods = useForm();
-  const navigate = useNavigate(); // Must use at the top of the component#
+  const navigate = useNavigate();
   const { listName, template, selectedTab } = useFormContext();
 
   const {
@@ -34,12 +32,11 @@ export default function AddSomeGoals() {
           tab: selectedTab,
           type: template,
           color: "purple",
-          order_no: 1,
           active: true,
           complete: false,
           last_completed: null,
         },
-      ], // Set initial goal here
+      ],
     },
   });
 
@@ -51,21 +48,29 @@ export default function AddSomeGoals() {
       goals: data.goals,
     });
 
-    console.log(data);
-
-    console.log(goals);
-
     try {
-      // Send the entire form data (listName, template, selectedTab, and goals) to the backend
-      const response = await createListWithGoals({
-        listName,
-        template,
-        selectedTab,
-        goals: data.goals,
+      const promises = data.goals.map(async (goal) => {
+        // Make an API call for each goal
+        const response = await createGoal({
+          list_name: listName, // Pass the list name
+          task_name: goal.task_name, // Pass the goal task_name
+          tab: selectedTab, // Pass the selected tab ID
+          color: goal.color, // Pass the goal color
+          type: goal.type,
+        });
+
+        return response;
       });
 
-      if (response.success) {
-        console.log("List and goals have been created successfully!");
+      // Wait for all the requests to be completed
+      const results = await Promise.all(promises);
+
+      const allSuccess = results.every((res) => res.success);
+
+      if (allSuccess) {
+        console.log("All goals have been created successfully!");
+      } else {
+        console.log("Some goals failed to be created.");
       }
     } catch (error) {
       console.log("Error submitting list and goals:", error);

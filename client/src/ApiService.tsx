@@ -4,22 +4,45 @@ const BASE_URL = "http://localhost:3000/api";
 
 // CREATION: Goals, Lists, and Tabs
 
-export const createGoal = async (goal) => {
+export const createGoal = async (goalData) => {
+  let endpoint = "";
+  console.log(goalData.type);
+  // Select the appropriate endpoint based on the template type
+  switch (goalData.type) {
+    case "Simple List":
+      endpoint = `${BASE_URL}/simplelists`;
+      break;
+    case "Progress Bar":
+      endpoint = `${BASE_URL}/progressbars`;
+      break;
+    case "Levels":
+      endpoint = `${BASE_URL}/levels`;
+      break;
+    case "Sets":
+      endpoint = `${BASE_URL}/sets`;
+      break;
+    default:
+      throw new Error("Unknown template type");
+  }
+
   try {
-    const response = await axios.post(`${BASE_URL}/storedgoals`, goal, {
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(goalData),
     });
 
-    console.log(
-      "Network request to create goal was sent successfully",
-      response.data
-    );
-    return response.data;
+    if (!response.ok) {
+      throw new Error("Failed to create goal");
+    }
+
+    const data = await response.json();
+    return { success: true, data };
   } catch (error) {
-    console.error(
-      "Error sending network request to create goal:",
-      error.response ? error.response.data : error.message
-    );
+    console.error("Error creating goal:", error);
+    return { success: false, error: error.message };
   }
 };
 
