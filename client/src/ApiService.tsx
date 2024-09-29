@@ -43,6 +43,29 @@ export const createTab = async (tab) => {
   }
 };
 
+// Creating a service to send newly created list and it's goals to backend - Need to insert proper route
+export const createListWithGoals = async (listData) => {
+  try {
+    const response = await fetch("/api/INSERT_PROPER_ROUTE", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(listData),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to create list with goals");
+    }
+
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error creating list with goals:", error);
+    return { success: false, error: error.message };
+  }
+};
+
 // FETCHING STORED DATA
 
 export const fetchAllTabs = async () => {
