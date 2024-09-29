@@ -32,9 +32,6 @@ export default function CreateNewList() {
   } = useForm<FormData>();
 
   // Local component state
-  // const [selectedTab, setSelectedTab] = useState<Tab | null>(null);
-  // const [listName, setListName] = useState("");
-  // const [template, setTemplate] = useState("");
   const [hoveredTemplate, setHoveredTemplate] = useState("");
   const [firstStepDone, setFirstStepDone] = useState(false);
 
@@ -44,6 +41,9 @@ export default function CreateNewList() {
   const selectedTab = watch("selectedTab");
   const template = watch("template");
   const listName = watch("listName");
+
+  // Register template as required
+  register("template", { required: "Template selection is required" });
 
   // Handle form submission
   const onSubmit = (data: FormData) => {
@@ -57,47 +57,6 @@ export default function CreateNewList() {
   const handleSelectTab = (tab: Tab) => {
     setValue("selectedTab", tab);
   };
-
-  // // Handle input changes for list name
-  // const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setListName(event.target.value);
-  // };
-
-  // // Handle template selection
-  // const handleChooseTemplate = (template: string) => {
-  //   setTemplate(template);
-  // // };
-
-  // // Handle template hover to show the preview video
-  // const handleHover = (template: string) => {
-  //   setHoveredTemplate(template);
-  // };
-
-  // // Proceed to adding goals
-  // const handleAddSomeGoals: React.FormEventHandler<HTMLFormElement> = (
-  //   event
-  // ) => {
-  //   event.preventDefault();
-  //   if (!listName) {
-  //     alert("Please give your list a name");
-  //     return;
-  //   }
-  //   if (!template) {
-  //     alert("Please choose a template");
-  //     return;
-  //   }
-  //   if (!selectedTab) {
-  //     alert("Please choose a tab for your list");
-  //     return;
-  //   }
-  //   setFirstStepDone(true);
-  // };
-
-  // // Handle selecting a tab from global state
-  // const handleSelectTab = (selectedTabIcon: Tab) => {
-  //   setSelectedTab(selectedTabIcon);
-  //   console.log(selectedTab);
-  // };
 
   return (
     <>
@@ -118,7 +77,9 @@ export default function CreateNewList() {
                   className={`${
                     template === type ? "template-item-chosen" : "template-item"
                   }`}
-                  onClick={() => setValue("template", type)}
+                  onClick={() =>
+                    setValue("template", type, { shouldValidate: true })
+                  }
                   onMouseEnter={() => setHoveredTemplate(type)}
                 >
                   {type}
