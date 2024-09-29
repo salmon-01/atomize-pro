@@ -60,6 +60,7 @@ export default function Tab() {
     <>
       {!isLoading && (
         <>
+          <h2 className="tab-header">⸻ {tab.name} ⸻</h2>
           <div className="all-lists-container">
             {tabLists && tabLists.length > 0 ? (
               tabLists.map((list) => (
@@ -71,7 +72,9 @@ export default function Tab() {
                 />
               ))
             ) : (
-              <BlankPage />
+              <div className="blank-prompt-container">
+                <BlankPage />
+              </div>
             )}
           </div>
         </>
