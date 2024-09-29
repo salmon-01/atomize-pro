@@ -9,7 +9,7 @@ As you've probably seen, a lot needs improving. The following are features that 
 Currently, lists and tabs can be deleted from the interface, but if I'm not mistaken, only SOME goals can be deleted. Others still lurk in the database even though they don't appear on the page. This means that the 'xp bar' at the top can never be filled to the end unless they are manually removed via terminal.
 
 
-## Data Leaks from One Tab to Another
+~~## Data Leaks from One Tab to Another~~ FIXED
 
 Tabs (specifically those containing links and goals, i.e. the Tab component) will usually work fine individually, but if you click on one tab and then another, you'll often find that data from the previous tab remains on the page. You have to click on a non-Tab component route and click back in order to get the right data.
 
