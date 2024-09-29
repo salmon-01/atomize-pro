@@ -46,7 +46,7 @@ export default function NavBar() {
                 const hyphenatedName = tab.name.replace(/\s+/g, "-");
                 return (
                   <Link to={`/${hyphenatedName}`} key={tab.name}>
-                    <img src={tab.icon_name} className="nav-icon" />
+                    <img src={`/icons/${tab.icon_name}`} className="nav-icon" />
                   </Link>
                 );
               }

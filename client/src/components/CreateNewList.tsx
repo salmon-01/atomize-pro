@@ -104,7 +104,7 @@ export default function CreateNewList() {
               tabs.map((tab) => (
                 <img
                   key={tab.name} // Ensure to add a unique key
-                  src={tab.icon_name}
+                  src={`/icons/${tab.icon_name}`}
                   className={`nav-icon ${
                     selectedTab === tab ? "chosen-tab-selected" : ""
                   }`} // Use empty string instead of 'null'

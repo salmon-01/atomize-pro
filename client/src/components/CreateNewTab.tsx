@@ -1,17 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Rocket from "../assets/icons/rocket-icon.png";
-import Sprout from "../assets/icons/sprout-icon.png";
-import Book from "../assets/icons/book-icon.png";
-import Meal from "../assets/icons/meal-icon.png";
-import MoneyBag from "../assets/icons/moneybag-icon.png";
-import Star from "../assets/icons/star-icon.png";
-import Barbell from "../assets/icons/barbell-icon.png";
-import Sun from "../assets/icons/sun-icon.png";
-import PiggyBank from "../assets/icons/piggybank-icon.png";
-import Lightning from "../assets/icons/lightning-icon.png";
-import Lightbulb from "../assets/icons/lightbulb-icon.png";
-import PlaneGlobe from "../assets/icons/plane-globe-icon.png";
 import { createTab } from "../ApiService.js";
 import { useAppContext } from "../AppContext.js";
 import { State, Action, Tab } from "../types/types.js";
@@ -25,33 +13,28 @@ export default function CreateNewTab() {
   };
   const { tabs } = state;
 
-  const allIcons = [
-    Sprout,
-    Sun,
-    PlaneGlobe,
-    Book,
-    Meal,
-    Barbell,
-    MoneyBag,
-    PiggyBank,
-    Star,
-    Rocket,
-    Lightning,
-    Lightbulb,
-  ];
   const [chosenIcon, setChosenIcon] = useState("");
   const [tabName, setTabName] = useState("");
   const [tabData, setTabData] = useState({
     name: tabName,
     icon_name: chosenIcon,
-    col_one: null,
-    col_one_b: null,
-    col_two: null,
-    col_two_b: null,
-    col_three: null,
-    col_three_b: null,
     order_no: tabs.length + 1,
   });
+
+  const allIcons = [
+    "rocket-icon.png",
+    "sprout-icon.png",
+    "book-icon.png",
+    "meal-icon.png",
+    "moneybag-icon.png",
+    "star-icon.png",
+    "barbell-icon.png",
+    "sun-icon.png",
+    "piggybank-icon.png",
+    "lightning-icon.png",
+    "lightbulb-icon.png",
+    "plane-globe-icon.png",
+  ];
 
   const handleTabNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTabName(event.target.value);
@@ -123,7 +106,7 @@ export default function CreateNewTab() {
       <div className="icon-list">
         {allIcons.map((icon) => (
           <img
-            src={icon}
+            src={`/icons/${icon}`}
             className={`icon-choice ${
               chosenIcon === icon ? "icon-chosen" : "null"
             }`}
