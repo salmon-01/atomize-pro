@@ -17,7 +17,7 @@ export default function AddSomeSimple({ control, register, setValue }) {
     append({
       task_name: "",
       list_name: listName,
-      tab: selectedTab.id,
+      tab: selectedTab,
       type: "Simple List",
       color: "purple",
       // order_no: fields.length + 1,
