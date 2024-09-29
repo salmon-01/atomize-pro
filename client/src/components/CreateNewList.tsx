@@ -14,7 +14,7 @@ export default function CreateNewList() {
     state: State;
   };
   const { tabs } = state; // Access tabs from the global state
-
+  console.log(tabs);
   // Local component state
   const [selectedTab, setSelectedTab] = useState<Tab | null>(null);
   const [listName, setListName] = useState("");
@@ -104,7 +104,7 @@ export default function CreateNewList() {
               tabs.map((tab) => (
                 <img
                   key={tab.name} // Ensure to add a unique key
-                  src={tab.icon}
+                  src={tab.icon_name}
                   className={`nav-icon ${
                     selectedTab === tab ? "chosen-tab-selected" : ""
                   }`} // Use empty string instead of 'null'
