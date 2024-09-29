@@ -1,47 +1,79 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 // import Delete from "../../assets/other/delete-button.png";
 // import ShinyDelete from "../../assets/other/shiny-delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
-import { Goal, Tab } from "../../types/types";
+// import { Goal, Tab } from "../../types/types";
+import { useFormContext } from "../../context/createListContext.js";
 
-interface AddSomeSimpleProps {
-  listName: string;
-  finalizeGoals: (goals: Goal[]) => void;
-  selectedTab: Tab;
-}
+export default function AddSomeSimple() {
+  const { register, control, setValue, watch } = useForm(); // Access react-hook-form's context
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "goals", // The field array for goals
+  });
 
-export default function AddSomeSimple({
-  listName,
-  finalizeGoals,
-  selectedTab,
-}: AddSomeSimpleProps) {
-  const [goals, setGoals] = useState([
-    {
+  // Get values for listName and selectedTab from context
+  const { listName, selectedTab } = useFormContext();
+
+  useEffect(() => {
+    if (fields.length === 0) {
+      // Initialize with one default goal
+      append({
+        name: "",
+        list: listName,
+        tab: selectedTab.name,
+        type: "Simple List",
+        color: "purple",
+        order_no: 1,
+        active: true,
+        complete: false,
+        last_completed: null,
+      });
+    }
+  }, [append, fields, listName, selectedTab]);
+
+  const handleAddGoal = () => {
+    append({
       name: "",
       list: listName,
       tab: selectedTab.name,
       type: "Simple List",
       color: "purple",
-      order_no: 1,
+      order_no: fields.length + 1,
       active: true,
       complete: false,
       last_completed: null,
-    },
-  ]);
-
-  const handleGoalNameChange = (index: number, value: string) => {
-    const updatedGoals = goals.map((goal, i) =>
-      i === index ? { ...goal, name: value } : goal
-    );
-    setGoals(updatedGoals);
+    });
   };
 
-  const handleGoalColorChange = (index: number, value: string) => {
-    const updatedGoals = goals.map((goal, i) =>
-      i === index ? { ...goal, color: value } : goal
-    );
-    setGoals(updatedGoals);
-  };
+  // const [goals, setGoals] = useState([
+  //   {
+  //     name: "",
+  //     list: listName,
+  //     tab: selectedTab.name,
+  //     type: "Simple List",
+  //     color: "purple",
+  //     order_no: 1,
+  //     active: true,
+  //     complete: false,
+  //     last_completed: null,
+  //   },
+  // ]);
+
+  // const handleGoalNameChange = (index: number, value: string) => {
+  //   const updatedGoals = goals.map((goal, i) =>
+  //     i === index ? { ...goal, name: value } : goal
+  //   );
+  //   setGoals(updatedGoals);
+  // };
+
+  // const handleGoalColorChange = (index: number, value: string) => {
+  //   const updatedGoals = goals.map((goal, i) =>
+  //     i === index ? { ...goal, color: value } : goal
+  //   );
+  //   setGoals(updatedGoals);
+  // };
 
   const openColorBox = (event: React.MouseEvent<HTMLDivElement>) => {
     const colorChoices = (event.target as HTMLDivElement)
@@ -50,14 +82,14 @@ export default function AddSomeSimple({
       colorChoices.style.display === "block" ? "none" : "block";
   };
 
-  function removeItem(indexToRemove: number) {
-    const updatedGoals = goals.filter((_, index) => index !== indexToRemove);
-    setGoals(updatedGoals);
-  }
+  // function removeItem(indexToRemove: number) {
+  //   const updatedGoals = goals.filter((_, index) => index !== indexToRemove);
+  //   setGoals(updatedGoals);
+  // }
 
-  useEffect(() => {
-    finalizeGoals(goals);
-  }, [goals]);
+  // useEffect(() => {
+  //   finalizeGoals(goals);
+  // }, [goals]);
 
   return (
     <>
@@ -68,54 +100,48 @@ export default function AddSomeSimple({
             <th>Goal name</th>
             <th>Color</th>
           </tr>
-          {goals.map((goal, index) => (
+          {fields.map((goal, index) => (
             <tr key={`goal-${index}`}>
-              <td
-                className="remove-by-index"
-                onClick={() => {
-                  removeItem(index);
-                }}
-              >
+              <td className="remove-by-index" onClick={() => remove(index)}>
                 <img src={OrangeDelete} className="delete-icon" />
               </td>
               <td>
                 <input
                   type="text"
                   className={`name-goal name-simple ${goal.color}`}
-                  value={goal.name}
-                  onChange={(e) => handleGoalNameChange(index, e.target.value)}
+                  {...register(`goals[${index}].name`, {
+                    required: "Goal name is required",
+                  })}
                 />
               </td>
               <td>
                 <div
                   className={`color-box ${goal.color}`}
-                  value={goal.color}
-                  onClick={openColorBox}
+                  onClick={() =>
+                    setValue(
+                      `goals[${index}].color`,
+                      goal.color === "purple" ? "orange" : "purple"
+                    )
+                  } // Toggle color between purple and orange (as an example)
                 ></div>
                 <div className="color-choices">
                   <div
                     className="color-option purple"
-                    onClick={() => {
-                      handleGoalColorChange(index, "purple");
-                    }}
+                    onClick={() => setValue(`goals[${index}].color`, "purple")}
                   ></div>
                   <div
                     className="color-option yellow-green"
-                    onClick={() => {
-                      handleGoalColorChange(index, "yellow-green");
-                    }}
+                    onClick={() =>
+                      setValue(`goals[${index}].color`, "yellow-green")
+                    }
                   ></div>
                   <div
                     className="color-option orange"
-                    onClick={() => {
-                      handleGoalColorChange(index, "orange");
-                    }}
+                    onClick={() => setValue(`goals[${index}].color`, "orange")}
                   ></div>
                   <div
                     className="color-option red"
-                    onClick={() => {
-                      handleGoalColorChange(index, "red");
-                    }}
+                    onClick={() => setValue(`goals[${index}].color`, "red")}
                   ></div>
                 </div>
               </td>
@@ -123,27 +149,8 @@ export default function AddSomeSimple({
           ))}
         </tbody>
       </table>
-      <button
-        id="add-another-goal"
-        onClick={() =>
-          setGoals([
-            ...goals,
-            {
-              name: "",
-              list: listName,
-              tab: selectedTab.name,
-              type: "Simple List",
-              color: "purple",
-              order_no: goals.length + 1,
-              active: true,
-              complete: false,
-              last_completed: null,
-            },
-          ])
-        }
-      >
-        {" "}
-        Add +{" "}
+      <button id="add-another-goal" onClick={handleAddGoal}>
+        Add +
       </button>
     </>
   );

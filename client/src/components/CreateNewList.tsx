@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { CreateListProvider } from "../context/createListContext";
 import PreviewVideo from "./PreviewVideo";
 import SimpleListVideo from "../assets/vids/simplelist-animation.mp4";
 import LevelsVideo from "../assets/vids/levels-animation.mp4";
@@ -41,6 +42,13 @@ export default function CreateNewList() {
   const selectedTab = watch("selectedTab");
   const template = watch("template");
   const listName = watch("listName");
+
+  // Form data (for useContext)
+  const formData = {
+    selectedTab,
+    listName,
+    template,
+  };
 
   // Register template as required
   register("template", { required: "Template selection is required" });
@@ -167,11 +175,9 @@ export default function CreateNewList() {
           </div>
         </div>
       ) : (
-        <AddSomeGoals
-          listName={listName}
-          template={template}
-          selectedTab={selectedTab}
-        />
+        <CreateListProvider formData={formData}>
+          <AddSomeGoals />
+        </CreateListProvider>
       )}
     </>
   );
