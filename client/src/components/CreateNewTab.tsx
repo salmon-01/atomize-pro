@@ -1,25 +1,29 @@
-import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { createTab } from "../ApiService.js";
 import { useAppContext } from "../AppContext.js";
-import { State, Action, Tab } from "../types/types.js";
+import { State, Action } from "../types/types.js";
+
+type FormData = {
+  name: string;
+  icon_name: string;
+};
 
 export default function CreateNewTab() {
   const navigate = useNavigate();
-  // const { state, dispatch } = useAppContext();
   const { state, dispatch } = useAppContext() as {
     state: State;
     dispatch: (action: Action) => void;
   };
   const { tabs } = state;
 
-  const [chosenIcon, setChosenIcon] = useState("");
-  const [tabName, setTabName] = useState("");
-  const [tabData, setTabData] = useState({
-    name: tabName,
-    icon_name: chosenIcon,
-    order_no: tabs.length + 1,
-  });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>();
 
   const allIcons = [
     "rocket-icon.png",
@@ -36,94 +40,76 @@ export default function CreateNewTab() {
     "plane-globe-icon.png",
   ];
 
-  const handleTabNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTabName(event.target.value);
+  const watchIconName = watch("icon_name");
+
+  const findPath = (name: string) => {
+    return name.replace(/\s+/g, "-").toLowerCase();
   };
 
-  const handleChooseIcon = (icon: string) => {
-    setChosenIcon(icon);
-  };
-
-  const findPath = () => {
-    return tabData.name.replace(/\s+/g, "-");
-  };
-
-  useEffect(() => {
-    setTabData({ ...tabData, icon_name: chosenIcon });
-  }, [chosenIcon]);
-
-  useEffect(() => {
-    setTabData({ ...tabData, name: tabName });
-  }, [tabName]);
-
-  console.log(tabData);
-
-  const handleCreateTab = async (tab: Tab) => {
-    if (!tabName) {
-      alert("Please choose a name for your tab");
+  // Handle form submission
+  const onSubmit = async (data: FormData) => {
+    if (!data.name || !data.icon_name) {
+      alert("Please fill in all of the fields");
       return;
     }
-    if (!chosenIcon) {
-      alert("Please choose an icon");
-      return;
-    }
+
+    const newTab = {
+      name: data.name,
+      icon_name: data.icon_name,
+      order_no: tabs.length + 1,
+    };
+
     try {
       dispatch({ type: "SET_LOADING", payload: true });
 
-      // Create the tab object using the updated tabData
-      const newTab = {
-        // ...tabData,
-        name: tabName,
-        icon_name: chosenIcon,
-        // order_no: tabs.length + 1, // Use the current length of tabs to define order_no
-      };
-
-      // Dispatch the action to create the tab
-      createTab(newTab);
+      // Create the tab by calling the API service
+      await createTab(newTab);
       dispatch({ type: "CREATE_TAB", payload: newTab });
-
-      console.log("New tab has been created successfully");
-
-      const path = findPath();
+      console.log("New tab created successfully: ", newTab);
+      // Navigate to the new tab's path
+      const path = findPath(data.name);
       navigate(`/${path}`);
     } catch (error) {
-      console.log("Error submitting tab:", error);
+      console.error("Error submitting tab:", error);
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }
   };
 
+  // Handle icon selection
+  const handleIconSelect = (icon: string) => {
+    setValue("icon_name", icon); // Manually update the form data with the icon name.
+  };
+
   return (
     <div className="new-tab-container">
-      <span className="create-tab-text">Name your tab</span>
-      <input
-        type="text"
-        id="name-tab"
-        value={tabName}
-        onChange={handleTabNameChange}
-      ></input>
-      <span className="create-tab-text">Choose your tab icon:</span>
-      <div className="icon-list">
-        {allIcons.map((icon) => (
-          <img
-            src={`/icons/${icon}`}
-            className={`icon-choice ${
-              chosenIcon === icon ? "icon-chosen" : "null"
-            }`}
-            onClick={() => {
-              handleChooseIcon(icon);
-            }}
-          />
-        ))}
-      </div>
-      <button
-        id="submit-new-tab"
-        onClick={() => {
-          handleCreateTab(tabData);
-        }}
-      >
-        Create Tab
-      </button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <span className="create-tab-text">Name your tab</span>
+        <input
+          type="text"
+          id="name-tab"
+          {...register("name", { required: "Tab name is required" })}
+          placeholder="Enter tab name"
+        />
+        {errors.name && <p>{errors.name.message}</p>}
+        <span className="create-tab-text">Choose your tab icon:</span>
+        <div className="icon-list">
+          {allIcons.map((icon) => (
+            <img
+              src={`/icons/${icon}`}
+              className={`icon-choice ${
+                watchIconName === icon ? "icon-chosen" : ""
+              }`}
+              onClick={() => handleIconSelect(icon)}
+              alt={icon}
+            />
+          ))}
+        </div>
+        {errors.icon_name && <p>Please choose an icon</p>}
+        <button id="submit-new-tab" type="submit">
+          Create Tab
+        </button>
+      </form>
     </div>
   );
 }

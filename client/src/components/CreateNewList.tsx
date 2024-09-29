@@ -14,7 +14,7 @@ export default function CreateNewList() {
     state: State;
   };
   const { tabs } = state; // Access tabs from the global state
-  console.log(tabs);
+  // console.log(tabs);
   // Local component state
   const [selectedTab, setSelectedTab] = useState<Tab | null>(null);
   const [listName, setListName] = useState("");
@@ -178,7 +178,6 @@ export default function CreateNewList() {
         </div>
       ) : (
         <AddSomeGoals
-          tabs={tabs}
           listName={listName}
           template={template}
           selectedTab={selectedTab}
