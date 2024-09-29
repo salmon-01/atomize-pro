@@ -23,14 +23,15 @@ export default function Tab() {
   const { goals, tabs, isLoading } = state;
   const { tabName } = useParams();
 
-  // const normalizedTabName = decodeURIComponent(tabName).trim().toLowerCase();
-  const normalizedTabName = decodeURIComponent(tabName ?? "")
-    .trim()
-    .toLowerCase();
+  const normalizeName = (name) =>
+    decodeURIComponent(name ?? "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-");
 
-  const tab = tabs.find(
-    (tab) => tab.name.trim().toLowerCase() === normalizedTabName
-  );
+  const normalizedTabName = normalizeName(tabName);
+
+  const tab = tabs.find((tab) => normalizeName(tab.name) === normalizedTabName);
 
   const tabGoals = tab ? goals.filter((goal) => goal.tab === tab.name) : [];
 
