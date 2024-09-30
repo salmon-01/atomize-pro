@@ -26,7 +26,7 @@ export default function LevelsBlock({ goal }: LevelsBlockProps) {
       dispatch({
         type: "UPDATE_GOAL",
         payload: {
-          id: goal.id,
+          id: goal.id as number,
           updates: { level: newCompletedLevels },
         },
       });
