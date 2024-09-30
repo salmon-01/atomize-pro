@@ -145,26 +145,6 @@ export const updateGoalProgress = async (goal: Goal) => {
   }
 };
 
-// export const insertListPosition = async (tabName, listName, col) => {
-//   const postRequest = {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ tabName, listName, col }),
-//   };
-//   try {
-//     const response = await fetch(`${BASE_URL}/tabs/position`, postRequest);
-//     if (!response.ok) {
-//       console.log("Network response when inserting list position was not ok");
-//       return;
-//     } else {
-//       await response.json();
-//       console.log("List position posted successfully");
-//     }
-//   } catch (error) {
-//     console.log("Error posting events");
-//   }
-// };
-
 // DELETE DATA
 
 export const deleteTab = async (id: number) => {
@@ -203,27 +183,6 @@ export const deleteGoal = async (goal: Goal) => {
     console.log("Error deleting goal:", error);
   }
 };
-
-// export const deleteListPosition = async (tabName, listName) => {
-//   try {
-//     const response = await fetch(
-//       `${BASE_URL}/tabs/${tabName}/position/${listName}`,
-//       {
-//         method: "DELETE",
-//         headers: { "Content-Type": "application/json" },
-//         // body: JSON.stringify({ tabName, listName })
-//       }
-//     );
-//     if (!response.ok) {
-//       console.log("Failed to delete list position");
-//       return;
-//     }
-//     const data = await response.json();
-//     console.log("List position deleted successfully:", data);
-//   } catch (error) {
-//     console.log("Error deleting list position:", error);
-//   }
-// };
 
 // OTHER
 

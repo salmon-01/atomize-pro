@@ -18,6 +18,9 @@ export interface Goal {
   current_number?: number; // Optional field for "Progress Bar"
   goal_number?: number; // Optional field for "Progress Bar"
   units?: string; // Optional field for "Progress Bar"
+  sets?: number; // Optional field for 'Sets'
+  completed_sets?: number; // Optional field for 'Sets'
+  reps?: number; // Optional field for 'Sets'
 }
 
 export interface State {
