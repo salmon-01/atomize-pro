@@ -1,216 +1,190 @@
-import React, { useState, useEffect } from "react";
-import AddSomeSimple from "./AddSomeSimple";
-import AddSomeLevels from "./AddSomeLevels";
-import AddSomeSets from "./AddSomeSets";
-import AddSomeBars from "./AddSomeBars";
+import React, { useState } from "react";
+import { useFieldArray } from "react-hook-form";
+import { useFormContext } from "../../context/createListContext.js"; // Custom context
+import OrangeDelete from "../../assets/other/orange-delete-button.png";
+import { Control, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import "../../styles/AddSome.css";
-import { Goal, Tab } from "../../types/types";
+import { Goal } from "../../types/types";
 
 interface AddSomeMixedProps {
-  listName: string;
-  selectedTab: Tab;
-  finalizeGoals: (goals: Goal[]) => void;
+  control: Control<{ goals: Goal[] }>;
+  register: UseFormRegister<{ goals: Goal[] }>;
+  setValue: UseFormSetValue<{ goals: Goal[] }>;
 }
 
 export default function AddSomeMixed({
-  listName,
-  finalizeGoals,
-  selectedTab,
+  control,
+  register,
+  setValue,
 }: AddSomeMixedProps) {
-  // This component has not yet been updated to reflect changes in other goal AddSome components.
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "goals",
+  });
 
-  const [goals, setGoals] = useState([]);
+  const { listName, selectedTab } = useFormContext();
 
-  const [firstBlock, setFirstBlock] = useState("");
-  const [secondBlock, setSecondBlock] = useState("");
-  const [thirdBlock, setThirdBlock] = useState("");
+  // Track selected goal type from the dropdown for each task
+  const [goalTypes, setGoalTypes] = useState<string[]>([]);
 
-  useEffect(() => {
-    finalizeGoals(goals);
-  }, [goals]);
+  const handleAddGoalBlock = () => {
+    append({
+      task_name: "",
+      list_name: listName,
+      tab: selectedTab,
+      type: "", // Initially no type is selected
+      color: "default-gradient",
+      active: true,
+      complete: false,
+      last_completed: null,
+    });
+    setGoalTypes((prev) => [...prev, ""]); // Keep track of goal types
+  };
+
+  const handleGoalTypeChange = (index: number, value: string) => {
+    const newGoalTypes = [...goalTypes];
+    newGoalTypes[index] = value;
+    setGoalTypes(newGoalTypes);
+
+    // Update the goal type in the form field
+    setValue(`goals[${index}].type`, value);
+  };
 
   return (
     <>
-      {firstBlock ? <div className="section-header">{firstBlock}</div> : null}
-      {!firstBlock ? (
-        <div className="first-block add">
-          <div className="block-text">+ Add Block</div>
-          <div className="goal-options">
-            <span
-              className="goal-option-button"
-              onClick={() => setFirstBlock("Simple List")}
-            >
-              Simple List
-            </span>
-            <span
-              className="goal-option-button"
-              onClick={() => setFirstBlock("Progress Bar")}
-            >
-              Progress Bar
-            </span>
-            <span
-              className="goal-option-button"
-              onClick={() => setFirstBlock("Levels")}
-            >
-              Levels
-            </span>
-            <span
-              className="goal-option-button"
-              onClick={() => setFirstBlock("Set")}
-            >
-              Set
-            </span>
-          </div>
-        </div>
-      ) : null}
-      {firstBlock === "Simple List" ? (
-        <>
-          <AddSomeSimple
-            listName={listName}
-            selectedTab={selectedTab}
-            finalizeGoals={finalizeGoals}
-          />
-          <br></br>
-        </>
-      ) : firstBlock === "Progress Bar" ? (
-        <AddSomeBars
-          listName={listName}
-          selectedTab={selectedTab}
-          finalizeGoals={finalizeGoals}
-        />
-      ) : firstBlock === "Levels" ? (
-        <AddSomeLevels
-          listName={listName}
-          selectedTab={selectedTab}
-          finalizeGoals={finalizeGoals}
-        />
-      ) : firstBlock === "Set" ? (
-        <AddSomeSets
-          listName={listName}
-          selectedTab={selectedTab}
-          finalizeGoals={finalizeGoals}
-        />
-      ) : null}
-      {secondBlock ? <div className="section-header">{secondBlock}</div> : null}
-      {!secondBlock ? (
-        <div className="second-block add">
-          <div className="block-text">+ Add Block</div>
-          <div className="goal-options">
-            <span
-              className="goal-option-button"
-              onClick={() => setSecondBlock("Simple List")}
-            >
-              Simple List
-            </span>
-            <span
-              className="goal-option-button"
-              onClick={() => setSecondBlock("Progress Bar")}
-            >
-              Progress Bar
-            </span>
-            <span
-              className="goal-option-button"
-              onClick={() => setSecondBlock("Levels")}
-            >
-              Levels
-            </span>
-            <span
-              className="goal-option-button"
-              onClick={() => setSecondBlock("Set")}
-            >
-              Set
-            </span>
-          </div>
-        </div>
-      ) : null}
-      {secondBlock === "Simple List" ? (
-        <>
-          <AddSomeSimple
-            listName={listName}
-            selectedTab={selectedTab}
-            finalizeGoals={finalizeGoals}
-          />
-          <br></br>
-        </>
-      ) : secondBlock === "Progress Bar" ? (
-        <AddSomeBars
-          listName={listName}
-          selectedTab={selectedTab}
-          finalizeGoals={finalizeGoals}
-        />
-      ) : secondBlock === "Levels" ? (
-        <AddSomeLevels
-          listName={listName}
-          selectedTab={selectedTab}
-          finalizeGoals={finalizeGoals}
-        />
-      ) : secondBlock === "Set" ? (
-        <AddSomeSets
-          listName={listName}
-          selectedTab={selectedTab}
-          finalizeGoals={finalizeGoals}
-        />
-      ) : null}
-      {thirdBlock ? <div className="section-header">{thirdBlock}</div> : null}
-      {!thirdBlock ? (
-        <div className="third-block add">
-          <div className="block-text">+ Add Block</div>
-          <div className="goal-options">
-            <span
-              className="goal-option-button"
-              onClick={() => setThirdBlock("Simple List")}
-            >
-              Simple List
-            </span>
-            <span
-              className="goal-option-button"
-              onClick={() => setThirdBlock("Progress Bar")}
-            >
-              Progress Bar
-            </span>
-            <span
-              className="goal-option-button"
-              onClick={() => setThirdBlock("Levels")}
-            >
-              Levels
-            </span>
-            <span
-              className="goal-option-button"
-              onClick={() => setThirdBlock("Set")}
-            >
-              Set
-            </span>
-          </div>
-        </div>
-      ) : null}
-      {thirdBlock === "Simple List" ? (
-        <>
-          <AddSomeSimple
-            listName={listName}
-            selectedTab={selectedTab}
-            finalizeGoals={finalizeGoals}
-          />
-          <br></br>
-        </>
-      ) : thirdBlock === "Progress Bar" ? (
-        <AddSomeBars
-          listName={listName}
-          selectedTab={selectedTab}
-          finalizeGoals={finalizeGoals}
-        />
-      ) : thirdBlock === "Levels" ? (
-        <AddSomeLevels
-          listName={listName}
-          selectedTab={selectedTab}
-          finalizeGoals={finalizeGoals}
-        />
-      ) : thirdBlock === "Set" ? (
-        <AddSomeSets
-          listName={listName}
-          selectedTab={selectedTab}
-          finalizeGoals={finalizeGoals}
-        />
-      ) : null}
+      <table>
+        <tbody>
+          <tr>
+            <th> </th>
+            <th>Task Name</th>
+            <th>Type</th>
+            <th>Details</th>
+            <th>Color</th>
+          </tr>
+          {fields.map((goal, index) => (
+            <tr key={`goal-${index}`}>
+              <td className="remove-by-index" onClick={() => remove(index)}>
+                <img src={OrangeDelete} className="delete-icon" />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  className="task-name-input"
+                  placeholder="Task Name"
+                  {...register(`goals[${index}].task_name`, {
+                    required: "Task name is required",
+                  })}
+                />
+              </td>
+              <td>
+                <select
+                  value={goalTypes[index] || ""}
+                  onChange={(e) => handleGoalTypeChange(index, e.target.value)}
+                >
+                  <option value="">-- Select Type --</option>
+                  <option value="Simple List">Simple List</option>
+                  <option value="Progress Bar">Progress Bar</option>
+                  <option value="Levels">Levels</option>
+                  <option value="Set">Set</option>
+                </select>
+              </td>
+              <td>
+                {/* Conditionally render fields based on the selected goal type */}
+                {goalTypes[index] === "Set" && (
+                  <>
+                    <input
+                      type="number"
+                      className="small-input"
+                      placeholder="Sets"
+                      {...register(`goals[${index}].sets`, {
+                        valueAsNumber: true,
+                        required: "Sets are required for this task",
+                      })}
+                    />
+                    <input
+                      type="number"
+                      className="small-input"
+                      placeholder="Reps"
+                      {...register(`goals[${index}].reps`, {
+                        valueAsNumber: true,
+                        required: "Reps are required for this task",
+                      })}
+                    />
+                  </>
+                )}
+                {goalTypes[index] === "Progress Bar" && (
+                  <>
+                    <input
+                      type="number"
+                      className="small-input"
+                      placeholder="Progress"
+                      {...register(`goals[${index}].progress`, {
+                        valueAsNumber: true,
+                      })}
+                    />
+                  </>
+                )}
+                {goalTypes[index] === "Levels" && (
+                  <>
+                    <input
+                      type="number"
+                      className="small-input"
+                      placeholder="Level"
+                      {...register(`goals[${index}].level`, {
+                        valueAsNumber: true,
+                      })}
+                    />
+                  </>
+                )}
+                {/* Add more conditions as needed for other goal types */}
+              </td>
+              <td>
+                <div
+                  className={`color-box ${goal.color}`}
+                  onClick={(e) => openColorBox(e)}
+                ></div>
+                <div className="color-choices">
+                  <div
+                    className="color-option turq-gradient"
+                    onClick={() =>
+                      setValue(`goals[${index}].color`, "turq-gradient")
+                    }
+                  ></div>
+                  <div
+                    className="color-option orange-gradient"
+                    onClick={() =>
+                      setValue(`goals[${index}].color`, "orange-gradient")
+                    }
+                  ></div>
+                  <div
+                    className="color-option purple-gradient"
+                    onClick={() =>
+                      setValue(`goals[${index}].color`, "purple-gradient")
+                    }
+                  ></div>
+                  <div
+                    className="color-option yellow-gradient"
+                    onClick={() =>
+                      setValue(`goals[${index}].color`, "yellow-gradient")
+                    }
+                  ></div>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="goal-type-dropdown">
+        <button onClick={handleAddGoalBlock}>Add Goal Block</button>
+      </div>
     </>
   );
+}
+
+function openColorBox(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  const colorChoices = (event.target as HTMLDivElement)
+    .nextElementSibling as HTMLElement;
+  colorChoices.style.display =
+    colorChoices.style.display === "block" ? "none" : "block";
 }

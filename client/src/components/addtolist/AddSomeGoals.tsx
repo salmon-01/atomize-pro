@@ -128,7 +128,7 @@ export default function AddSomeGoals() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="add-goals">
         <div className="add-some-goals-container">
           <div id="list-title">{listName}</div>
           {template === "Simple List" ? (
