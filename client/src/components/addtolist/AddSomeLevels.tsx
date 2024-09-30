@@ -10,10 +10,17 @@ import OrangeDelete from "../../assets/other/orange-delete-button.png";
 import "../../styles/AddSome.css";
 import { Goal } from "../../types/types";
 
+type FormValues = {
+  goals: Goal[];
+};
+
 interface AddSomeLevelsProps {
-  control: Control<{ goals: Goal[] }>;
-  register: UseFormRegister<{ goals: Goal[] }>;
-  setValue: UseFormSetValue<{ goals: Goal[] }>;
+  // control: Control<{ goals: Goal[] }>;
+  // register: UseFormRegister<{ goals: Goal[] }>;
+  // setValue: UseFormSetValue<{ goals: Goal[] }>;
+  control: Control<FormValues>;
+  register: UseFormRegister<FormValues>;
+  setValue: UseFormSetValue<FormValues>;
 }
 
 export default function AddSomeLevels({
@@ -30,12 +37,12 @@ export default function AddSomeLevels({
 
   const handleAddGoal = () => {
     append({
-      name: "",
-      list: listName,
+      task_name: "",
+      list_name: listName,
       tab: selectedTab,
       type: "Levels",
       color: "purple",
-      order_no: fields.length + 1,
+      // order_no: fields.length + 1, // Not sure what order_no is in this Levels
       active: true,
       complete: false,
       last_completed: null,
@@ -68,7 +75,7 @@ export default function AddSomeLevels({
                 <input
                   type="text"
                   className={`rounded-input name-small-input bar-input ${goal.color}`}
-                  {...register(`goals[${index}].task_name`, {
+                  {...register(`goals.${index}.task_name` as const, {
                     required: "Goal name is required",
                   })}
                 />
@@ -81,15 +88,21 @@ export default function AddSomeLevels({
                 <div className="color-choices">
                   <div
                     className="color-option purple"
-                    onClick={() => setValue(`goals[${index}].color`, "purple")}
+                    onClick={() =>
+                      setValue(`goals.${index}.color` as const, "purple")
+                    }
                   ></div>
                   <div
                     className="color-option pink"
-                    onClick={() => setValue(`goals[${index}].color`, "pink")}
+                    onClick={() =>
+                      setValue(`goals.${index}.color` as const, "pink")
+                    }
                   ></div>
                   <div
                     className="color-option blue"
-                    onClick={() => setValue(`goals[${index}].color`, "blue")}
+                    onClick={() =>
+                      setValue(`goals.${index}.color` as const, "blue")
+                    }
                   ></div>
                 </div>
               </td>
