@@ -8,8 +8,13 @@
   grid-row: 1;
   margin: -8px -8px 40px -8px;
   padding: 13px 24px;
-  background: linear-gradient(39deg, rgba(41,34,184,1) 0%, rgba(171,102,208,1) 54%, rgba(239,160,22,1) 100%);
-  border: 1px solid #E8FF79;
+  background: linear-gradient(
+    39deg,
+    rgba(41, 34, 184, 1) 0%,
+    rgba(171, 102, 208, 1) 54%,
+    rgba(239, 160, 22, 1) 100%
+  );
+  border: 1px solid #e8ff79;
   border-radius: 0 0 10px 10px;
   display: flex;
   flex-direction: row;
@@ -25,12 +30,16 @@
   grid-row: 2 / span 5;
   border: 2px solid transparent;
   /* background-color: #f7b21c; */
-  background: linear-gradient(333deg, rgba(253,252,251,1) 0%, rgba(226,209,195,1) 98%);
-  border: 1px solid #F1A817;
+  background: linear-gradient(
+    333deg,
+    rgba(253, 252, 251, 1) 0%,
+    rgba(226, 209, 195, 1) 98%
+  );
+  border: 1px solid #f1a817;
   border-radius: 45px;
   display: flex;
   font-size: 20px;
-  color: #F1A817;
+  color: #f1a817;
   flex-direction: column;
   justify-content: center;
   text-align: center;
@@ -48,7 +57,7 @@
   margin-top: 12px;
   margin-left: 50px;
   background: linear-gradient(100deg, darkorchid, orange) border-box;
-  border: 2px solid #E8FF79;
+  border: 2px solid #e8ff79;
   border-radius: 40px;
   padding: 20px 50px;
   text-align: center;
@@ -77,8 +86,12 @@
   border-radius: 220px;
   width: 250px;
   border: 2px solid transparent;
-  background: linear-gradient(28deg, rgba(43,211,158,1) 21%, rgba(255,231,87,1) 100%);
-  border: 2px solid #E8FF79;
+  background: linear-gradient(
+    28deg,
+    rgba(43, 211, 158, 1) 21%,
+    rgba(255, 231, 87, 1) 100%
+  );
+  border: 2px solid #e8ff79;
   margin: auto;
 }
 
@@ -89,19 +102,19 @@
 }
 
 .add-some-goals-container {
-    grid-column: col-start 5 / span 4;
-    margin-left: 60px;
-    grid-row: 2 / span 10;
-    width: 120%;
-    height: 500px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    text-align: center;
-    color: #fba700;
-    overflow-y: auto;
-    overflow-x: visible;
+  grid-column: col-start 5 / span 4;
+  margin-left: 60px;
+  grid-row: 2 / span 10;
+  width: 120%;
+  height: 500px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: center;
+  color: #fba700;
+  overflow-y: auto;
+  overflow-x: visible;
 }
 
 .create-list-goals-button {
@@ -150,7 +163,7 @@ th {
   border-radius: 50%;
   border-width: 3px;
   border-style: solid;
-  border-color: #D6D4DB #CDCCD1 #CDCCD1 #D6D4DB;
+  border-color: #d6d4db #cdccd1 #cdccd1 #d6d4db;
   margin: 5px;
 }
 
@@ -164,14 +177,40 @@ th {
   grid-row: 2 / span 4;
   border: 2px solid transparent;
   background: linear-gradient(150deg, darkorchid, orange) border-box;
-  border: 1px solid #F1A817;
+  border: 1px solid #f1a817;
   border-radius: 45px;
   display: flex;
   font-size: 20px;
-  color: #E8FF79;
+  color: #e8ff79;
   flex-direction: column;
   text-align: center;
   padding: 30px 0px;
   width: 500px;
   height: 450px;
+}
+
+/* Media query for mobile */
+@media (max-width: 768px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Ensures that child elements take full width */
+    width: 100%;
+  }
+
+  .new-list-container {
+    margin: 0;
+  }
+
+  .add-some-goals-container {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    max-height: 50rem;
+  }
+
+  .nav-container {
+    display: flex;
+    /* flex-direction: column; */
+  }
 }

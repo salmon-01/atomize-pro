@@ -89,6 +89,22 @@
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
+.list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+  height: auto;
+}
+
+.goal-container {
+  display: flex;
+  justify-content: center;
+  margin-left: 8px;
+  height: auto;
+}
+
 .set-container {
   display: flex;
   flex-direction: row;
@@ -98,13 +114,13 @@
   margin: 10px 0px;
   color: #e8ff79;
   width: 330px;
-  height: 75px;
+  /* height: 75px; */
   justify-content: center;
 }
 
 .set-name-box {
   border-right: 1px solid #e8ff79;
-  height: 70px;
+  height: 100%;
   width: 90%;
   display: flex;
   align-items: center;
@@ -117,7 +133,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 230%;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .set-circles {
@@ -206,12 +224,6 @@
   flex-wrap: wrap;
   justify-content: center;
   padding: 0px 10px;
-}
-
-.goal-container {
-  display: flex;
-  justify-content: center;
-  margin-left: 8px;
 }
 
 .standard-space {
