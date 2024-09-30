@@ -45,12 +45,6 @@ export default function AddSomeGoals() {
 
   const onSubmit = async (data: FormData) => {
     dispatch({ type: "SET_LOADING", payload: true });
-    // console.log("Form Data on Submit:", {
-    //   listName,
-    //   template,
-    //   selectedTab,
-    //   goals: data.goals,
-    // });
 
     // Find the tab object by its ID
     const selectedTabObj = state.tabs.find(
@@ -64,56 +58,62 @@ export default function AddSomeGoals() {
     }
 
     try {
-      const promises = data.goals.map(async (goal) => {
-        // Make an API call for each goal
-        const response = await createGoal({
-          list_name: listName, // Pass the list name
-          task_name: goal.task_name, // Pass the goal task_name
-          tab: selectedTab, // Pass the selected tab ID
-          color: goal.color, // Pass the goal color
-          type: goal.type,
-        });
+      console.log("Starting to create goals...");
 
-        return response;
+      // Create an array of promises from the API calls
+      const promises = data.goals.map(async (goal) => {
+        console.log("Creating goal for:", goal.task_name);
+
+        const goalData: any = {
+          list_name: listName,
+          task_name: goal.task_name,
+          tab: selectedTab,
+          color: goal.color,
+          type: goal.type,
+          active: goal.active,
+          complete: goal.complete,
+          last_completed: goal.last_completed,
+        };
+
+        if (goal.type === "Progress Bar") {
+          goalData.current_number = goal.current_number;
+          goalData.goal_number = goal.goal_number;
+          goalData.units = goal.units;
+        }
+
+        console.log("Sending API request for:", goalData);
+
+        // Send the goal creation request and get the response
+        const response = await createGoal(goalData); // Ensure this is awaited correctly
+
+        console.log("API Response for goal:", goal.task_name, response);
+
+        if (response.success) {
+          goalData.id = response.data.id;
+          dispatch({ type: "CREATE_GOAL", payload: goalData });
+          return response.data.id; // Return the created goal's id
+        } else {
+          throw new Error(response.error || "Failed to create goal");
+        }
       });
 
-      // Wait for all the requests to be completed
-      const results = await Promise.all(promises);
+      // Wait for all API calls to finish
+      const goalIds = await Promise.all(promises);
+      console.log(goalIds);
+      console.log("Created goal IDs:", goalIds);
 
-      const allSuccess = results.every((res) => res.success);
-
-      if (allSuccess) {
-        console.log("All goals have been created successfully!");
-
-        // Update the global state using dispatch
-        data.goals.forEach((goal, index) => {
-          dispatch({
-            type: "CREATE_GOAL",
-            payload: {
-              id: Math.random(),
-              list_name: listName,
-              task_name: goal.task_name,
-              tab: selectedTab,
-              color: goal.color,
-              type: goal.type,
-              complete: false,
-            },
-          });
-        });
-
-        // Dispatch loading state when the request finishes
-        dispatch({ type: "SET_LOADING", payload: false });
-
-        // Redirect to the tab after creation
-        const normalizedTabName = encodeURIComponent(
-          selectedTabObj.name.replace(/\s+/g, "-")
-        );
-        navigate(`/${normalizedTabName}`); // Navigate to the tab's URL
-      } else {
-        console.log("Some goals failed to be created.");
+      // Navigate only after all state updates and API calls are done
+      const normalizedTabName = encodeURIComponent(
+        selectedTabObj.name.replace(/\s+/g, "-")
+      );
+      if (goalIds) {
+        navigate(`/${normalizedTabName}`);
       }
     } catch (error) {
       console.log("Error submitting list and goals:", error);
+      dispatch({ type: "SET_LOADING", payload: false });
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false });
     }
   };
 

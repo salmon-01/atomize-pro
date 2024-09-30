@@ -49,6 +49,11 @@ Sets.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "Sets",
+    },
   },
   {
     sequelize,

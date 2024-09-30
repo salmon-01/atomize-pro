@@ -8,15 +8,16 @@ export interface Tab {
 export interface Goal {
   id?: number | string;
   task_name: string;
-  current?: number;
   list_name: string;
   tab: number;
   color: string;
-  order_no: number;
   active: boolean;
   complete: boolean;
   last_completed: string | null;
   type: string;
+  current_number?: number; // Optional field for "Progress Bar"
+  goal_number?: number; // Optional field for "Progress Bar"
+  units?: string; // Optional field for "Progress Bar"
 }
 
 export interface State {

@@ -3,57 +3,13 @@ import { Goal, Tab } from "./types/types";
 
 const BASE_URL = "http://localhost:3000/api";
 
-function selectEndpoint(goal: Goal) {
-  if (!goal || !goal.type) {
-    throw new Error("Invalid goal data");
-  }
-  let endpoint = "";
-  console.log(goal.type);
-  // Select the appropriate endpoint based on the template type
-  switch (goal.type) {
-    case "Simple List":
-      endpoint = `${BASE_URL}/simplelists`;
-      break;
-    case "Progress Bar":
-      endpoint = `${BASE_URL}/progressbars`;
-      break;
-    case "Levels":
-      endpoint = `${BASE_URL}/levels`;
-      break;
-    case "Sets":
-      endpoint = `${BASE_URL}/sets`;
-      break;
-    default:
-      throw new Error("Unknown template type");
-  }
-
-  return endpoint;
-}
-
 // CREATION: Goals, Lists, and Tabs
 
 export const createGoal = async (goalData: Goal) => {
-  let endpoint = "";
-  console.log(goalData.type);
-  // Select the appropriate endpoint based on the template type
-  switch (goalData.type) {
-    case "Simple List":
-      endpoint = `${BASE_URL}/simplelists`;
-      break;
-    case "Progress Bar":
-      endpoint = `${BASE_URL}/progressbars`;
-      break;
-    case "Levels":
-      endpoint = `${BASE_URL}/levels`;
-      break;
-    case "Sets":
-      endpoint = `${BASE_URL}/sets`;
-      break;
-    default:
-      throw new Error("Unknown template type");
-  }
+  const endpoint = selectEndpoint(goalData);
 
   try {
+    console.log("Sending request to endpoint:", endpoint); // Log the endpoint
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
@@ -67,6 +23,7 @@ export const createGoal = async (goalData: Goal) => {
     }
 
     const data = await response.json();
+    console.log("Goal created with ID:", data.id); // Log the ID received
     return { success: true, data };
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -283,4 +240,31 @@ export const deleteGoal = async (goal: Goal) => {
 //   });
 // };
 
-// const changeGoalType = () => {};
+// Select endpoint utility function:
+
+function selectEndpoint(goal: Goal) {
+  if (!goal || !goal.type) {
+    throw new Error("Invalid goal data");
+  }
+  let endpoint = "";
+  console.log(goal.type);
+  // Select the appropriate endpoint based on the template type
+  switch (goal.type) {
+    case "Simple List":
+      endpoint = `${BASE_URL}/simplelists`;
+      break;
+    case "Progress Bar":
+      endpoint = `${BASE_URL}/progressbars`;
+      break;
+    case "Levels":
+      endpoint = `${BASE_URL}/levels`;
+      break;
+    case "Sets":
+      endpoint = `${BASE_URL}/sets`;
+      break;
+    default:
+      throw new Error("Unknown template type");
+  }
+
+  return endpoint;
+}

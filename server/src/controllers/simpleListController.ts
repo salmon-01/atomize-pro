@@ -31,7 +31,14 @@ export const createSimpleList = async (
       tab,
       color,
     });
-    res.status(201).send(newSimpleList);
+    res.status(201).json({
+      id: newSimpleList.id, // Assuming Sequelize auto-generates this
+      list_name: newSimpleList.list_name,
+      task_name: newSimpleList.task_name,
+      tab: newSimpleList.tab,
+      color: newSimpleList.color,
+      message: "Simple list created successfully",
+    });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).send({ error: error.message });

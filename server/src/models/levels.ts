@@ -43,6 +43,11 @@ Levels.init(
         min: 0,
       },
     },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "Levels",
+    },
   },
   {
     sequelize,

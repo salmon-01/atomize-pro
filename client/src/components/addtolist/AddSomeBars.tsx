@@ -2,6 +2,7 @@ import { useFieldArray } from "react-hook-form";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
 import { Goal } from "../../types/types";
 import { Control, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { useFormContext } from "../../context/createListContext.js"; // Custom context
 
 interface AddSomeBarsProps {
   control: Control<{ goals: Goal[] }>;
@@ -19,17 +20,19 @@ export default function AddSomeBars({
     name: "goals", // The field array for goals
   });
 
+  const { listName, selectedTab } = useFormContext();
+
   const handleAddGoal = () => {
     append({
       task_name: "",
-      list_name: "",
-      tab,
+      list_name: listName,
+      tab: selectedTab,
       type: "Progress Bar",
       color: "turq-gradient",
       active: true,
       complete: false,
       last_completed: null,
-      current: 0,
+      current_number: 0,
       goal_number: 0,
       units: "",
     });

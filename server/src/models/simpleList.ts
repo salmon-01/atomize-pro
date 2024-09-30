@@ -35,9 +35,9 @@ SimpleList.init(
       allowNull: true,
     },
     type: {
-      type: DataTypes.STRING, // Add the 'type' field
-      allowNull: false, // You can adjust this if you want it to be nullable
-      defaultValue: "Simple List", // You can set a default type if needed
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "Simple List",
     },
   },
   {
