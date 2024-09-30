@@ -199,12 +199,23 @@ input {
   position: sticky;
   font-weight: bold;
   font-size: 18px;
-  margin: 20px 0px 25px 0px;
+  margin: 1rem 1rem;
 }
 
 .add-goals {
   display: flex;
-  width: 120%;
-  margin-left: 60px;
+  width: 60rem;
   border-radius: 10px;
+}
+
+.create-new-list-container {
+  flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .add-goals {
+    flex-direction: column;
+    width: 35rem;
+    margin: auto;
+  }
 }

@@ -18,35 +18,49 @@
 }
 
 .progress-bar {
-  width: 0%;
+  width: 100%;
   height: 100%;
   border-radius: 25px;
   transition: width 0.4s ease;
 }
 
 .green-fill {
-  background: linear-gradient(28deg, rgba(112,255,109,1) 15%, rgba(69,241,222,1) 100%);
+  background: linear-gradient(
+    28deg,
+    rgba(112, 255, 109, 1) 15%,
+    rgba(69, 241, 222, 1) 100%
+  );
 }
 
 .orange-fill {
-  background: linear-gradient(162deg, rgba(255,195,84,100) 0%, rgba(255,113,113,100) 80%);
+  background: linear-gradient(
+    162deg,
+    rgba(255, 195, 84, 100) 0%,
+    rgba(255, 113, 113, 100) 80%
+  );
 }
 
 .xpbar-fill {
-  background: rgb(232,255,121);
-  background: linear-gradient(333deg, rgba(232,255,121,1) 0%, rgba(129,255,151,1) 47%, rgba(176,255,253,1) 100%);
+  background: rgb(232, 255, 121);
+  background: linear-gradient(
+    333deg,
+    rgba(232, 255, 121, 1) 0%,
+    rgba(129, 255, 151, 1) 47%,
+    rgba(176, 255, 253, 1) 100%
+  );
 }
 
 .fullBar {
   display: flex;
   justify-content: center;
   text-align: center;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #E8FF79;
-  border-top: 1px solid #E8FF79;
-  padding: 10px;
+  border-bottom: 1px solid #e8ff79;
+  border-top: 1px solid #e8ff79;
+  /* padding: 10px; */
 }
 
 .left-box-prog {
@@ -57,6 +71,7 @@
 
 .barBox {
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
 }
@@ -68,8 +83,8 @@
   border-radius: 50px;
   padding: 0px 12px;
   border: none;
-  background-color: #494DB1;
-  color: #91A6FF
+  background-color: #494db1;
+  color: #91a6ff;
 }
 
 .addProgress:hover {
