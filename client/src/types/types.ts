@@ -54,4 +54,5 @@ export type AppContextType = {
 export interface FormData {
   listName: string;
   selectedTab: number;
+  template: string;
 }
