@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CreateListProvider } from "../context/createListContext";
 import PreviewVideo from "./PreviewVideo";
 import SimpleListVideo from "../assets/vids/simplelist-animation.mp4";
@@ -37,18 +37,6 @@ export default function CreateNewList() {
 
   const template = watch("template");
   const listName = watch("listName");
-
-  // useEffect(() => {
-  //   if (tabs.length > 0 && selectedTab === null) {
-  //     setSelectedTab(tabs[0].id);
-  //     setValue("selectedTab", tabs[0].id, { shouldValidate: true });
-  //   }
-  // }, [tabs, selectedTab, setValue]);
-
-  // // Add this useEffect for debugging
-  // useEffect(() => {
-  //   console.log("Current tabs:", tabs);
-  // }, [tabs]);
 
   const handleSelectTab = (tabId: number) => {
     setSelectedTab(tabId);
@@ -188,9 +176,17 @@ export default function CreateNewList() {
           </div>
         </div>
       ) : (
-        <CreateListProvider formData={{ selectedTab, listName, template }}>
-          <AddSomeGoals />
-        </CreateListProvider>
+        selectedTab !== null && (
+          <CreateListProvider
+            formData={{
+              selectedTab,
+              listName: listName || "",
+              template: template || "",
+            }}
+          >
+            <AddSomeGoals />
+          </CreateListProvider>
+        )
       )}
     </>
   );
