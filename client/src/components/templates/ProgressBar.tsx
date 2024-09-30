@@ -51,7 +51,7 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
     dispatch({
       type: "UPDATE_GOAL",
       payload: {
-        id: goal.id,
+        id: goal.id as number,
         updates: { current_number: newProgress },
       },
     });
