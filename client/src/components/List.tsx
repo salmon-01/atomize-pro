@@ -14,9 +14,7 @@ interface ListProps {
 
 export default function List({ list, tab, tabGoals }: ListProps) {
   // Now using tabGoals prop passed from Tab component
-  console.log(tabGoals, "TABGOALS");
   const listGoals = tabGoals.filter((goal) => goal.list_name === list);
-  console.log("listgoals:", listGoals);
   return (
     <div
       className="list-container"

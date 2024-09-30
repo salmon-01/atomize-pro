@@ -44,12 +44,12 @@ export default function AddSomeGoals() {
 
   const onSubmit = async (data: FormData) => {
     dispatch({ type: "SET_LOADING", payload: true });
-    console.log("Form Data on Submit:", {
-      listName,
-      template,
-      selectedTab,
-      goals: data.goals,
-    });
+    // console.log("Form Data on Submit:", {
+    //   listName,
+    //   template,
+    //   selectedTab,
+    //   goals: data.goals,
+    // });
 
     // Find the tab object by its ID
     const selectedTabObj = state.tabs.find((tab) => tab.id === selectedTab);

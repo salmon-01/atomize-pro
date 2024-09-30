@@ -37,13 +37,11 @@ export default function Tab() {
     return acc;
   }, {});
 
-  console.log("GOALSBYLIST", goalsByList);
   // Get an array of all list names
   const tabLists = Object.keys(goalsByList);
   if (!tab) {
     return <p>Tab not found</p>;
   }
-  console.log("TABLISTS", goalsByList);
 
   return (
     <>

@@ -115,6 +115,7 @@ export const editTaskInSimpleList = async (
   res: Response
 ): Promise<void> => {
   try {
+    console.log(req.body)
     const { task_name } = req.body;
     const { id } = req.params;
 
@@ -209,8 +210,12 @@ export const updateTaskStatus = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { id } = req.params;
-    const task = await SimpleList.findByPk(id);
+    const id = Number(req.params.id);
+    console.log(`ID received: ${id}, type: ${typeof id}`);
+
+console.log(`ID received: ${id}`);
+const task = await SimpleList.findByPk(id);
+console.log(`Task fetched: ${task}`);
 
     if (!task) {
       res.status(404).send({ message: "Task not found" });

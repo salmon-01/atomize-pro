@@ -1,81 +1,48 @@
-import { useState, useEffect } from "react";
-// import Delete from "../../assets/other/delete-button.png";
+import { useFieldArray } from "react-hook-form";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
-import "../../styles/AddSome.css";
-import { Tab, Goal } from "../../types/types";
+import { Goal } from "../../types/types";
+import { Control, UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 interface AddSomeBarsProps {
-  selectedTab: Tab;
-  finalizeGoals: (goals: Goal[]) => void;
-  listName: string;
+  control: Control<{ goals: Goal[] }>;
+  register: UseFormRegister<{ goals: Goal[] }>;
+  setValue: UseFormSetValue<{ goals: Goal[] }>;
 }
 
 export default function AddSomeBars({
-  listName,
-  finalizeGoals,
-  selectedTab,
+  control,
+  register,
+  setValue,
 }: AddSomeBarsProps) {
-  const [goals, setGoals] = useState<Goal[]>([
-    {
-      name: "",
-      list: listName,
-      tab: selectedTab.name,
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "goals", // The field array for goals
+  });
+
+  const handleAddGoal = () => {
+    append({
+      task_name: "",
+      list_name: "", // Assuming this will be provided through context or props
+      tab, // Assuming this will be provided through context or props
       type: "Progress Bar",
       color: "turq-gradient",
-      order_no: 1,
       active: true,
       complete: false,
       last_completed: null,
       current: 0,
       goal_number: 0,
       units: "",
-    },
-  ]);
-
-  const handleGoalNameChange = (index: number, value: string) => {
-    const updatedGoals = goals.map((goal, i) =>
-      i === index ? { ...goal, name: value } : goal
-    );
-    setGoals(updatedGoals);
-    console.log(goals);
+    });
   };
 
-  const handleGoalNumberChange = (index: number, value: string) => {
-    const updatedGoals = goals.map((goal, i) =>
-      i === index ? { ...goal, goal_number: value } : goal
-    );
-    setGoals(updatedGoals);
-  };
-
-  const handleGoalUnitsChange = (index: number, value: string) => {
-    const updatedGoals = goals.map((goal, i) =>
-      i === index ? { ...goal, units: value } : goal
-    );
-    setGoals(updatedGoals);
-  };
-
-  const handleGoalColorChange = (index: number, value: string) => {
-    const updatedGoals = goals.map((goal, i) =>
-      i === index ? { ...goal, color: value } : goal
-    );
-    setGoals(updatedGoals);
-  };
-
-  function openColorBox(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  const openColorBox = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     const colorChoices = (event.target as HTMLElement)
       .nextElementSibling as HTMLElement;
     colorChoices.style.display =
       colorChoices.style.display === "block" ? "none" : "block";
-  }
-
-  function removeItem(indexToRemove: number) {
-    const updatedGoals = goals.filter((_, index) => index !== indexToRemove);
-    setGoals(updatedGoals);
-  }
-
-  useEffect(() => {
-    finalizeGoals(goals);
-  }, [goals]);
+  };
 
   return (
     <>
@@ -88,72 +55,65 @@ export default function AddSomeBars({
             <th>Units</th>
             <th>Fill</th>
           </tr>
-          {goals.map((goal, index) => (
+          {fields.map((goal, index) => (
             <tr key={`goal-${index}`}>
-              <td
-                className="remove-by-index"
-                onClick={() => {
-                  removeItem(index);
-                }}
-              >
+              <td className="remove-by-index" onClick={() => remove(index)}>
                 <img src={OrangeDelete} className="delete-icon" />
               </td>
               <td>
                 <input
                   type="text"
                   className={`rounded-input name-small-input bar-input ${goal.color}`}
-                  value={goal.name}
-                  onChange={(e) => handleGoalNameChange(index, e.target.value)}
+                  {...register(`goals[${index}].task_name`, {
+                    required: "Goal name is required",
+                  })}
                 />
               </td>
               <td>
                 <input
                   type="number"
                   className={`small-input rounded-input ${goal.color}`}
-                  value={goal.goal_number}
-                  onChange={(e) =>
-                    handleGoalNumberChange(index, e.target.value)
-                  }
-                ></input>
+                  {...register(`goals[${index}].goal_number`, {
+                    valueAsNumber: true,
+                  })}
+                />
               </td>
               <td>
                 <input
                   type="text"
                   className={`small-input rounded-input ${goal.color}`}
-                  value={goal.units}
-                  onChange={(e) => handleGoalUnitsChange(index, e.target.value)}
-                ></input>
+                  {...register(`goals[${index}].units`)}
+                />
               </td>
               <td>
                 <div
                   className={`color-box ${goal.color}`}
-                  value={goal.color}
                   onClick={openColorBox}
                 ></div>
                 <div className="color-choices">
                   <div
                     className="color-option turq-gradient"
-                    onClick={() => {
-                      handleGoalColorChange(index, "turq-gradient");
-                    }}
+                    onClick={() =>
+                      setValue(`goals[${index}].color`, "turq-gradient")
+                    }
                   ></div>
                   <div
                     className="color-option orange-gradient"
-                    onClick={() => {
-                      handleGoalColorChange(index, "orange-gradient");
-                    }}
+                    onClick={() =>
+                      setValue(`goals[${index}].color`, "orange-gradient")
+                    }
                   ></div>
                   <div
                     className="color-option purple-gradient"
-                    onClick={() => {
-                      handleGoalColorChange(index, "purple-gradient");
-                    }}
+                    onClick={() =>
+                      setValue(`goals[${index}].color`, "purple-gradient")
+                    }
                   ></div>
                   <div
                     className="color-option yellow-gradient"
-                    onClick={() => {
-                      handleGoalColorChange(index, "yellow-gradient");
-                    }}
+                    onClick={() =>
+                      setValue(`goals[${index}].color`, "yellow-gradient")
+                    }
                   ></div>
                 </div>
               </td>
@@ -161,30 +121,8 @@ export default function AddSomeBars({
           ))}
         </tbody>
       </table>
-      <button
-        id="add-another-goal"
-        onClick={() =>
-          setGoals([
-            ...goals,
-            {
-              name: "",
-              list: listName,
-              tab: selectedTab.name,
-              type: "Progress Bar",
-              color: "turq-gradient",
-              order_no: goals.length + 1,
-              active: true,
-              complete: false,
-              last_completed: null,
-              current: 0,
-              goal_number: 0,
-              units: "",
-            },
-          ])
-        }
-      >
-        {" "}
-        Add +{" "}
+      <button id="add-another-goal" onClick={handleAddGoal}>
+        Add +
       </button>
     </>
   );

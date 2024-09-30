@@ -29,8 +29,6 @@ export default function NavBar() {
 
   const formattedDate = formatDate(new Date());
 
-  console.log(tabs);
-
   return (
     <>
       <div className="nav-container">
