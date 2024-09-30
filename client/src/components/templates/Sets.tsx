@@ -16,7 +16,7 @@ export default function Sets({ goal }: SetsProps) {
 
   // Handle clicking to complete the next set in the sequence
   const handleCompleteSet = () => {
-    if (completedSets < goal.sets) {
+    if (goal.sets !== undefined && completedSets < goal.sets) {
       const newCompletedSets = completedSets + 1;
 
       // Update the state with the new number of completed sets
@@ -26,7 +26,7 @@ export default function Sets({ goal }: SetsProps) {
       dispatch({
         type: "UPDATE_GOAL",
         payload: {
-          id: goal.id,
+          id: goal.id as number,
           updates: { completed_sets: newCompletedSets },
         },
       });
@@ -39,12 +39,14 @@ export default function Sets({ goal }: SetsProps) {
     }
   };
 
+  const totalSets = goal.sets || 0;
+
   return (
     <div className="goal-container">
       <div className="set-container">
         <div className="set-name-box">{goal.task_name}</div>
         <div className="set-tracker">
-          {Array.from({ length: goal.sets }).map((_, index) => (
+          {Array.from({ length: totalSets }).map((_, index) => (
             <div
               key={index}
               className={`set-circles ${
@@ -52,7 +54,7 @@ export default function Sets({ goal }: SetsProps) {
               }`}
               onClick={handleCompleteSet} // Clicking any button adds to the completed sets
             >
-              <span className="rep-number">{goal.reps}</span>
+              <span className="rep-number">{goal.reps || 0}</span>
             </div>
           ))}
         </div>
