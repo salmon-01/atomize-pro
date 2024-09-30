@@ -89,6 +89,8 @@ export default function AddSomeGoals() {
         console.log("API Response for goal:", goal.task_name, response);
 
         if (response.success) {
+          goalData.id = response.data.id;
+          dispatch({ type: "CREATE_GOAL", payload: goalData });
           return response.data.id; // Return the created goal's id
         } else {
           throw new Error(response.error || "Failed to create goal");
@@ -97,30 +99,16 @@ export default function AddSomeGoals() {
 
       // Wait for all API calls to finish
       const goalIds = await Promise.all(promises);
-
+      console.log(goalIds);
       console.log("Created goal IDs:", goalIds);
-
-      // Dispatch state updates AFTER all API requests succeed
-      goalIds.forEach((id, index) => {
-        dispatch({
-          type: "CREATE_GOAL",
-          payload: {
-            id: id, // Use the goal ID from the server response
-            list_name: listName,
-            task_name: data.goals[index].task_name,
-            tab: selectedTab,
-            color: data.goals[index].color,
-            type: data.goals[index].type,
-            complete: false,
-          },
-        });
-      });
 
       // Navigate only after all state updates and API calls are done
       const normalizedTabName = encodeURIComponent(
         selectedTabObj.name.replace(/\s+/g, "-")
       );
-      navigate(`/${normalizedTabName}`);
+      if (goalIds) {
+        navigate(`/${normalizedTabName}`);
+      }
     } catch (error) {
       console.log("Error submitting list and goals:", error);
       dispatch({ type: "SET_LOADING", payload: false });

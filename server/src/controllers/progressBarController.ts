@@ -43,12 +43,12 @@ export const createProgressBar = async (
     if (!list_name || !task_name || !goal_number || !units || !tab) {
       res.status(400).send({
         message:
-          "List name, a task name, goal number, units and a tab are required",
+          "List name, a task name, goal number, units, and a tab are required",
       });
       return;
     }
 
-    const existingTab = Tabs.findByPk(tab);
+    const existingTab = await Tabs.findByPk(tab); // Note: Added `await`
 
     if (!existingTab) {
       res.status(404).send({ message: "Assigned tab does not exist" });
@@ -63,16 +63,26 @@ export const createProgressBar = async (
       tab,
     });
 
-    res.status(201).send(newProgressBar);
+    // Explicitly return the `id` like in createSimpleList
+    res.status(201).json({
+      id: newProgressBar.id,  // Make sure the `id` is returned here
+      list_name: newProgressBar.list_name,
+      task_name: newProgressBar.task_name,
+      goal_number: newProgressBar.goal_number,
+      current_number: newProgressBar.current_number,
+      units: newProgressBar.units,
+      tab: newProgressBar.tab,
+      message: "Progress bar created successfully",
+    });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).send({ error: error.message });
       return;
     }
     res.status(500).send({ error: "An unknown error occurred" });
-    return;
   }
 };
+
 
 // update progress bar status
 
