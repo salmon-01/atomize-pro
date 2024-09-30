@@ -197,9 +197,9 @@ export const insertListPosition = async (tabName, listName, col) => {
 
 // DELETE DATA
 
-export const deleteTab = async (tabName) => {
+export const deleteTab = async (id: number) => {
   try {
-    const response = await fetch(`${BASE_URL}/tabs/${tabName}`, {
+    const response = await fetch(`${BASE_URL}/tabs/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
