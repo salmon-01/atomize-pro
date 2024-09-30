@@ -45,3 +45,8 @@ export type Action =
   | { type: "DELETE_LIST"; payload: { list_name: string } }
   // | { type: 'DELETE_LIST_POSITION'; payload: UNSURE_YET };
   | { type: "SET_LOADING"; payload: boolean };
+
+export type AppContextType = {
+  state: State;
+  dispatch: React.Dispatch<Action>;
+};
