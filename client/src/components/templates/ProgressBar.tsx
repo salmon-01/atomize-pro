@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../../styles/ProgressBar.css";
 import { updateGoalProgress } from "../../ApiService";
 import { Goal } from "../../types/types";
@@ -8,21 +8,25 @@ interface ProgressBarProps {
 }
 
 export default function ProgressBar({ goal }: ProgressBarProps) {
+  // Local state for the current progress, initially set to goal's current_number
   const [current, setCurrent] = useState<number>(goal.current_number || 0);
   const [progressToAdd, setToAdd] = useState<string>("");
 
   // Ensure goal.goal_number has a default fallback value
-  const goalNumber = goal.goal_number || 1; // Default to 1 if undefined
+  const goalNumber = goal.goal_number || 1;
 
-  useEffect(() => {
-    // const percentage = (current / goalNumber) * 100;
-    updateGoalProgress(goal);
-  }, [current, goal]);
-
+  // This function is triggered when the user submits the progress
   function submitProgress() {
-    const newProgress = current + Number(progressToAdd);
-    const maxProgress = goalNumber * 10; // Progress is limited to 1000% of the original goal
+    const parsedValue = Number(progressToAdd);
+    if (isNaN(parsedValue)) {
+      alert("Please enter a valid number.");
+      return;
+    }
 
+    const newProgress = current + parsedValue;
+    const maxProgress = goalNumber * 10; // Limit progress to 1000% of the original goal
+
+    // Validation: ensure the new progress doesn't exceed 1000% of the goal
     if (newProgress > maxProgress) {
       alert(
         `The progress cannot exceed 1000% of the goal (${maxProgress} ${goal.units}).`
@@ -30,13 +34,36 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
       return;
     }
 
-    setCurrent(newProgress); // Update progress state
-    setToAdd(""); // Clear input field after submission
+    // Ensure the progress doesn't go below zero
+    if (newProgress < 0) {
+      alert(`The progress cannot be less than 0.`);
+      return;
+    }
+
+    // Update local state to reflect the new progress
+    setCurrent(newProgress);
+
+    // Make the API call to update the progress on the backend
+    updateGoalProgress({
+      ...goal,
+      current_number: newProgress, // Send the updated progress to the backend
+    });
+
+    // Clear the input field
+    setToAdd("");
   }
 
+  // Handle input changes
   function handleDayProgress(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
     setToAdd(value === "" ? "" : value);
+  }
+
+  // Handle key press to submit on "Enter"
+  function handleKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      submitProgress(); // Trigger submit when Enter is pressed
+    }
   }
 
   return (
@@ -50,6 +77,7 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
               className="progressIncrease"
               value={progressToAdd}
               onChange={handleDayProgress}
+              onKeyPress={handleKeyPress}
             />
             <button className="addProgress" onClick={submitProgress}>
               +

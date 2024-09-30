@@ -92,14 +92,18 @@ export const updateProgressBarStatus = async (
 ): Promise<void> => {
   try {
     const { id } = req.params;
-    const { increment } = req.body;
+    const { current_number } = req.body;
 
+    // Find the progress bar by its ID
     const progressBar = await ProgressBar.findByPk(id);
 
-    if (typeof increment !== "number" || increment <= 0) {
+    // Log the received current_number
+    console.log(current_number);
+
+    // Validate the current_number: It must be a number, and it can't be NaN or below 0
+    if (typeof current_number !== "number" || isNaN(current_number)) {
       res.status(400).send({
-        message:
-          "The increment value must be a positive number less than the goal number.",
+        message: "The current number must be a valid number.",
       });
       return;
     }
@@ -109,14 +113,19 @@ export const updateProgressBarStatus = async (
       return;
     }
 
-    const updatedCurrentNumber = progressBar.current_number + increment;
+    // Ensure current_number doesn't go below zero
+    const updatedCurrentNumber = Math.max(0, current_number);
+
+    // Determine if the progress is complete (current >= goal)
     const isComplete = updatedCurrentNumber >= progressBar.goal_number;
 
+    // Update the progress bar with the new current number and completion status
     await progressBar.update({
       current_number: updatedCurrentNumber,
       complete: isComplete,
     });
 
+    // Respond with success message, updated status, and new current number
     res.status(200).send({
       message: "Progress bar updated successfully",
       complete: isComplete,
@@ -128,7 +137,6 @@ export const updateProgressBarStatus = async (
       return;
     }
     res.status(500).send({ error: "An unknown error occurred" });
-    return;
   }
 };
 
