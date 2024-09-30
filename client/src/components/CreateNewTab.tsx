@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { createTab } from "../ApiService.js";
 import { useAppContext } from "../AppContext.js";
-import { State, Action } from "../types/types.js";
+import { State, Action, Tab } from "../types/types.js";
 
 type FormData = {
   name: string;
@@ -53,7 +53,7 @@ export default function CreateNewTab() {
       return;
     }
 
-    const newTab = {
+    const newTab: Omit<Tab, "id"> = {
       name: data.name,
       icon_name: data.icon_name,
       order_no: tabs.length + 1,
@@ -61,14 +61,16 @@ export default function CreateNewTab() {
 
     try {
       dispatch({ type: "SET_LOADING", payload: true });
-
-      // Create the tab by calling the API service
       const createdTab = await createTab(newTab);
-      dispatch({ type: "CREATE_TAB", payload: createdTab });
-      console.log("New tab created successfully: ", createdTab);
-      // Navigate to the new tab's path
-      const path = findPath(data.name);
-      navigate(`/${path}`);
+      if (createdTab) {
+        dispatch({ type: "CREATE_TAB", payload: createdTab });
+        console.log("New tab created successfully: ", createdTab);
+        // Navigate to the new tab's path
+        const path = findPath(data.name);
+        navigate(`/${path}`);
+      } else {
+        throw new Error("Failed to create tab");
+      }
     } catch (error) {
       console.error("Error submitting tab:", error);
     } finally {
