@@ -32,7 +32,10 @@ export default function Sets({ goal }: SetsProps) {
       });
 
       // Update the backend with the new progress
-      updateGoalProgress(goal);
+      updateGoalProgress({
+        ...goal,
+        completed_sets: newCompletedSets,
+      });
     }
   };
 
