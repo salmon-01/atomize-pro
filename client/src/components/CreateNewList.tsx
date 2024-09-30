@@ -106,7 +106,7 @@ export default function CreateNewList() {
                   className={`nav-icon ${
                     selectedTab === tab.id ? "chosen-tab-selected" : ""
                   }`}
-                  onClick={() => handleSelectTab(String(tab.id))} // Compare selectedTab (tab id) with tab.id
+                  onClick={() => handleSelectTab(tab.id)} // Compare selectedTab (tab id) with tab.id
                 />
               ))
             ) : (
