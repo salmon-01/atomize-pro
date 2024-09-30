@@ -53,5 +53,5 @@ export type AppContextType = {
 
 export interface FormData {
   listName: string;
-  selectedTab: string | null;
+  selectedTab: number;
 }
