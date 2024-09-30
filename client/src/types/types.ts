@@ -21,6 +21,7 @@ export interface Goal {
   sets?: number; // Optional field for 'Sets'
   completed_sets?: number; // Optional field for 'Sets'
   reps?: number; // Optional field for 'Sets'
+  level?: number; // Optional field for 'Level'
 }
 
 export interface State {

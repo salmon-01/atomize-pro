@@ -86,6 +86,10 @@ export default function AddSomeGoals() {
           goalData.reps = goal.reps;
         }
 
+        if (goal.type === "Levels") {
+          goalData.level = goal.level;
+        }
+
         console.log("Sending API request for:", goalData);
 
         // Send the goal creation request and get the response
