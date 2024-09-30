@@ -2,20 +2,38 @@ import { useState, useEffect } from "react";
 import "../../styles/LevelsBlock.css";
 import { updateGoalProgress } from "../../ApiService";
 import { Goal } from "../../types/types";
+import { useAppContext } from "../../AppContext";
 
 interface LevelsBlockProps {
   goal: Goal;
 }
 
 export default function LevelsBlock({ goal }: LevelsBlockProps) {
-  const [progress, setProgress] = useState<number>(goal.level);
+  const { dispatch } = useAppContext();
+  const maxLevel = 3;
 
-  useEffect(() => {
-    updateGoalProgress(goal.name, goal.type, progress);
-  }, [progress]);
+  // State to track number of completed levels
+  const [progress, setProgress] = useState<number>(goal.level || 0);
 
-  const updateProgress = () => {
-    setProgress((prev) => (prev < 3 ? prev + 1 : prev));
+  const handleCompletedLevels = () => {
+    if (progress < maxLevel) {
+      const newCompletedLevels = progress + 1;
+
+      // Update the state with the new number of completed sets
+      setProgress(newCompletedLevels);
+
+      // Dispatch action to update the global state
+      dispatch({
+        type: "UPDATE_GOAL",
+        payload: {
+          id: goal.id,
+          updates: { levels: newCompletedLevels },
+        },
+      });
+
+      // Update the backend with the new progress
+      updateGoalProgress(goal);
+    }
   };
 
   const goalClass =
@@ -24,8 +42,12 @@ export default function LevelsBlock({ goal }: LevelsBlockProps) {
   return (
     <div className="goal-container">
       <div className="fullBlock">
-        <div className={goalClass} key={goal.name} onClick={updateProgress}>
-          {goal.name}
+        <div
+          className={goalClass}
+          key={goal.id}
+          onClick={handleCompletedLevels}
+        >
+          {goal.task_name}
         </div>
         <div className="lightTracker">
           <div
