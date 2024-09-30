@@ -38,7 +38,7 @@ export default function MakeEdits() {
 
   // Function to delete a Tab and associated goals
   const deleteSelectedTab = () => {
-    if (!selectedTab) return;
+    if (!selectedTab || typeof selectedTab.id !== "number") return;
     dispatch({ type: "SET_LOADING", payload: true });
     // Delete all goals associated with the selected tab
     goals.forEach((goal) => {
@@ -60,7 +60,10 @@ export default function MakeEdits() {
     deleteGoal(selectedGoal);
 
     // Update global state by dispatching DELETE_GOAL
-    dispatch({ type: "DELETE_GOAL", payload: { id: selectedGoal.id } });
+    dispatch({
+      type: "DELETE_GOAL",
+      payload: { id: selectedGoal.id as number },
+    });
 
     // Checking if the list is now empty
     const listNotEmpty = goals.some(
