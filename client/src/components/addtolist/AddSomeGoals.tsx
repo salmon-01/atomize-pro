@@ -81,6 +81,11 @@ export default function AddSomeGoals() {
           goalData.units = goal.units;
         }
 
+        if (goal.type === "Sets") {
+          goalData.sets = goal.sets;
+          goalData.reps = goal.reps;
+        }
+
         console.log("Sending API request for:", goalData);
 
         // Send the goal creation request and get the response

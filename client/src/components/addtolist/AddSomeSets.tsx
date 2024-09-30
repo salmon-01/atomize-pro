@@ -32,7 +32,7 @@ export default function AddSomeSets({
       task_name: "",
       list_name: listName,
       tab: selectedTab,
-      type: "Progress Bar",
+      type: "Sets",
       color: "turq-gradient",
       active: true,
       complete: false,

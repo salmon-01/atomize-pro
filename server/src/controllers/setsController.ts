@@ -10,8 +10,8 @@ export const createSetsList = async (
 ): Promise<void> => {
   try {
     const { list_name, task_name, tab, color, sets, reps } = req.body;
-
-    if (!list_name || !task_name || !tab || !color || !sets || reps) {
+    console.log(req.body)
+    if (!list_name || !task_name || !tab || !color || !sets || !reps) {
       res.status(400).send({
         message:
           "List name, a task name, task color, sets, reps and a tab are required",
