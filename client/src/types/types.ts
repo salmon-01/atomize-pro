@@ -50,3 +50,8 @@ export type AppContextType = {
   state: State;
   dispatch: React.Dispatch<Action>;
 };
+
+export interface FormData {
+  listName: string;
+  selectedTab: string | null;
+}

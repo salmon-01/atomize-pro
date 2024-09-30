@@ -38,17 +38,17 @@ export default function CreateNewList() {
   const template = watch("template");
   const listName = watch("listName");
 
-  useEffect(() => {
-    if (tabs.length > 0 && selectedTab === null) {
-      setSelectedTab(tabs[0].id);
-      setValue("selectedTab", tabs[0].id, { shouldValidate: true });
-    }
-  }, [tabs, selectedTab, setValue]);
+  // useEffect(() => {
+  //   if (tabs.length > 0 && selectedTab === null) {
+  //     setSelectedTab(tabs[0].id);
+  //     setValue("selectedTab", tabs[0].id, { shouldValidate: true });
+  //   }
+  // }, [tabs, selectedTab, setValue]);
 
-  // Add this useEffect for debugging
-  useEffect(() => {
-    console.log("Current tabs:", tabs);
-  }, [tabs]);
+  // // Add this useEffect for debugging
+  // useEffect(() => {
+  //   console.log("Current tabs:", tabs);
+  // }, [tabs]);
 
   const handleSelectTab = (tabId: number) => {
     setSelectedTab(tabId);
@@ -110,7 +110,7 @@ export default function CreateNewList() {
                     className={`nav-icon ${
                       selectedTab === tab.id ? "chosen-tab-selected" : ""
                     }`}
-                    onClick={() => handleSelectTab(tab.id)}
+                    onClick={() => handleSelectTab(tab.id as number)}
                     alt={`Tab ${tab.id}`}
                   />
                 );
