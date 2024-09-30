@@ -8,17 +8,20 @@ interface ProgressBarProps {
 }
 
 export default function ProgressBar({ goal }: ProgressBarProps) {
-  const [current, setCurrent] = useState<number>(goal.current_number);
+  const [current, setCurrent] = useState<number>(goal.current_number || 0);
   const [progressToAdd, setToAdd] = useState<string>("");
 
+  // Ensure goal.goal_number has a default fallback value
+  const goalNumber = goal.goal_number || 1; // Default to 1 if undefined
+
   useEffect(() => {
-    const percentage = (current / goal.goal_number) * 100;
-    updateGoalProgress(goal.task_name, goal.type, current);
-  }, [current]);
+    // const percentage = (current / goalNumber) * 100;
+    updateGoalProgress(goal);
+  }, [current, goal]);
 
   function submitProgress() {
     const newProgress = current + Number(progressToAdd);
-    const maxProgress = goal.goal_number * 10; // 1000% of the original goal
+    const maxProgress = goalNumber * 10; // Progress is limited to 1000% of the original goal
 
     if (newProgress > maxProgress) {
       alert(
@@ -27,8 +30,8 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
       return;
     }
 
-    setCurrent(newProgress);
-    setToAdd("");
+    setCurrent(newProgress); // Update progress state
+    setToAdd(""); // Clear input field after submission
   }
 
   function handleDayProgress(event: React.ChangeEvent<HTMLInputElement>) {
@@ -57,17 +60,17 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
           <div className="progress-container">
             <div
               className={`progress-bar ${
-                current >= goal.goal_number
+                current >= goalNumber
                   ? "green-fill"
                   : goal.color === "orange-gradient"
                   ? "orange-fill"
                   : "purple-gradient"
               }`}
-              style={{ width: `${(current / goal.goal_number) * 100}%` }}
+              style={{ width: `${(current / goalNumber) * 100}%` }}
             ></div>
             <span className="progress-text">
-              {current} / {goal.goal_number} {goal.units} —{" "}
-              {((current / goal.goal_number) * 100).toFixed(2)}%
+              {current} / {goalNumber} {goal.units} —{" "}
+              {((current / goalNumber) * 100).toFixed(2)}%
             </span>
           </div>
         </div>
