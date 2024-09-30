@@ -4,7 +4,7 @@
 
 .all-lists-container {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap; /* Allow wrapping onto multiple lines */
   justify-content: space-between;
   margin: 0px -25px;
   color: #e8ff79;
@@ -15,10 +15,11 @@
   text-align: center;
 }
 
+/* Make sure the list items are flex children and control their width */
 .list-container {
   padding: 20px;
-  width: 29%;
-  /* border: 1px solid black; */
+  width: 30%; /* Each list will take up around 30% of the row */
+  margin: 20px 10px; /* Add margin between list items */
   border: 2px solid transparent;
   background: linear-gradient(
     140deg,
@@ -29,8 +30,8 @@
   backdrop-filter: blur(10px);
   border: 2px solid #e8ff79;
   border-radius: 30px;
+  box-sizing: border-box; /* Ensure padding and border are included in width */
 }
-
 #col1 {
   order: 1;
 }
@@ -238,4 +239,18 @@
     rgba(28, 43, 238, 1) 100%
   );
   color: white;
+}
+
+/* On mobile devices, stack the lists vertically */
+@media (max-width: 768px) {
+  .all-lists-container {
+    flex-direction: column;
+    margin: 0;
+    align-items: center;
+  }
+
+  .list-container {
+    width: 100%; /* Full width on smaller screens */
+    margin-bottom: 20px;
+  }
 }
