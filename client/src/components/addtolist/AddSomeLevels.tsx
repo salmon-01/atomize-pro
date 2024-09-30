@@ -15,9 +15,6 @@ type FormValues = {
 };
 
 interface AddSomeLevelsProps {
-  // control: Control<{ goals: Goal[] }>;
-  // register: UseFormRegister<{ goals: Goal[] }>;
-  // setValue: UseFormSetValue<{ goals: Goal[] }>;
   control: Control<FormValues>;
   register: UseFormRegister<FormValues>;
   setValue: UseFormSetValue<FormValues>;

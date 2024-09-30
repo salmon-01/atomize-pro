@@ -6,10 +6,17 @@ import { Control, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import "../../styles/AddSome.css";
 import { Goal } from "../../types/types";
 
+type FormValues = {
+  goals: Goal[];
+};
+
 interface AddSomeMixedProps {
-  control: Control<{ goals: Goal[] }>;
-  register: UseFormRegister<{ goals: Goal[] }>;
-  setValue: UseFormSetValue<{ goals: Goal[] }>;
+  // control: Control<{ goals: Goal[] }>;
+  // register: UseFormRegister<{ goals: Goal[] }>;
+  // setValue: UseFormSetValue<{ goals: Goal[] }>;
+  control: Control<FormValues>;
+  register: UseFormRegister<FormValues>;
+  setValue: UseFormSetValue<FormValues>;
 }
 
 export default function AddSomeMixed({
@@ -47,7 +54,7 @@ export default function AddSomeMixed({
     setGoalTypes(newGoalTypes);
 
     // Update the goal type in the form field
-    setValue(`goals[${index}].type`, value);
+    setValue(`goals.${index}.type` as const, value);
   };
 
   return (
@@ -71,7 +78,7 @@ export default function AddSomeMixed({
                   type="text"
                   className="task-name-input"
                   placeholder="Task Name"
-                  {...register(`goals[${index}].task_name`, {
+                  {...register(`goals.${index}.task_name` as const, {
                     required: "Task name is required",
                   })}
                 />
@@ -96,7 +103,7 @@ export default function AddSomeMixed({
                       type="number"
                       className="small-input"
                       placeholder="Sets"
-                      {...register(`goals[${index}].sets`, {
+                      {...register(`goals.${index}.sets` as const, {
                         valueAsNumber: true,
                         required: "Sets are required for this task",
                       })}
@@ -105,7 +112,7 @@ export default function AddSomeMixed({
                       type="number"
                       className="small-input"
                       placeholder="Reps"
-                      {...register(`goals[${index}].reps`, {
+                      {...register(`goals.${index}.reps` as const, {
                         valueAsNumber: true,
                         required: "Reps are required for this task",
                       })}
@@ -118,7 +125,7 @@ export default function AddSomeMixed({
                       type="number"
                       className="small-input"
                       placeholder="Progress"
-                      {...register(`goals[${index}].progress`, {
+                      {...register(`goals.${index}.progress` as const, {
                         valueAsNumber: true,
                       })}
                     />
@@ -130,7 +137,7 @@ export default function AddSomeMixed({
                       type="number"
                       className="small-input"
                       placeholder="Level"
-                      {...register(`goals[${index}].level`, {
+                      {...register(`goals.${index}.level` as const, {
                         valueAsNumber: true,
                       })}
                     />
@@ -147,25 +154,34 @@ export default function AddSomeMixed({
                   <div
                     className="color-option turq-gradient"
                     onClick={() =>
-                      setValue(`goals[${index}].color`, "turq-gradient")
+                      setValue(`goals.${index}.color` as const, "turq-gradient")
                     }
                   ></div>
                   <div
                     className="color-option orange-gradient"
                     onClick={() =>
-                      setValue(`goals[${index}].color`, "orange-gradient")
+                      setValue(
+                        `goals.${index}.color` as const,
+                        "orange-gradient"
+                      )
                     }
                   ></div>
                   <div
                     className="color-option purple-gradient"
                     onClick={() =>
-                      setValue(`goals[${index}].color`, "purple-gradient")
+                      setValue(
+                        `goals.${index}.color` as const,
+                        "purple-gradient"
+                      )
                     }
                   ></div>
                   <div
                     className="color-option yellow-gradient"
                     onClick={() =>
-                      setValue(`goals[${index}].color`, "yellow-gradient")
+                      setValue(
+                        `goals.${index}.color` as const,
+                        "yellow-gradient"
+                      )
                     }
                   ></div>
                 </div>
