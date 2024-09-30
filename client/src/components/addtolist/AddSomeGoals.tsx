@@ -25,7 +25,7 @@ export default function AddSomeGoals() {
     handleSubmit,
     control,
     setValue,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       goals: [
