@@ -1,22 +1,11 @@
 import { useState } from "react";
 import Delete from "../assets/other/delete-button.png";
 import Edit from "../assets/other/edit-button.png";
-import {
-  deleteTab,
-  deleteGoal,
-  insertListPosition,
-  deleteListPosition,
-} from "../ApiService.js";
+import { deleteTab, deleteGoal } from "../ApiService.js";
 import "../styles/MakeEdits.css";
 import { useAppContext } from "../AppContext.js";
 import { Action, State, Tab } from "../types/types.js";
-import { useForm } from "react-hook-form";
 import { Goal } from "../types/types.js";
-
-interface FormData {
-  selectedObject: Tab | Goal | string | null;
-  selectedType: string;
-}
 
 export default function MakeEdits() {
   const { state, dispatch } = useAppContext() as {
@@ -25,8 +14,6 @@ export default function MakeEdits() {
   };
   const { tabs, goals } = state;
   // Styling and rendering not fully complete. Will add 'edit' functionalities.
-
-  const { register, handleSubmit, setValue } = useForm<FormData>();
 
   // States in the form to track selected Tab, List or Goal
   const [selectedTab, setSelectedTab] = useState<Tab | null>(null);
@@ -97,11 +84,10 @@ export default function MakeEdits() {
       }
     });
 
-    // Delete the list position
-    const goalForList = goals.find((g) => g.list_name === selectedList);
-    if (goalForList) {
-      deleteListPosition(goalForList.tab, selectedList);
-    }
+    // const goalForList = goals.find((g) => g.list_name === selectedList);
+    // if (goalForList) {
+    //   deleteListPosition(goalForList.tab, selectedList);
+    // }
   };
 
   // Centralize reset logic after deletion

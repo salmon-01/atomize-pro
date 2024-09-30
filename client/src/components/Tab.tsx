@@ -2,8 +2,12 @@ import { useParams } from "react-router-dom";
 import "../styles/Tab.css";
 import { useAppContext } from "../AppContext.js";
 import List from "./List.js";
-import { State } from "../types/types.js";
+import { Goal, State } from "../types/types.js";
 import { BlankPage } from "./BlankPage.js";
+
+type GoalsByList = {
+  [listName: string]: Goal[];
+};
 
 export default function Tab() {
   const { state } = useAppContext() as {
@@ -12,7 +16,7 @@ export default function Tab() {
   const { goals, tabs, isLoading } = state;
   const { tabName } = useParams();
 
-  const normalizeName = (name) =>
+  const normalizeName = (name: string | undefined) =>
     decodeURIComponent(name ?? "")
       .trim()
       .toLowerCase()
@@ -27,7 +31,7 @@ export default function Tab() {
   const tabGoals = tab ? goals.filter((goal) => goal.tab === tab.id) : [];
 
   // Group goals by list_name
-  const goalsByList = tabGoals.reduce((acc, goal) => {
+  const goalsByList = tabGoals.reduce((acc: GoalsByList, goal: Goal) => {
     // If the list_name doesn't exist in the accumulator, create a new array
     if (!acc[goal.list_name]) {
       acc[goal.list_name] = [];
@@ -51,12 +55,7 @@ export default function Tab() {
           {tabLists && tabLists.length > 0 ? (
             <div className="all-lists-container">
               {tabLists.map((list) => (
-                <List
-                  key={list}
-                  tab={tab}
-                  list={list}
-                  tabGoals={goalsByList[list]}
-                />
+                <List key={list} list={list} tabGoals={goalsByList[list]} />
               ))}
             </div>
           ) : (
