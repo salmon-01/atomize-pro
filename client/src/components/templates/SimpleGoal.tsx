@@ -24,7 +24,7 @@ export default function SimpleGoal({ goalID }: SimpleGoalProps) {
         // Dispatch action to update the global state
         dispatch({
           type: "UPDATE_GOAL",
-          payload: { id: goal.id, updates: { complete: true } },
+          payload: { id: goal.id as number, updates: { complete: true } },
         });
 
         // Update goal progress on the backend
