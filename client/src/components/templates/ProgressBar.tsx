@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import "../../styles/ProgressBar.css";
 import { updateGoalProgress } from "../../ApiService";
 import { Goal } from "../../types/types";
@@ -8,51 +8,39 @@ interface ProgressBarProps {
 }
 
 export default function ProgressBar({ goal }: ProgressBarProps) {
-  const [current, setCurrent] = useState<number>(goal.current);
+  const [current, setCurrent] = useState<number>(goal.current_number);
   const [progressToAdd, setToAdd] = useState<string>("");
-  const progressBarRef = useRef<HTMLDivElement>(null);
-  const progressTextRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    updateGoalProgress(goal.name, goal.type, current);
-  }, [current]);
-
-  function updateProgressBar(percentage: number) {
-    if (progressBarRef.current && progressTextRef.current) {
-      progressTextRef.current.textContent = `${current} / ${goal.goal_number} ${
-        goal.units
-      } — ${percentage.toFixed(2)}%`;
-      if (percentage <= 100) {
-        progressBarRef.current.style.width = `${percentage}%`;
-      }
-    }
-  }
-
-  function submitProgress() {
-    setCurrent((prevCurrent) => {
-      const newCurrent = prevCurrent + progressToAdd;
-      const percentage = (newCurrent / goal.goal_number) * 100;
-      updateProgressBar(percentage);
-      return newCurrent;
-    });
-    setToAdd("");
-  }
-
-  function handleDayProgress(event) {
-    const value = event.target.value;
-    setToAdd(value === "" ? "" : Number(value));
-  }
 
   useEffect(() => {
     const percentage = (current / goal.goal_number) * 100;
-    updateProgressBar(percentage);
+    updateGoalProgress(goal.task_name, goal.type, current);
   }, [current]);
+
+  function submitProgress() {
+    const newProgress = current + Number(progressToAdd);
+    const maxProgress = goal.goal_number * 10; // 1000% of the original goal
+
+    if (newProgress > maxProgress) {
+      alert(
+        `The progress cannot exceed 1000% of the goal (${maxProgress} ${goal.units}).`
+      );
+      return;
+    }
+
+    setCurrent(newProgress);
+    setToAdd("");
+  }
+
+  function handleDayProgress(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value;
+    setToAdd(value === "" ? "" : value);
+  }
 
   return (
     <div className="goal-container">
       <div className="fullBar">
         <div className="left-box-prog">
-          <div className="goalName">{goal.name}</div>
+          <div className="goalName">{goal.task_name}</div>
           <div className="inputBox">
             <input
               type="number"
@@ -75,10 +63,9 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
                   ? "orange-fill"
                   : "purple-gradient"
               }`}
-              ref={progressBarRef}
               style={{ width: `${(current / goal.goal_number) * 100}%` }}
             ></div>
-            <span ref={progressTextRef} className="progress-text">
+            <span className="progress-text">
               {current} / {goal.goal_number} {goal.units} —{" "}
               {((current / goal.goal_number) * 100).toFixed(2)}%
             </span>

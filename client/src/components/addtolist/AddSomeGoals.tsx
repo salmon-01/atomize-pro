@@ -66,13 +66,28 @@ export default function AddSomeGoals() {
     try {
       const promises = data.goals.map(async (goal) => {
         // Make an API call for each goal, passing the data to the backend
-        const response = await createGoal({
+
+        // Create a base goal object
+        const goalData: any = {
           list_name: listName, // Pass the list name
           task_name: goal.task_name, // Pass the goal task_name
           tab: selectedTab, // Pass the selected tab ID
           color: goal.color, // Pass the goal color
           type: goal.type,
-        });
+          active: goal.active,
+          complete: goal.complete,
+          last_completed: goal.last_completed,
+        };
+
+        // Conditionally add additional fields for specific goal types
+        if (goal.type === "Progress Bar") {
+          goalData.current_number = goal.current_number;
+          goalData.goal_number = goal.goal_number;
+          goalData.units = goal.units;
+        }
+
+        // Make the API call
+        const response = await createGoal(goalData);
 
         return response;
       });
