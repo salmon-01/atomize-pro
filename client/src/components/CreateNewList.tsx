@@ -9,7 +9,7 @@ import ProgressBarVideo from "../assets/vids/progressbar-animation.mp4";
 import "../styles/CreateNewList.css";
 import AddSomeGoals from "./addtolist/AddSomeGoals";
 import { useAppContext } from "../AppContext";
-import { State, Tab } from "../types/types";
+import { State } from "../types/types";
 
 // The form data captured in this form
 type FormData = {

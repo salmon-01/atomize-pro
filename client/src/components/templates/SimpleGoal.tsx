@@ -16,18 +16,23 @@ export default function SimpleGoal({ goalID }: SimpleGoalProps) {
 
   // Get the goal from the global state using goalID
   const goal = state.goals.find((g) => g.id === goalID);
-  console.log(goal);
+  // console.log(goal);
   // Memoize the completeGoal function to prevent unnecessary re-creation
-  const completeGoal = useCallback(() => {
+  const completeGoal = useCallback(async () => {
     if (goal && !goal.complete) {
-      // Dispatch action to update the global state
-      dispatch({
-        type: "UPDATE_GOAL",
-        payload: { id: goal.id, updates: { complete: true } },
-      });
+      try {
+        // Dispatch action to update the global state
+        dispatch({
+          type: "UPDATE_GOAL",
+          payload: { id: goal.id, updates: { complete: true } },
+        });
 
-      // Update goal progress on the backend
-      updateGoalProgress(goal.name, goal.type, true);
+        // Update goal progress on the backend
+        await updateGoalProgress(goal);
+        console.log("Goal updated on backend");
+      } catch (error) {
+        console.error("Failed to update goal on backend:", error);
+      }
     }
   }, [goal, dispatch]);
 
@@ -49,17 +54,15 @@ export default function SimpleGoal({ goalID }: SimpleGoalProps) {
   })();
 
   return (
-    <div className="goal-container">
+    <div className="goal-container" onClick={completeGoal}>
       <div className="simple-container">
-        <div className={`simpleBlock ${goalClass}`} onClick={completeGoal}>
+        <div className={`simpleBlock ${goalClass}`}>
           <div
             className={`statusLight-simple ${
               goal.complete ? "isDone" : "isOff"
             }`}
           ></div>
-          <div className="simpleGoalText" onClick={completeGoal}>
-            {goal.task_name}
-          </div>
+          <div className="simpleGoalText">{goal.task_name}</div>
         </div>
       </div>
     </div>

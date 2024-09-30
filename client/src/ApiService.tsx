@@ -2,6 +2,33 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:3000/api";
 
+function selectEndpoint(goal) {
+  if (!goal || !goal.type) {
+    throw new Error("Invalid goal data");
+  }
+  let endpoint = "";
+  console.log(goal.type);
+  // Select the appropriate endpoint based on the template type
+  switch (goal.type) {
+    case "Simple List":
+      endpoint = `${BASE_URL}/simplelists`;
+      break;
+    case "Progress Bar":
+      endpoint = `${BASE_URL}/progressbars`;
+      break;
+    case "Levels":
+      endpoint = `${BASE_URL}/levels`;
+      break;
+    case "Sets":
+      endpoint = `${BASE_URL}/sets`;
+      break;
+    default:
+      throw new Error("Unknown template type");
+  }
+
+  return endpoint;
+}
+
 // CREATION: Goals, Lists, and Tabs
 
 export const createGoal = async (goalData) => {
@@ -123,17 +150,19 @@ export const fetchAllGoals = async () => {
 
 // EDIT DATA
 
-export const updateGoalProgress = async (name, type, newValue) => {
-  if (newValue === 0) {
-    return;
-  }
-  const postRequest = {
-    method: "POST",
+export const updateGoalProgress = async (goal) => {
+  const endpoint = selectEndpoint(goal);
+
+  const putRequest = {
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, type, newValue }),
+    body: JSON.stringify(goal),
   };
   try {
-    const response = await fetch(`${BASE_URL}/storedgoals/status`, postRequest);
+    const response = await fetch(
+      `${endpoint}/task/${goal.id}/status`,
+      putRequest
+    );
     if (!response.ok) {
       console.log("Network response when storing goal progress was not ok");
       return;
@@ -185,12 +214,14 @@ export const deleteTab = async (tabName) => {
   }
 };
 
-export const deleteGoal = async (goalName, type) => {
+export const deleteGoal = async (goal) => {
+  const endpoint = selectEndpoint(goal);
+
   try {
-    const response = await fetch(`${BASE_URL}/storedgoals`, {
+    const response = await fetch(`${endpoint}/task/${goal.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ goalName, type }),
+      body: JSON.stringify({ goal }),
     });
     if (!response.ok) {
       console.log("Failed to delete the goal");

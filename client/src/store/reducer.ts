@@ -13,6 +13,8 @@ export function reducer(
   state: typeof initialState = initialState,
   action: Action
 ) {
+  let updatedGoals;
+
   switch (action.type) {
     case "SET_TABS":
       return {
@@ -45,7 +47,7 @@ export function reducer(
         currentXP: totalCurrentXP,
       };
     case "UPDATE_GOAL":
-      const updatedGoals = state.goals.map((goal) =>
+      updatedGoals = state.goals.map((goal) =>
         goal.id === action.payload.id
           ? { ...goal, ...action.payload.updates } // Create a new goal object
           : goal
@@ -53,6 +55,22 @@ export function reducer(
       return {
         ...state,
         goals: updatedGoals, // Create a new goals array
+      };
+    case "DELETE_GOAL":
+      const remainingGoals = state.goals.filter(
+        (goal) => goal.id !== action.payload.id
+      );
+      return {
+        ...state,
+        goals: remainingGoals,
+      };
+    case "DELETE_LIST":
+      updatedGoals = state.goals.filter(
+        (goal) => goal.list_name !== action.payload.list_name
+      );
+      return {
+        ...state,
+        goals: updatedGoals,
       };
     case "SET_LOADING":
       return {

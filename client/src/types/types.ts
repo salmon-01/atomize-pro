@@ -36,6 +36,7 @@ export type Action =
   | { type: "UPDATE_GOAL"; payload: { id: number; updates: Partial<Goal> } } // New action to update goal
   // | { type: 'UPDATE_LIST'; payload: UNSURE_YET }
   // | { type: 'DELETE_TAB'; payload: UNSURE_YET };
-  // | { type: 'DELETE_GOAL'; payload: UNSURE_YET };
+  | { type: "DELETE_GOAL"; payload: { id: number } }
+  | { type: "DELETE_LIST"; payload: { list_name: string } }
   // | { type: 'DELETE_LIST_POSITION'; payload: UNSURE_YET };
   | { type: "SET_LOADING"; payload: boolean };
