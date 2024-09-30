@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../../styles/LevelsBlock.css";
 import { updateGoalProgress } from "../../ApiService";
 import { Goal } from "../../types/types";
@@ -27,12 +27,12 @@ export default function LevelsBlock({ goal }: LevelsBlockProps) {
         type: "UPDATE_GOAL",
         payload: {
           id: goal.id,
-          updates: { levels: newCompletedLevels },
+          updates: { level: newCompletedLevels },
         },
       });
 
       // Update the backend with the new progress
-      updateGoalProgress(goal);
+      updateGoalProgress({ ...goal, level: newCompletedLevels });
     }
   };
 
