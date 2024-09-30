@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { initialState, reducer } from "./store/reducer.js";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar.js";
@@ -82,7 +82,10 @@ function App() {
           <Route path="/create-new" element={<CreateNew />} />
           <Route path="/create-new/list" element={<CreateNewList />} />
           <Route path="/create-new/tab" element={<CreateNewTab />} />
-          <Route path="/create-new/goal" element={<CreateNewGoal />} />
+          <Route
+            path="/create-new/goal"
+            element={<CreateNewGoal tabs={tabs} />}
+          />
           <Route path="/edit" element={<MakeEdits />} />
           {!isLoading &&
             tabs.length > 0 &&
