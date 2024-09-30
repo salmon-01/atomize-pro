@@ -19,6 +19,6 @@ Tabs (specifically those containing links and goals, i.e. the Tab component) wil
 After creating a tab, you automatically get navigated to the new page - but a refresh is needed in order to load content, i.e. the 'Page is empty, etc' message. A page refresh is also needed in order to see the XP bar in the top-right corner to fill up after a goal is completed.
 
 
-## Handling Lists
+~~ ## Handling Lists~~ FIXED
 
 Fetching list information is clunky because you have to identify unique lists by either mapping through tabs or goals. I think that database schemas could be more effectively formulated to include this info without repeating other info.
