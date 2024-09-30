@@ -4,10 +4,14 @@ import { Goal } from "../../types/types";
 import { Control, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { useFormContext } from "../../context/createListContext.js"; // Custom context
 
+type FormValues = {
+  goals: Goal[];
+};
+
 interface AddSomeBarsProps {
-  control: Control<{ goals: Goal[] }>;
-  register: UseFormRegister<{ goals: Goal[] }>;
-  setValue: UseFormSetValue<{ goals: Goal[] }>;
+  control: Control<FormValues>;
+  register: UseFormRegister<FormValues>;
+  setValue: UseFormSetValue<FormValues>;
 }
 
 export default function AddSomeBars({
@@ -67,7 +71,7 @@ export default function AddSomeBars({
                 <input
                   type="text"
                   className={`rounded-input name-small-input bar-input ${goal.color}`}
-                  {...register(`goals[${index}].task_name`, {
+                  {...register(`goals.${index}.task_name` as const, {
                     required: "Goal name is required",
                   })}
                 />
@@ -76,7 +80,7 @@ export default function AddSomeBars({
                 <input
                   type="number"
                   className={`small-input rounded-input ${goal.color}`}
-                  {...register(`goals[${index}].goal_number`, {
+                  {...register(`goals.${index}.goal_number` as const, {
                     valueAsNumber: true,
                   })}
                 />
@@ -85,7 +89,7 @@ export default function AddSomeBars({
                 <input
                   type="text"
                   className={`small-input rounded-input ${goal.color}`}
-                  {...register(`goals[${index}].units`)}
+                  {...register(`goals.${index}.units` as const)}
                 />
               </td>
               <td>
@@ -97,25 +101,34 @@ export default function AddSomeBars({
                   <div
                     className="color-option turq-gradient"
                     onClick={() =>
-                      setValue(`goals[${index}].color`, "turq-gradient")
+                      setValue(`goals.${index}.color` as const, "turq-gradient")
                     }
                   ></div>
                   <div
                     className="color-option orange-gradient"
                     onClick={() =>
-                      setValue(`goals[${index}].color`, "orange-gradient")
+                      setValue(
+                        `goals.${index}.color` as const,
+                        "orange-gradient"
+                      )
                     }
                   ></div>
                   <div
                     className="color-option purple-gradient"
                     onClick={() =>
-                      setValue(`goals[${index}].color`, "purple-gradient")
+                      setValue(
+                        `goals.${index}.color` as const,
+                        "purple-gradient"
+                      )
                     }
                   ></div>
                   <div
                     className="color-option yellow-gradient"
                     onClick={() =>
-                      setValue(`goals[${index}].color`, "yellow-gradient")
+                      setValue(
+                        `goals.${index}.color` as const,
+                        "yellow-gradient"
+                      )
                     }
                   ></div>
                 </div>
