@@ -9,6 +9,7 @@ import { createGoal } from "../../ApiService.jsx";
 import { Goal } from "../../types/types.js";
 import { useFormContext } from "../../context/createListContext.js";
 import { useAppContext } from "../../AppContext.js";
+import { Tab } from "../../types/types.js";
 
 type FormData = {
   goals: Goal[];
@@ -52,7 +53,9 @@ export default function AddSomeGoals() {
     // });
 
     // Find the tab object by its ID
-    const selectedTabObj = state.tabs.find((tab) => tab.id === selectedTab);
+    const selectedTabObj = state.tabs.find(
+      (tab: Tab) => tab.id === selectedTab
+    );
 
     if (!selectedTabObj) {
       console.log("Tab not found");

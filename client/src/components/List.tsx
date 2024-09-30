@@ -1,28 +1,27 @@
-import { useAppContext } from "../AppContext";
+// import { useAppContext } from "../AppContext";
 import SimpleGoal from "./templates/SimpleGoal";
 import ProgressBar from "./templates/ProgressBar";
 import LevelsBlock from "./templates/LevelsBlock";
 import Sets from "./templates/Sets";
 
-import { Tab, Goal } from "../types/types";
+import { Goal } from "../types/types";
 
 interface ListProps {
   list: string;
-  tab: Tab;
   tabGoals: Goal[];
 }
 
-export default function List({ list, tab, tabGoals }: ListProps) {
+export default function List({ list, tabGoals }: ListProps) {
   // Now using tabGoals prop passed from Tab component
   const listGoals = tabGoals.filter((goal) => goal.list_name === list);
   return (
     <div
       className="list-container"
-      id={`${
-        (tab.col_one === list && "col1") ||
-        (tab.col_two === list && "col2") ||
-        "col3"
-      }`}
+      // id={`${
+      //   (tab.col_one === list && "col1") ||
+      //   (tab.col_two === list && "col2") ||
+      //   "col3"
+      // }`}
     >
       <div id="list-heading">{list}</div>
       <div className="goal-content-container">

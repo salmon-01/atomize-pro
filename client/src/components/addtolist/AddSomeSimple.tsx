@@ -1,4 +1,9 @@
-import { useFieldArray } from "react-hook-form";
+import {
+  useFieldArray,
+  Control,
+  UseFormRegister,
+  UseFormSetValue,
+} from "react-hook-form";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
 import { useFormContext } from "../../context/createListContext.js"; // Custom context
 import { Goal } from "../../types/types.js";
@@ -19,7 +24,6 @@ export default function AddSomeSimple({
     name: "goals", // The field array for goals
   });
 
-  // Get values for listName and selectedTab from context
   const { listName, selectedTab } = useFormContext();
 
   const handleAddGoal = () => {

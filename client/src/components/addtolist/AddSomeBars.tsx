@@ -22,8 +22,8 @@ export default function AddSomeBars({
   const handleAddGoal = () => {
     append({
       task_name: "",
-      list_name: "", // Assuming this will be provided through context or props
-      tab, // Assuming this will be provided through context or props
+      list_name: "",
+      tab,
       type: "Progress Bar",
       color: "turq-gradient",
       active: true,
