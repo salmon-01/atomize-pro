@@ -2,12 +2,15 @@ import { useState } from "react";
 import "../../styles/ProgressBar.css";
 import { updateGoalProgress } from "../../ApiService";
 import { Goal } from "../../types/types";
+import { useAppContext } from "../../AppContext";
 
 interface ProgressBarProps {
   goal: Goal;
 }
 
 export default function ProgressBar({ goal }: ProgressBarProps) {
+  const { dispatch } = useAppContext(); // Access dispatch from global context
+
   // Local state for the current progress, initially set to goal's current_number
   const [current, setCurrent] = useState<number>(goal.current_number || 0);
   const [progressToAdd, setToAdd] = useState<string>("");
@@ -42,6 +45,15 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
 
     // Update local state to reflect the new progress
     setCurrent(newProgress);
+
+    // Dispatch action to update the global state with new progress
+    dispatch({
+      type: "UPDATE_GOAL",
+      payload: {
+        id: goal.id,
+        updates: { current_number: newProgress },
+      },
+    });
 
     // Make the API call to update the progress on the backend
     updateGoalProgress({
