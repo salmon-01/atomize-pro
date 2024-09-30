@@ -134,8 +134,7 @@ export default function AddSomeLevels({
           ])
         }
       >
-        {" "}
-        Add +{" "}
+        Add +
       </button>
     </>
   );
