@@ -20,7 +20,8 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
 
   // This function is triggered when the user submits the progress
   function submitProgress() {
-    const parsedValue = Number(progressToAdd);
+    const parsedValue = progressToAdd === "" ? 1 : Number(progressToAdd);
+
     if (isNaN(parsedValue)) {
       alert("Please enter a valid number.");
       return;

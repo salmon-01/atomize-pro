@@ -40,7 +40,7 @@ export default function Tab() {
     acc[goal.list_name].push(goal);
     return acc;
   }, {});
-
+  console.log(goalsByList);
   // Get an array of all list names
   const tabLists = Object.keys(goalsByList);
   if (!tab) {

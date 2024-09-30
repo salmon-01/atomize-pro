@@ -1,3 +1,5 @@
+import { useFieldArray } from "react-hook-form";
+import { useFormContext } from "../../context/createListContext.js"; // Custom context
 import { useState, useEffect } from "react";
 // import Delete from "../../assets/other/delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
@@ -11,37 +13,30 @@ interface AddSomeLevelsProps {
 }
 
 export default function AddSomeLevels({
-  listName,
-  finalizeGoals,
-  selectedTab,
+  control,
+  register,
+  setValue,
 }: AddSomeLevelsProps) {
-  const [goals, setGoals] = useState([
-    {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "goals", // The field array for goals
+  });
+
+  const { listName, selectedTab } = useFormContext();
+
+  const handleAddGoal = () => {
+    append({
       name: "",
       list: listName,
-      tab: selectedTab.name,
+      tab: selectedTab,
       type: "Levels",
       color: "purple",
-      order_no: 1,
+      order_no: fields.length + 1,
       active: true,
       complete: false,
       last_completed: null,
       level: 0,
-    },
-  ]);
-
-  const handleGoalNameChange = (index: number, value: string) => {
-    const updatedGoals = goals.map((goal, i) =>
-      i === index ? { ...goal, name: value } : goal
-    );
-    setGoals(updatedGoals);
-  };
-
-  const handleGoalColorChange = (index: number, value: string) => {
-    const updatedGoals = goals.map((goal, i) =>
-      i === index ? { ...goal, color: value } : goal
-    );
-    setGoals(updatedGoals);
+    });
   };
 
   function openColorBox(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
@@ -50,17 +45,6 @@ export default function AddSomeLevels({
     colorChoices.style.display =
       colorChoices.style.display === "block" ? "none" : "block";
   }
-
-  function removeItem(indexToRemove: number) {
-    const updatedGoals = goals.filter(
-      (_, index: number) => index !== indexToRemove
-    );
-    setGoals(updatedGoals);
-  }
-
-  useEffect(() => {
-    finalizeGoals(goals);
-  }, [goals]);
 
   return (
     <>
@@ -71,42 +55,37 @@ export default function AddSomeLevels({
             <th>Goal name</th>
             <th>Color</th>
           </tr>
-          {goals.map((goal, index) => (
+          {fields.map((goal, index) => (
             <tr key={`goal-${index}`}>
-              <td
-                className="remove-by-index"
-                onClick={() => {
-                  removeItem(index);
-                }}
-              >
+              <td className="remove-by-index" onClick={() => remove(index)}>
                 <img src={OrangeDelete} className="delete-icon" />
               </td>
               <td>
                 <input
                   type="text"
-                  className={`name-goal name-simple ${goal.color}`}
-                  value={goal.name}
-                  onChange={(e) => handleGoalNameChange(index, e.target.value)}
+                  className={`rounded-input name-small-input bar-input ${goal.color}`}
+                  {...register(`goals[${index}].task_name`, {
+                    required: "Goal name is required",
+                  })}
                 />
               </td>
               <td>
                 <div
                   className={`color-box ${goal.color}`}
-                  value={goal.color}
                   onClick={openColorBox}
                 ></div>
                 <div className="color-choices">
                   <div
                     className="color-option purple"
-                    onClick={() => {
-                      handleGoalColorChange(index, "purple");
-                    }}
+                    onClick={() => setValue(`goals[${index}].color`, "purple")}
                   ></div>
                   <div
                     className="color-option pink"
-                    onClick={() => {
-                      handleGoalColorChange(index, "pink");
-                    }}
+                    onClick={() => setValue(`goals[${index}].color`, "pink")}
+                  ></div>
+                  <div
+                    className="color-option blue"
+                    onClick={() => setValue(`goals[${index}].color`, "blue")}
                   ></div>
                 </div>
               </td>
@@ -114,26 +93,7 @@ export default function AddSomeLevels({
           ))}
         </tbody>
       </table>
-      <button
-        id="add-another-goal"
-        onClick={() =>
-          setGoals([
-            ...goals,
-            {
-              name: "",
-              list: listName,
-              tab: selectedTab.name,
-              type: "Levels",
-              color: "purple",
-              order_no: goals.length + 1,
-              active: true,
-              complete: false,
-              last_completed: null,
-              level: 0,
-            },
-          ])
-        }
-      >
+      <button id="add-another-goal" onClick={handleAddGoal}>
         Add +
       </button>
     </>
