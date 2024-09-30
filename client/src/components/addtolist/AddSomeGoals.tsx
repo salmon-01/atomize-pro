@@ -65,7 +65,7 @@ export default function AddSomeGoals() {
 
     try {
       const promises = data.goals.map(async (goal) => {
-        // Make an API call for each goal
+        // Make an API call for each goal, passing the data to the backend
         const response = await createGoal({
           list_name: listName, // Pass the list name
           task_name: goal.task_name, // Pass the goal task_name
