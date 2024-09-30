@@ -30,12 +30,12 @@ export function calculateGoalXP(goals: Goal[]) {
     }
     if (
       goal.type === "Progress Bar" &&
-      goal.current !== undefined &&
+      goal.current_number !== undefined &&
       goal.goal_number !== undefined
     ) {
       const progress =
         goal.goal_number > 0
-          ? Math.round((goal.current / goal.goal_number) * 10)
+          ? Math.round((goal.current_number / goal.goal_number) * 10)
           : 0;
       totalCurrentXP += progress;
     }
