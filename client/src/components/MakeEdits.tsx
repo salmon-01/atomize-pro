@@ -52,7 +52,7 @@ export default function MakeEdits() {
   // Function to delete a Tab and associated goals
   const deleteSelectedTab = () => {
     if (!selectedTab) return;
-
+    dispatch({ type: "SET_LOADING", payload: true });
     // Delete all goals associated with the selected tab
     goals.forEach((goal) => {
       if (goal.tab === selectedTab.id) {
@@ -61,7 +61,9 @@ export default function MakeEdits() {
     });
 
     // Delete the selected tab
-    deleteTab(selectedTab.name);
+    deleteTab(selectedTab.id);
+    dispatch({ type: "DELETE_TAB", payload: { id: selectedTab.id } });
+    dispatch({ type: "SET_LOADING", payload: false });
   };
 
   const deleteSelectedGoal = () => {

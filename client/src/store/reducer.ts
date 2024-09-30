@@ -72,6 +72,11 @@ export function reducer(
         ...state,
         goals: updatedGoals,
       };
+    case "DELETE_TAB":
+      return {
+        ...state,
+        tabs: state.tabs.filter((tab) => tab.id !== action.payload.id),
+      };
     case "SET_LOADING":
       return {
         ...state,
