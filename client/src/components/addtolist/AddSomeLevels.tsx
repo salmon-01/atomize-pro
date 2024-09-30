@@ -1,15 +1,19 @@
-import { useFieldArray } from "react-hook-form";
+import {
+  useFieldArray,
+  Control,
+  UseFormRegister,
+  UseFormSetValue,
+} from "react-hook-form";
 import { useFormContext } from "../../context/createListContext.js"; // Custom context
-import { useState, useEffect } from "react";
 // import Delete from "../../assets/other/delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
 import "../../styles/AddSome.css";
-import { Goal, Tab } from "../../types/types";
+import { Goal } from "../../types/types";
 
 interface AddSomeLevelsProps {
-  listName: string;
-  selectedTab: Tab;
-  finalizeGoals: (goals: Goal[]) => void;
+  control: Control<{ goals: Goal[] }>;
+  register: UseFormRegister<{ goals: Goal[] }>;
+  setValue: UseFormSetValue<{ goals: Goal[] }>;
 }
 
 export default function AddSomeLevels({
