@@ -9,6 +9,7 @@ export const createGoal = async (goalData: Goal) => {
   const endpoint = selectEndpoint(goalData);
 
   try {
+    console.log("Sending request to endpoint:", endpoint); // Log the endpoint
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
@@ -22,6 +23,7 @@ export const createGoal = async (goalData: Goal) => {
     }
 
     const data = await response.json();
+    console.log("Goal created with ID:", data.id); // Log the ID received
     return { success: true, data };
   } catch (error: unknown) {
     if (error instanceof Error) {
