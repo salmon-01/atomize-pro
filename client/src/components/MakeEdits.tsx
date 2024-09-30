@@ -122,7 +122,7 @@ export default function MakeEdits() {
       }
 
       // Reset selections after deletion
-      // resetSelections();
+      resetSelections();
     }
   };
 

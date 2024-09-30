@@ -63,9 +63,9 @@ export default function CreateNewTab() {
       dispatch({ type: "SET_LOADING", payload: true });
 
       // Create the tab by calling the API service
-      await createTab(newTab);
-      dispatch({ type: "CREATE_TAB", payload: newTab });
-      console.log("New tab created successfully: ", newTab);
+      const createdTab = await createTab(newTab);
+      dispatch({ type: "CREATE_TAB", payload: createdTab });
+      console.log("New tab created successfully: ", createdTab);
       // Navigate to the new tab's path
       const path = findPath(data.name);
       navigate(`/${path}`);

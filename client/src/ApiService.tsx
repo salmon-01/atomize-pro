@@ -48,8 +48,9 @@ export const createTab = async (tab: Tab) => {
       console.log("Network response when creating a tab was not OK");
       return;
     } else {
-      const data = await response.json();
-      console.log("Network request to create tab was sent successfully", data);
+      const createdTab: Tab = await response.json();
+      console.log("Tab created successfully:", createdTab);
+      return createdTab;
     }
   } catch (error) {
     console.log(error, "Error sending network request to create tab");

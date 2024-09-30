@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CreateListProvider } from "../context/createListContext";
 import PreviewVideo from "./PreviewVideo";
 import SimpleListVideo from "../assets/vids/simplelist-animation.mp4";
@@ -11,18 +11,15 @@ import AddSomeGoals from "./addtolist/AddSomeGoals";
 import { useAppContext } from "../AppContext";
 import { State } from "../types/types";
 
-// The form data captured in this form
 type FormData = {
   listName: string;
   template: string;
-  selectedTab: string | null; // Storing just tab ID
+  selectedTab: number | null;
 };
 
 export default function CreateNewList() {
-  const { state } = useAppContext() as {
-    state: State;
-  };
-  const { tabs } = state; // Access tabs from the global state
+  const { state } = useAppContext() as { state: State };
+  const { tabs } = state;
 
   const {
     register,
@@ -32,39 +29,39 @@ export default function CreateNewList() {
     formState: { errors },
   } = useForm<FormData>();
 
-  // Local component state
   const [hoveredTemplate, setHoveredTemplate] = useState("");
+  const [selectedTab, setSelectedTab] = useState<number | null>(null);
   const [firstStepDone, setFirstStepDone] = useState(false);
 
   const listTypes = ["Simple List", "Progress Bar", "Sets", "Levels", "Mixed"];
 
-  // Form inputs
-  const selectedTab = watch("selectedTab"); // Now just the tab id
   const template = watch("template");
   const listName = watch("listName");
 
-  // Form data (for useContext)
-  const formData = {
-    selectedTab, // Passing tab ID instead of the full Tab object
-    listName,
-    template,
+  useEffect(() => {
+    if (tabs.length > 0 && selectedTab === null) {
+      setSelectedTab(tabs[0].id);
+      setValue("selectedTab", tabs[0].id, { shouldValidate: true });
+    }
+  }, [tabs, selectedTab, setValue]);
+
+  // Add this useEffect for debugging
+  useEffect(() => {
+    console.log("Current tabs:", tabs);
+  }, [tabs]);
+
+  const handleSelectTab = (tabId: number) => {
+    setSelectedTab(tabId);
+    setValue("selectedTab", tabId, { shouldValidate: true });
   };
 
-  // Register template as required
-  register("template", { required: "Template selection is required" });
-
-  // Handle form submission
   const onSubmit = (data: FormData) => {
     if (!data.selectedTab) {
       alert("Please choose a tab for your list!");
       return;
     }
+    console.log("Form Data:", data);
     setFirstStepDone(true);
-  };
-
-  // Store just the tab id in selectedTab
-  const handleSelectTab = (tabId: string) => {
-    setValue("selectedTab", tabId);
   };
 
   return (
@@ -78,6 +75,7 @@ export default function CreateNewList() {
             {...register("listName", { required: "List name is required" })}
           />
           {errors.listName && <p>{errors.listName.message}</p>}
+
           <span className="form-text">CHOOSE TEMPLATE:</span>
           <div className="template-options">
             {listTypes.map((type) => (
@@ -96,24 +94,38 @@ export default function CreateNewList() {
             ))}
           </div>
           {errors.template && <p>Please choose a template</p>}
+
           <span className="form-text">ADD TO:</span>
           <div className="chosen-tab">
             {tabs.length > 0 ? (
-              tabs.map((tab) => (
-                <img
-                  key={tab.id}
-                  src={`/icons/${tab.icon_name}`}
-                  className={`nav-icon ${
-                    selectedTab === tab.id ? "chosen-tab-selected" : ""
-                  }`}
-                  onClick={() => handleSelectTab(tab.id)} // Compare selectedTab (tab id) with tab.id
-                />
-              ))
+              tabs.map((tab) => {
+                if (!tab || tab.id === undefined) {
+                  console.error("Invalid tab:", tab);
+                  return null;
+                }
+                return (
+                  <img
+                    key={tab.id}
+                    src={`/icons/${tab.icon_name}`}
+                    className={`nav-icon ${
+                      selectedTab === tab.id ? "chosen-tab-selected" : ""
+                    }`}
+                    onClick={() => handleSelectTab(tab.id)}
+                    alt={`Tab ${tab.id}`}
+                  />
+                );
+              })
             ) : (
               <p>No existing tabs!</p>
             )}
           </div>
           {errors.selectedTab && <p>Please choose a tab</p>}
+
+          <input
+            type="hidden"
+            {...register("selectedTab", { required: true })}
+          />
+
           <button id="add-goals-to-list" type="submit">
             Add Goal Data &rarr;
           </button>
@@ -123,7 +135,7 @@ export default function CreateNewList() {
       {!firstStepDone ? (
         <div className="preview-list-container">
           <div className="preview-items">
-            {hoveredTemplate === "Simple List" ? (
+            {hoveredTemplate === "Simple List" && (
               <>
                 <div className="preview-text-wrap">
                   <PreviewVideo video={SimpleListVideo} />
@@ -135,7 +147,8 @@ export default function CreateNewList() {
                   morning routines.
                 </span>
               </>
-            ) : hoveredTemplate === "Progress Bar" ? (
+            )}
+            {hoveredTemplate === "Progress Bar" && (
               <>
                 <div className="preview-text-wrap">
                   <PreviewVideo video={ProgressBarVideo} />
@@ -146,7 +159,8 @@ export default function CreateNewList() {
                   1000 words, drink 2000 ml of water, or study for 45 minutes.
                 </span>
               </>
-            ) : hoveredTemplate === "Levels" ? (
+            )}
+            {hoveredTemplate === "Levels" && (
               <>
                 <div className="preview-text-wrap">
                   <PreviewVideo video={LevelsVideo} />A three-level progress
@@ -158,7 +172,8 @@ export default function CreateNewList() {
                   general progress was made on a project.
                 </span>
               </>
-            ) : hoveredTemplate === "Sets" ? (
+            )}
+            {hoveredTemplate === "Sets" && (
               <>
                 <div className="preview-text-wrap">
                   <PreviewVideo video={SetsVideo} />
@@ -169,13 +184,11 @@ export default function CreateNewList() {
                   habit-building.
                 </span>
               </>
-            ) : (
-              ""
             )}
           </div>
         </div>
       ) : (
-        <CreateListProvider formData={formData}>
+        <CreateListProvider formData={{ selectedTab, listName, template }}>
           <AddSomeGoals />
         </CreateListProvider>
       )}
