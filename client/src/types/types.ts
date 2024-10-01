@@ -2,7 +2,6 @@ export interface Tab {
   id?: number | null;
   name: string;
   icon_name: string;
-  order_no: number;
 }
 
 export interface Goal {
