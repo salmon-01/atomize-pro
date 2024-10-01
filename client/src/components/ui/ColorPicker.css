@@ -1,0 +1,53 @@
+/* Container for the entire picker */
+.color-picker-container {
+  position: relative;
+}
+
+/* Box that shows the selected color */
+.color-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+/* Dropdown that shows the color options */
+.color-choices {
+  position: absolute;
+  margin-top: 4px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  /* padding: 8px; */
+  display: flex;
+  flex-direction: column;
+  width: 4rem;
+  height: 5rem; /* Adjust height to fit all color options */
+  align-self: center;
+}
+
+/* Each color option */
+.color-option {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: auto;
+}
+
+/* Define the color gradients */
+.turq-gradient {
+  background: linear-gradient(135deg, #06beb6, #48b1bf);
+}
+
+.orange-gradient {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+}
+
+.purple-gradient {
+  background: linear-gradient(135deg, #7f00ff, #e100ff);
+}
+
+.yellow-gradient {
+  background: linear-gradient(135deg, #fbd786, #f7797d);
+}
