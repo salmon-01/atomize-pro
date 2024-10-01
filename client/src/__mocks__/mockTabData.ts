@@ -8,7 +8,7 @@ export interface Tab {
 
 export const mockTabData: Tab[] = [
   {
-    id: 27,
+    id: 1,
     name: "tab 1",
     icon_name: "rocket-icon.png",
     createdAt: "2024-09-30T16:00:56.414Z",
@@ -17,11 +17,11 @@ export const mockTabData: Tab[] = [
 ];
 
 export const createMockTab = (overrides: Partial<Tab> = {}): Tab => ({
-  id: 1,
+  id: 2,
   name: "Default Tab",
-  icon_name: "default-icon.png",
-  createdAt: "2024-09-30T16:00:56.414Z",
-  updatedAt: "2024-09-30T16:00:56.414Z",
+  icon_name: "atomic-icon.png",
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
   ...overrides,
 });
 
