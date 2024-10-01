@@ -71,6 +71,7 @@ export default function AddSomeLevels({
               <td>
                 <input
                   type="text"
+                  aria-label="Task Name"
                   className={`rounded-input name-small-input bar-input ${goal.color}`}
                   {...register(`goals.${index}.task_name` as const, {
                     required: "Goal name is required",
