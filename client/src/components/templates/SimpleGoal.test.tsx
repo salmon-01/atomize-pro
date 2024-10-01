@@ -7,7 +7,7 @@ import {
 } from "../../__mocks__/mockSimpleList";
 import { MockAppProvider } from "../../__mocks__/mockAppContext";
 
-describe("SimpleGoalComponent", () => {
+describe("Simple Goal Component", () => {
   it("renders a single simple goal item correctly", () => {
     const simpleList = mockSimpleListData[0];
     const { id } = simpleList;
