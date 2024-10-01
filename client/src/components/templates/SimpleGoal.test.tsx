@@ -42,7 +42,10 @@ describe("Simple Goal Component", () => {
 
   it("renders multiple simple goals correctly", () => {
     // Create a mock list with 3 items
-    const lists = createMockSimpleLists(3);
+    const lists = createMockSimpleLists(3).map((list, index) => ({
+      ...list,
+      id: list.id ?? index, // Fallback to index if id is undefined
+    }));
     // Update the global state with the mock data (goals/lists)
     const mockAppContextValue = {
       state: {
