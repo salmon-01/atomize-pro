@@ -1,3 +1,10 @@
+:root {
+  --turq-gradient: linear-gradient(135deg, #06beb6, #48b1bf);
+  --orange-gradient: linear-gradient(135deg, #ff7e5f, #feb47b);
+  --purple-gradient: linear-gradient(135deg, #7f00ff, #e100ff);
+  --yellow-gradient: linear-gradient(135deg, #fbd786, #f7797d);
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: repeat(12, [col-start] 1fr);
