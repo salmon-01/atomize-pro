@@ -28,14 +28,16 @@ export function ColorPicker({ color, onChange }: ColorPickerProps) {
       <div
         className={`color-box ${color}`}
         onClick={toggleOpen}
+        role="button"
         aria-haspopup="true"
         aria-expanded={isOpen}
       ></div>
       {isOpen && (
-        <div className="color-choices">
+        <div className="color-choices" role="listbox">
           {colorOptions.map((option) => (
             <div
               key={option.name}
+              role="button"
               className={`color-option ${option.name}`}
               onClick={() => handleColorChange(option.name)}
               aria-label={`Select ${option.label}`}
