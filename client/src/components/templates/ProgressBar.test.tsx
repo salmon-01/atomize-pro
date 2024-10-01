@@ -151,7 +151,7 @@ describe("Progress Bar Component", () => {
     );
 
     // Enter a progress value in the input field
-    const input = screen.getByRole("spinbutton");
+    const input = screen.getByRole("spinbutton") as HTMLInputElement;
     fireEvent.change(input, { target: { value: "5" } });
 
     // Ensure the input field is updated
