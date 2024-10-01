@@ -77,6 +77,7 @@ export default function AddSomeMixed({
                 <input
                   type="text"
                   className="task-name-input"
+                  aria-label="Task Name"
                   placeholder="Task Name"
                   {...register(`goals.${index}.task_name` as const, {
                     required: "Task name is required",

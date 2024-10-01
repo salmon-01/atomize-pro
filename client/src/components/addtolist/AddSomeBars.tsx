@@ -73,7 +73,9 @@ export default function AddSomeBars({
               <td>
                 <input
                   type="text"
-                  className={`rounded-input name-small-input bar-input ${watchedGoals[index]?.color}`}
+                  aria-label="Task Name"
+                  className={`rounded-input name-small-input bar-input ${goal.color}`}
+
                   {...register(`goals.${index}.task_name` as const, {
                     required: "Goal name is required",
                   })}

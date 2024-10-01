@@ -77,4 +77,25 @@ describe("Tab Component", () => {
     expect(screen.queryByText(/⸻ Tab 1 ⸻/i)).not.toBeInTheDocument();
     expect(screen.queryAllByRole("list")).toHaveLength(0);
   });
+  // Currently not working...
+  // it("renders BlankPage when tab has no goals", () => {
+  //   const stateWithNoGoalsForTab3 = {
+  //     ...mockState,
+  //     goals: mockState.goals.filter((goal) => goal.tab !== 3), // Ensure no goals for tab 3
+  //   };
+
+  //   vi.spyOn(AppContext, "useAppContext").mockReturnValue({
+  //     state: stateWithNoGoalsForTab3,
+  //   });
+  //   vi.spyOn(reactRouterDom, "useParams").mockReturnValue({ tabName: "tab-3" });
+
+  //   render(
+  //     <MockAppProvider>
+  //       <Tab />
+  //     </MockAppProvider>
+  //   );
+
+  //   expect(screen.getByText(/⸻ Tab 3 ⸻/i)).toBeInTheDocument();
+  //   expect(screen.getByTestId("blank-page")).toBeInTheDocument(); // Check for the BlankPage using data-testid
+  // });
 });

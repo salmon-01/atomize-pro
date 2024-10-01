@@ -68,7 +68,8 @@ export default function AddSomeSimple({
               <td>
                 <input
                   type="text"
-                  className={`name-goal name-simple ${watchedGoals[index]?.color}`}
+                  aria-label="Task Name"
+                  className={`name-goal name-simple ${goal.color}`}
                   {...register(`goals.${index}.task_name` as const, {
                     required: "Goal name is required",
                   })}
