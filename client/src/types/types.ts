@@ -6,7 +6,7 @@ export interface Tab {
 }
 
 export interface Goal {
-  id?: number | string; // Might change to just number here...
+  id?: number; // Might change to just number here...
   task_name: string;
   list_name: string;
   tab: number;
