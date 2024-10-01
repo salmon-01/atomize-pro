@@ -23,13 +23,13 @@ export const mockAppContextValue: AppContextType = {
   dispatch: mockDispatch,
 };
 
-export const MockAppProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const MockAppProvider: React.FC<{
+  children: React.ReactNode;
+  value?: AppContextType;
+}> = ({ children, value }) => {
+  const contextValue = value || mockAppContextValue;
   return (
-    <AppContext.Provider value={mockAppContextValue}>
-      {children}
-    </AppContext.Provider>
+    <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
   );
 };
 
