@@ -65,15 +65,15 @@ describe("SimpleGoalComponent", () => {
       dispatch: vi.fn(), // Mock dispatch function if needed
     };
 
-    // Render the component inside the mock provider
-    render(
-      <MockAppProvider value={mockAppContextValue}>
-        <SimpleGoal goalID={id} />
-      </MockAppProvider>
-    );
-
-    // Check if each list item is rendered
+    // Loop through the list and render each SimpleGoal component individually
     lists.forEach((list) => {
+      render(
+        <MockAppProvider value={mockAppContextValue}>
+          <SimpleGoal goalID={list.id} />
+        </MockAppProvider>
+      );
+
+      // Check if each goal's task_name is rendered
       expect(screen.getByText(list.task_name)).toBeInTheDocument();
     });
   });
