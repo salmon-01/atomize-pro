@@ -9,5 +9,10 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
+    coverage: {
+      provider: "istanbul", // or 'v8',
+      reporter: ["text", "json", "html"],
+      reportsDirectory: "./coverage", // Directory where coverage reports will be stored
+    },
   },
 });
