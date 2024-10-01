@@ -60,13 +60,10 @@ export default function LevelsBlock({ goal }: LevelsBlockProps) {
           ></div>
           <div
             className={`statusLight ${
-              progress === 3
-                ? "isDone"
-                : progress === 2
-                ? "isPartway"
-                : progress === 1
-                ? "isStarted"
-                : "isOff"
+              (progress === 3 && "isDone") ||
+              (progress === 2 && "isPartway") ||
+              (progress === 1 && "isStarted") ||
+              "isOff"
             }`}
           ></div>
         </div>
