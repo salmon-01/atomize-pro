@@ -1,14 +1,4 @@
-export interface Goal {
-  id?: number | string;
-  task_name: string;
-  list_name: string;
-  tab: number;
-  color: string;
-  active: boolean;
-  complete: boolean;
-  last_completed: string | null;
-  type: string;
-}
+import { Goal } from "../types/types";
 
 export const mockGoalData: Goal[] = [
   {
