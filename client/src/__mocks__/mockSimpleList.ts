@@ -1,21 +1,9 @@
 // mocks/simpleListData.ts
 
 import { Tab, mockTabData, createMockTab } from "./mockTabData";
+import { Goal } from "../types/types";
 
-export interface SimpleList {
-  id: number;
-  list_name: string;
-  task_name: string;
-  complete: boolean;
-  color: string;
-  type: "Simple List";
-  createdAt: string;
-  updatedAt: string;
-  tab: number;
-  Tab: Tab;
-}
-
-export const mockSimpleListData: SimpleList[] = [
+export const mockSimpleListData: Goal[] = [
   {
     id: 1,
     list_name: "Simple List 1",
@@ -23,8 +11,7 @@ export const mockSimpleListData: SimpleList[] = [
     complete: false,
     color: "purple",
     type: "Simple List",
-    createdAt: "2024-09-30T16:41:21.515Z",
-    updatedAt: "2024-09-30T16:41:22.814Z",
+    last_completed: "2024-09-30T16:41:21.515Z",
     tab: 1,
     Tab: mockTabData[0],
   },
@@ -35,8 +22,7 @@ export const mockSimpleListData: SimpleList[] = [
     complete: false,
     color: "purple",
     type: "Simple List",
-    createdAt: "2024-09-30T16:41:21.515Z",
-    updatedAt: "2024-09-30T16:41:22.814Z",
+    last_completed: "2024-09-30T16:41:21.515Z",
     tab: 1,
     Tab: mockTabData[0],
   },
