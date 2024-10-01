@@ -16,11 +16,6 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-// Mock the AppContext
-// vi.mock("../AppContext", () => ({
-//   useAppContext: vi.fn(),
-// }));
-
 describe("Tab Component", () => {
   const mockState = {
     goals: createMockGoals(5),
