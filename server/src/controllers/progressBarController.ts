@@ -113,19 +113,15 @@ export const updateProgressBarStatus = async (
       return;
     }
 
-    // Ensure current_number doesn't go below zero
     const updatedCurrentNumber = Math.max(0, current_number);
-
-    // Determine if the progress is complete (current >= goal)
     const isComplete = updatedCurrentNumber >= progressBar.goal_number;
 
-    // Update the progress bar with the new current number and completion status
+
     await progressBar.update({
       current_number: updatedCurrentNumber,
       complete: isComplete,
     });
 
-    // Respond with success message, updated status, and new current number
     res.status(200).send({
       message: "Progress bar updated successfully",
       complete: isComplete,
