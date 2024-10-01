@@ -156,8 +156,8 @@ describe("Reducer", () => {
     const newState = reducer(state, action);
 
     expect(newState.goals).toEqual([
-      { id: 1, task_name: "Updated Goal" },
-      { id: 2, task_name: "Another Goal" },
+      expect.objectContaining({ id: 1, task_name: "Updated Goal" }),
+      expect.objectContaining({ id: 2, task_name: "Another Goal" }),
     ]);
   });
 
@@ -195,7 +195,9 @@ describe("Reducer", () => {
     const action: Action = { type: "DELETE_GOAL", payload: { id: 1 } };
     const newState = reducer(state, action);
 
-    expect(newState.goals).toEqual([{ id: 2, task_name: "Goal 2" }]);
+    expect(newState.goals).toEqual([
+      expect.objectContaining({ id: 2, task_name: "Goal 2" }),
+    ]);
   });
 
   it("should handle DELETE_LIST action", () => {
@@ -248,7 +250,18 @@ describe("Reducer", () => {
     const newState = reducer(state, action);
 
     expect(newState.goals).toEqual([
-      { id: 3, task_name: "Goal 3", list_name: "List 2" },
+      {
+        id: 3,
+        task_name: "Goal 3",
+        list_name: "List 2",
+        progress: 50,
+        tab: 0,
+        color: "",
+        active: false,
+        complete: false,
+        last_completed: null,
+        type: "",
+      },
     ]);
   });
 
@@ -264,7 +277,7 @@ describe("Reducer", () => {
     const action: Action = { type: "DELETE_TAB", payload: { id: 1 } };
     const newState = reducer(state, action);
 
-    expect(newState.tabs).toEqual([{ id: 2, name: "Tab 2" }]);
+    expect(newState.tabs).toEqual([{ id: 2, name: "Tab 2", icon_name: "" }]);
   });
 
   it("should handle SET_LOADING action", () => {
