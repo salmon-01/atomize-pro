@@ -11,7 +11,6 @@ describe("Simple Goal Component", () => {
   it("renders a single simple goal item correctly", () => {
     const simpleList = mockSimpleListData[0];
     const { id } = simpleList;
-    // console.log("mockSimpleListData in test:", mockSimpleListData);
 
     render(
       <MockAppProvider>
@@ -44,7 +43,6 @@ describe("Simple Goal Component", () => {
   it("renders multiple simple goals correctly", () => {
     // Create a mock list with 3 items
     const lists = createMockSimpleLists(3);
-    console.log(lists);
     // Update the global state with the mock data (goals/lists)
     const mockAppContextValue = {
       state: {

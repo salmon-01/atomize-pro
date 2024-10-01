@@ -1,8 +1,9 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeAll, afterEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ProgressBar from "./ProgressBar";
 import { MockAppProvider } from "../../__mocks__/mockAppContext";
 import { mockProgressBarData } from "../../__mocks__/mockProgressBar";
+import { updateGoalProgress } from "../../ApiService";
 
 // Mock the updateGoalProgress API call
 vi.mock("../../ApiService", () => ({
@@ -10,6 +11,15 @@ vi.mock("../../ApiService", () => ({
 }));
 
 describe("Progress Bar Component", () => {
+  // Mock global alert using Vitest's vi.fn()
+  beforeAll(() => {
+    window.alert = vi.fn();
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks(); // Clear all mocks after each test
+  });
+
   const mockGoal = mockProgressBarData[0];
 
   it("renders the progress bar and input field correctly", () => {
@@ -40,95 +50,111 @@ describe("Progress Bar Component", () => {
     expect(progressText).toBeInTheDocument();
   });
 
-  // it("displays correct progress percentage based on current and goal numbers", () => {
-  //   const goal = { ...mockGoal, current_number: 3, goal_number: 10 };
+  it("displays correct progress percentage based on current and goal numbers", () => {
+    const goal = { ...mockGoal, current_number: 3, goal_number: 10 };
 
-  //   render(
-  //     <MockAppProvider>
-  //       <ProgressBar goal={goal} />
-  //     </MockAppProvider>
-  //   );
+    render(
+      <MockAppProvider>
+        <ProgressBar goal={goal} />
+      </MockAppProvider>
+    );
 
-  //   // Check the progress percentage displayed
-  //   const progressText = screen.getByText("3 / 10 units — 30.00%");
-  //   expect(progressText).toBeInTheDocument();
-  // });
+    // Check the progress percentage displayed
+    const progressText = screen.getByText("3 / 10 reps — 30.00%");
+    expect(progressText).toBeInTheDocument();
+  });
 
-  // it("updates progress correctly on submission and dispatches action", () => {
-  //   const mockDispatch = vi.fn();
-  //   const goal = { ...mockGoal, current_number: 2, goal_number: 5 };
+  it("updates progress correctly on submission and dispatches action", () => {
+    const mockDispatch = vi.fn();
+    const goal = { ...mockGoal, current_number: 2, goal_number: 5 };
+    const mockAppContextValue = {
+      state: {
+        goals: [goal], // Assuming 'goals' is the global state key for the lists
+        tabs: [],
+        isLoading: false,
+        goalXPBar: 0,
+        currentXP: 0,
+      },
+      dispatch: mockDispatch, // Mock dispatch function if needed
+    };
 
-  //   render(
-  //     <MockAppProvider
-  //       value={{ state: { goals: [goal] }, dispatch: mockDispatch }}
-  //     >
-  //       <ProgressBar goal={goal} />
-  //     </MockAppProvider>
-  //   );
+    render(
+      <MockAppProvider value={mockAppContextValue}>
+        <ProgressBar goal={goal} />
+      </MockAppProvider>
+    );
 
-  //   // Enter a progress value in the input field
-  //   const input = screen.getByRole("textbox");
-  //   fireEvent.change(input, { target: { value: "2" } });
+    // Enter a progress value in the input field
+    const input = screen.getByRole("spinbutton");
+    fireEvent.change(input, { target: { value: "2" } });
 
-  //   // Click the submit button
-  //   const submitButton = screen.getByRole("button", { name: "+" });
-  //   fireEvent.click(submitButton);
+    // Click the submit button
+    const submitButton = screen.getByRole("button", { name: "+" });
+    fireEvent.click(submitButton);
 
-  //   // Check if the dispatch function was called with the correct action
-  //   expect(mockDispatch).toHaveBeenCalledWith({
-  //     type: "UPDATE_GOAL",
-  //     payload: {
-  //       id: goal.id,
-  //       updates: { current_number: 4 }, // 2 + 2 = 4
-  //     },
-  //   });
+    // Check if the dispatch function was called with the correct action
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "UPDATE_GOAL",
+      payload: {
+        id: goal.id,
+        updates: { current_number: 4 }, // 2 + 2 = 4
+      },
+    });
 
-  //   // Check if the API call was made with the updated progress
-  //   expect(updateGoalProgress).toHaveBeenCalledWith({
-  //     ...goal,
-  //     current_number: 4,
-  //   });
-  // });
+    // Check if the API call was made with the updated progress
+    expect(updateGoalProgress).toHaveBeenCalledWith({
+      ...goal,
+      current_number: 4,
+    });
+  });
 
-  // it("prevents exceeding 1000% of the goal", () => {
-  //   const mockDispatch = vi.fn();
-  //   const goal = { ...mockGoal, current_number: 10, goal_number: 5 }; // Already at 200%
+  it("prevents exceeding 1000% of the goal", () => {
+    const mockDispatch = vi.fn();
+    const goal = { ...mockGoal, current_number: 10, goal_number: 5 }; // Already at 200%
+    const mockAppContextValue = {
+      state: {
+        goals: [goal], // Assuming 'goals' is the global state key for the lists
+        tabs: [],
+        isLoading: false,
+        goalXPBar: 0,
+        currentXP: 0,
+      },
+      dispatch: mockDispatch, // Mock dispatch function if needed
+    };
 
-  //   render(
-  //     <MockAppProvider
-  //       value={{ state: { goals: [goal] }, dispatch: mockDispatch }}
-  //     >
-  //       <ProgressBar goal={goal} />
-  //     </MockAppProvider>
-  //   );
+    render(
+      <MockAppProvider value={mockAppContextValue}>
+        <ProgressBar goal={goal} />
+      </MockAppProvider>
+    );
 
-  //   // Enter a progress value that would exceed the limit
-  //   const input = screen.getByRole("textbox");
-  //   fireEvent.change(input, { target: { value: "100" } });
+    // Enter a progress value that would exceed the limit
+    const input = screen.getByRole("spinbutton");
+    fireEvent.change(input, { target: { value: "100" } });
 
-  //   // Click the submit button
-  //   const submitButton = screen.getByRole("button", { name: "+" });
-  //   fireEvent.click(submitButton);
+    // Click the submit button
+    const submitButton = screen.getByRole("button", { name: "+" });
+    fireEvent.click(submitButton);
 
-  //   // Ensure the dispatch was not called because it exceeds the limit
-  //   expect(mockDispatch).not.toHaveBeenCalled();
+    // Ensure the dispatch was not called because it exceeds the limit
+    expect(mockDispatch).not.toHaveBeenCalled();
 
-  //   // Ensure the progress doesn't exceed the allowed limit
-  //   expect(updateGoalProgress).not.toHaveBeenCalled();
-  // });
+    // Ensure the progress doesn't exceed the allowed limit
+    expect(updateGoalProgress).not.toHaveBeenCalled();
+  });
 
-  // it("handles input changes correctly", () => {
-  //   render(
-  //     <MockAppProvider>
-  //       <ProgressBar goal={mockGoal} />
-  //     </MockAppProvider>
-  //   );
+  it("handles input changes correctly", () => {
+    render(
+      <MockAppProvider>
+        <ProgressBar goal={mockGoal} />
+      </MockAppProvider>
+    );
 
-  //   // Enter a progress value in the input field
-  //   const input = screen.getByRole("textbox");
-  //   fireEvent.change(input, { target: { value: "5" } });
+    // Enter a progress value in the input field
+    const input = screen.getByRole("spinbutton");
+    fireEvent.change(input, { target: { value: "5" } });
 
-  //   // Ensure the input field is updated
-  //   expect(input.value).toBe("5");
-  // });
+    // Ensure the input field is updated
+    expect(input.value).toBe("5");
+  });
 });
