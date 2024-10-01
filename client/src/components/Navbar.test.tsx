@@ -1,30 +1,34 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { mockTabData, createMockTabs } from "../__mocks__/mockTabData";
-import { mockGoalData, createMockGoals } from "../__mocks__/mockGoalData";
+import { createMockTabs } from "../__mocks__/mockTabData";
+import { createMockGoals } from "../__mocks__/mockGoalData";
 import { MockAppProvider } from "../__mocks__/mockAppContext";
 import * as AppContext from "../AppContext";
 import { MemoryRouter } from "react-router-dom";
 import NavBar from "./NavBar";
 
 describe("Navbar Component", () => {
+  const mockDispatch = vi.fn();
   const mockState = {
     goals: createMockGoals(5),
-    tabs: createMockTabs(3), // Create 3 mock tabs
+    tabs: createMockTabs(3),
     isLoading: false,
-    goalXPBar: 100, // Set your goal XP
-    currentXP: 50, //
+    goalXPBar: 100,
+    currentXP: 50,
   };
 
   beforeEach(() => {
     vi.resetAllMocks();
-    vi.spyOn(AppContext, "useAppContext").mockReturnValue({ state: mockState });
+    vi.spyOn(AppContext, "useAppContext").mockReturnValue({
+      state: mockState,
+      dispatch: mockDispatch,
+    });
   });
 
   it("renders create and edit buttons", () => {
     render(
       <MemoryRouter>
-        <MockAppProvider value={{ state: mockState }}>
+        <MockAppProvider value={{ state: mockState, dispatch: mockDispatch }}>
           <NavBar />
         </MockAppProvider>
       </MemoryRouter>
@@ -42,7 +46,7 @@ describe("Navbar Component", () => {
   it("displays the correct formatted date", () => {
     render(
       <MemoryRouter>
-        <MockAppProvider value={{ state: mockState }}>
+        <MockAppProvider value={{ state: mockState, dispatch: mockDispatch }}>
           <NavBar />
         </MockAppProvider>
       </MemoryRouter>
@@ -55,7 +59,7 @@ describe("Navbar Component", () => {
   it("renders the progress bar correctly", () => {
     render(
       <MemoryRouter>
-        <MockAppProvider value={{ state: mockState }}>
+        <MockAppProvider value={{ state: mockState, dispatch: mockDispatch }}>
           <NavBar />
         </MockAppProvider>
       </MemoryRouter>
