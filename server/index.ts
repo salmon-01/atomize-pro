@@ -7,7 +7,7 @@ import tabsRoutes from "./src/routes/tabsRoutes";
 import simpleListRoutes from "./src/routes/simpleListRoutes";
 import progressBarRoutes from "./src/routes/progressBarRoutes";
 import levelsRoutes from "./src/routes/levelsRoutes";
-import setsRoutes from './src/routes/setsRoutes'
+import setsRoutes from "./src/routes/setsRoutes";
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ app.use("/api/tabs", tabsRoutes);
 app.use("/api/simplelists", simpleListRoutes);
 app.use("/api/progressbars", progressBarRoutes);
 app.use("/api/levels", levelsRoutes);
-app.use('/api/sets', setsRoutes);
+app.use("/api/sets", setsRoutes);
 
 (async function bootstrap() {
   try {
@@ -30,6 +30,8 @@ app.use('/api/sets', setsRoutes);
       console.log(`🚀 The server is running and listening on port ${PORT}!`);
     });
   } catch (err) {
-    console.error(`😞 Something went wrong connecting to the server! ${err}`);
+    console.log(`😞 Something went wrong connecting to the server! ${err}`);
   }
 })();
+
+export default app;
