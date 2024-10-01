@@ -1,4 +1,3 @@
-// import { useAppContext } from "../AppContext";
 import SimpleGoal from "./templates/SimpleGoal";
 import ProgressBar from "./templates/ProgressBar";
 import LevelsBlock from "./templates/LevelsBlock";
@@ -16,13 +15,7 @@ export default function List({ list, tabGoals }: ListProps) {
   const listGoals = tabGoals.filter((goal) => goal.list_name === list);
   return (
     <div
-      className="list-container"
-      // id={`${
-      //   (tab.col_one === list && "col1") ||
-      //   (tab.col_two === list && "col2") ||
-      //   "col3"
-      // }`}
-    >
+      className="list-container">
       <div id="list-heading">{list}</div>
       <div className="goal-content-container">
         {listGoals.map((goal) =>
