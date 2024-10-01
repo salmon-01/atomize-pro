@@ -3,9 +3,15 @@ import { useFormContext } from "../../context/createListContext.js"; // Custom c
 
 // import Delete from "../../assets/other/delete-button.png";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
-import { Control, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import {
+  Control,
+  UseFormRegister,
+  UseFormSetValue,
+  useWatch,
+} from "react-hook-form";
 import "../../styles/AddSome.css";
 import { Goal } from "../../types/types";
+import { ColorPicker } from "../ui/ColorPicker.js";
 
 type FormValues = {
   goals: Goal[];
@@ -29,6 +35,12 @@ export default function AddSomeSets({
 
   const { listName, selectedTab } = useFormContext();
 
+  // Watch for changes to the "goals" array to trigger re-renders when color changes
+  const watchedGoals = useWatch({
+    control,
+    name: "goals",
+  });
+
   const handleAddGoal = () => {
     append({
       task_name: "",
@@ -45,13 +57,6 @@ export default function AddSomeSets({
     });
   };
 
-  function openColorBox(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    const colorChoices = (event.target as HTMLDivElement)
-      .nextElementSibling as HTMLElement;
-    colorChoices.style.display =
-      colorChoices.style.display === "block" ? "none" : "block";
-  }
-
   return (
     <>
       <table>
@@ -63,7 +68,7 @@ export default function AddSomeSets({
             <th>Reps</th>
             <th>Color</th>
           </tr>
-          {fields.map((goal, index) => (
+          {fields.map((_, index) => (
             <tr key={`goal-${index}`}>
               <td className="remove-by-index" onClick={() => remove(index)}>
                 <img src={OrangeDelete} className="delete-icon" />
@@ -81,7 +86,7 @@ export default function AddSomeSets({
               <td>
                 <input
                   type="number"
-                  className={`small-input rounded-input ${goal.color}`}
+                  className={`small-input rounded-input ${watchedGoals[index]?.color}`}
                   {...register(`goals.${index}.sets` as const, {
                     valueAsNumber: true,
                   })}
@@ -90,52 +95,19 @@ export default function AddSomeSets({
               <td>
                 <input
                   type="number"
-                  className={`small-input rounded-input ${goal.color}`}
+                  className={`small-input rounded-input ${watchedGoals[index]?.color}`}
                   {...register(`goals.${index}.reps` as const, {
                     valueAsNumber: true,
                   })}
                 />
               </td>
               <td>
-                <div
-                  className={`color-box ${goal.color}`}
-                  onClick={openColorBox}
-                ></div>
-                <div className="color-choices">
-                  <div
-                    className="color-option turq-gradient"
-                    onClick={() =>
-                      setValue(`goals.${index}.color` as const, "turq-gradient")
-                    }
-                  ></div>
-                  <div
-                    className="color-option orange-gradient"
-                    onClick={() =>
-                      setValue(
-                        `goals.${index}.color` as const,
-                        "orange-gradient"
-                      )
-                    }
-                  ></div>
-                  <div
-                    className="color-option purple-gradient"
-                    onClick={() =>
-                      setValue(
-                        `goals.${index}.color` as const,
-                        "purple-gradient"
-                      )
-                    }
-                  ></div>
-                  <div
-                    className="color-option yellow-gradient"
-                    onClick={() =>
-                      setValue(
-                        `goals.${index}.color` as const,
-                        "yellow-gradient"
-                      )
-                    }
-                  ></div>
-                </div>
+                <ColorPicker
+                  color={watchedGoals[index]?.color}
+                  onChange={(newColor) =>
+                    setValue(`goals.${index}.color` as const, newColor)
+                  }
+                />
               </td>
             </tr>
           ))}

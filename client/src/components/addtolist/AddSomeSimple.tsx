@@ -3,10 +3,12 @@ import {
   Control,
   UseFormRegister,
   UseFormSetValue,
+  useWatch,
 } from "react-hook-form";
 import OrangeDelete from "../../assets/other/orange-delete-button.png";
 import { useFormContext } from "../../context/createListContext.js"; // Custom context
 import { Goal } from "../../types/types.js";
+import { ColorPicker } from "../ui/ColorPicker.js";
 
 type FormValues = {
   goals: Goal[];
@@ -30,6 +32,12 @@ export default function AddSomeSimple({
 
   const { listName, selectedTab } = useFormContext();
 
+  // Watch for changes to the "goals" array to trigger re-renders when color changes
+  const watchedGoals = useWatch({
+    control,
+    name: "goals",
+  });
+
   const handleAddGoal = () => {
     append({
       task_name: "",
@@ -52,7 +60,7 @@ export default function AddSomeSimple({
             <th>Goal name</th>
             <th>Color</th>
           </tr>
-          {fields.map((goal, index) => (
+          {fields.map((_, index) => (
             <tr key={`goal-${index}`}>
               <td className="remove-by-index" onClick={() => remove(index)}>
                 <img src={OrangeDelete} className="delete-icon" alt="Delete" />
@@ -68,41 +76,12 @@ export default function AddSomeSimple({
                 />
               </td>
               <td>
-                <div
-                  className={`color-box ${goal.color}`}
-                  onClick={() =>
-                    setValue(
-                      `goals.${index}.color` as const,
-                      goal.color === "purple" ? "orange" : "purple"
-                    )
+                <ColorPicker
+                  color={watchedGoals[index]?.color}
+                  onChange={(newColor) =>
+                    setValue(`goals.${index}.color` as const, newColor)
                   }
-                ></div>
-                <div className="color-choices">
-                  <div
-                    className="color-option purple"
-                    onClick={() =>
-                      setValue(`goals.${index}.color` as const, "purple")
-                    }
-                  ></div>
-                  <div
-                    className="color-option yellow-green"
-                    onClick={() =>
-                      setValue(`goals.${index}.color` as const, "yellow-green")
-                    }
-                  ></div>
-                  <div
-                    className="color-option orange"
-                    onClick={() =>
-                      setValue(`goals.${index}.color` as const, "orange")
-                    }
-                  ></div>
-                  <div
-                    className="color-option red"
-                    onClick={() =>
-                      setValue(`goals.${index}.color` as const, "red")
-                    }
-                  ></div>
-                </div>
+                />
               </td>
             </tr>
           ))}

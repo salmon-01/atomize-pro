@@ -4,8 +4,8 @@ import Tab from "./Tab";
 import * as reactRouterDom from "react-router-dom";
 import * as AppContext from "../AppContext";
 import { MockAppProvider } from "../__mocks__/mockAppContext";
-import { mockTabData, createMockTabs } from "../__mocks__/mockTabData";
-import { mockGoalData, createMockGoals } from "../__mocks__/mockGoalData";
+import { createMockTabs } from "../__mocks__/mockTabData";
+import { createMockGoals } from "../__mocks__/mockGoalData";
 
 // Mock the react-router-dom module
 vi.mock("react-router-dom", async () => {
@@ -16,21 +16,22 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-// Mock the AppContext
-// vi.mock("../AppContext", () => ({
-//   useAppContext: vi.fn(),
-// }));
-
 describe("Tab Component", () => {
+  const mockDispatch = vi.fn();
   const mockState = {
     goals: createMockGoals(5),
     tabs: createMockTabs(3), // Create 3 mock tabs
     isLoading: false,
+    goalXPBar: 100,
+    currentXP: 50,
   };
 
   beforeEach(() => {
     vi.resetAllMocks();
-    vi.spyOn(AppContext, "useAppContext").mockReturnValue({ state: mockState });
+    vi.spyOn(AppContext, "useAppContext").mockReturnValue({
+      state: mockState,
+      dispatch: mockDispatch,
+    });
   });
 
   it("renders the Tab component with valid tabName", () => {
@@ -64,6 +65,7 @@ describe("Tab Component", () => {
     vi.spyOn(reactRouterDom, "useParams").mockReturnValue({ tabName: "tab-1" });
     vi.spyOn(AppContext, "useAppContext").mockReturnValue({
       state: { ...mockState, isLoading: true },
+      dispatch: mockDispatch,
     });
 
     render(
@@ -75,7 +77,6 @@ describe("Tab Component", () => {
     expect(screen.queryByText(/⸻ Tab 1 ⸻/i)).not.toBeInTheDocument();
     expect(screen.queryAllByRole("list")).toHaveLength(0);
   });
-
   // Currently not working...
   // it("renders BlankPage when tab has no goals", () => {
   //   const stateWithNoGoalsForTab3 = {

@@ -1,8 +1,13 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { sequelize } from "./index";
 
-export const Tabs = sequelize.define(
-  "Tab",
+class Tabs extends Model {
+  public id!: number;
+  public name!: string;
+  public icon_name!: string;
+}
+
+Tabs.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -19,6 +24,9 @@ export const Tabs = sequelize.define(
     },
   },
   {
+    sequelize,
     tableName: "tabs",
   }
 );
+
+export { Tabs };

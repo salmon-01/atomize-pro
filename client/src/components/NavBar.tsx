@@ -53,10 +53,10 @@ export default function NavBar() {
         </div>
         <div className={`${tabs.length ? "categories" : null}`}>
           <Link to="/create-new">
-            <img src={CreateButton} className="nav-icon" />
+            <img src={CreateButton} alt="Create New" className="nav-icon" />
           </Link>
           <Link to="/edit">
-            <img src={EditButton} className="nav-icon" />
+            <img src={EditButton} alt="Edit" className="nav-icon" />
           </Link>
         </div>
         <div className="date-display">{formattedDate}</div>
@@ -64,6 +64,7 @@ export default function NavBar() {
           <div className="progress-container" id="nav-completion-bar">
             <div
               className="progress-bar xpbar-fill"
+              role="progressbar"
               style={{ width: `${(currentXP / goalXPBar) * 100}%` }}
             ></div>
           </div>
