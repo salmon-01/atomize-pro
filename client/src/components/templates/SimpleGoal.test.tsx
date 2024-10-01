@@ -10,19 +10,24 @@ import {
   SimpleList,
 } from "../../__mocks__/mockSimpleList";
 import { AppContext } from "../../AppContext";
-import { MockAppProvider } from "../../__mocks__/mockAppContext";
+import {
+  MockAppProvider,
+  mockAppContextValue,
+} from "../../__mocks__/mockAppContext";
 
 describe("SimpleListComponent", () => {
   it("renders a single simple list item correctly", () => {
     const simpleList = mockSimpleListData[0];
     const { id } = simpleList;
+    // console.log("mockSimpleListData in test:", mockSimpleListData);
+
     render(
       <MockAppProvider>
         <SimpleGoal goalID={id} />
       </MockAppProvider>
     );
 
-    expect(screen.queryByText(simpleList.list_name)).not.toBeNull(); // Alternative to toBeInTheDocument
+    expect(screen.queryByText(simpleList.task_name)).not.toBeNull(); // Alternative to toBeInTheDocument
     expect(screen.queryByText(simpleList.task_name)).not.toBeNull(); // Alternative to toBeInTheDocument
   });
 

@@ -7,8 +7,8 @@ import { mockSimpleListData } from "./mockSimpleList";
 
 // Assuming this matches your actual initialState
 const mockInitialState = {
-  goals: [{ mockSimpleListData }],
-  tabs: [{ mockTabData }],
+  goals: mockSimpleListData,
+  tabs: mockTabData,
   isLoading: false,
   goalXPBar: 0,
   currentXP: 0,
@@ -18,7 +18,7 @@ const mockInitialState = {
 const mockDispatch = vi.fn();
 
 // Create a mock context value
-const mockAppContextValue: AppContextType = {
+export const mockAppContextValue: AppContextType = {
   state: mockInitialState,
   dispatch: mockDispatch,
 };
