@@ -13,25 +13,25 @@ export default function CreateNew() {
         <Link to="/create-new/goal">
           <div className="choice">
             <div className="choice-text">GOAL</div>
-            <img src={Goal} className="choice-image" />
+            <img src={Goal} alt="goal" className="choice-image" />
           </div>
         </Link>
         <Link to="/create-new/list">
           <div className="choice">
             <div className="choice-text">LIST</div>
-            <img src={List} className="choice-image" />
+            <img src={List} alt="list" className="choice-image" />
           </div>
         </Link>
         <Link to="/create-new/tab">
           <div className="choice">
             <div className="choice-text">TAB</div>
-            <img src={Tab} className="choice-image" />
+            <img src={Tab} alt="tab" className="choice-image" />
           </div>
         </Link>
         <Link to="/create-new/plan">
           <div className="choice">
             <div className="choice-text">PLAN</div>
-            <img src={Plan} className="choice-image" />
+            <img src={Plan} alt="plan" className="choice-image" />
           </div>
         </Link>
       </div>
