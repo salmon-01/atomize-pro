@@ -56,7 +56,6 @@ export default function CreateNewTab() {
     const newTab: Omit<Tab, "id"> = {
       name: data.name,
       icon_name: data.icon_name,
-      order_no: tabs.length + 1,
     };
 
     try {
