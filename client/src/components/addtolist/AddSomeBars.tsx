@@ -68,7 +68,7 @@ export default function AddSomeBars({
           {fields.map((_, index) => (
             <tr key={`goal-${index}`}>
               <td className="remove-by-index" onClick={() => remove(index)}>
-                <img src={OrangeDelete} className="delete-icon" />
+                <img src={OrangeDelete} className="delete-icon" alt="delete" />
               </td>
               <td>
                 <input

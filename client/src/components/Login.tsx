@@ -5,7 +5,7 @@ import "../styles/Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("sara@example.com");
-  const [password, setPassword] = useState("qwerty");
+  const [password, setPassword] = useState("qwerty21312321");
   const [error, setError] = useState(""); // State to handle errors
 
   const { login, isAuthenticated } = useAuth();
