@@ -1,0 +1,76 @@
+/* HomePage-Planner.css */
+
+/* General layout */
+.plan-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Aligns content vertically */
+  margin: auto;
+  width: 70vw;
+  grid-column-start: 4;
+}
+
+/* Time Slots (left side) */
+.day-plan {
+  flex-grow: 1;
+  margin-right: 20px;
+}
+
+.plan-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.time-slot {
+  width: 60px;
+  font-weight: bold;
+}
+
+/* Task slot (droppable areas) */
+.task-slot {
+  flex-grow: 1;
+  min-height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: white;
+  transition: background-color 0.2s ease;
+}
+
+.task-slot.dragging-over {
+  background-color: #f0f0f0; /* Gray background when dragging over */
+}
+
+/* Task (draggable items) */
+.task {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  background-color: #e0f7ff; /* Light blue */
+  transition: background-color 0.2s ease;
+}
+
+.task.dragging {
+  background-color: #cceeff; /* Darker blue when dragging */
+}
+
+/* Task List (right side) */
+.task-list {
+  width: 250px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  transition: background-color 0.2s ease;
+}
+
+.task-list.dragging-over {
+  background-color: #f0f0f0; /* Gray background when dragging over */
+}
+
+.task-list h2 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
