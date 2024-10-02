@@ -13,6 +13,7 @@ import { fetchAllTabs, fetchAllGoals } from "./ApiService.js";
 import "./App.css";
 import { AppContext } from "./AppContext.js";
 import Loader from "./components/ui/Loader.js";
+import HomePlanner from "./components/HomePage-Planner.js";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -84,6 +85,7 @@ function App() {
         ) : (
           <Routes>
             <Route path="/home/*" element={<HomePage />} />
+            <Route path="/create-new/plan" element={<HomePlanner />} />
             <Route path="/create-new" element={<CreateNew />} />
             <Route path="/create-new/list" element={<CreateNewList />} />
             <Route path="/create-new/tab" element={<CreateNewTab />} />
