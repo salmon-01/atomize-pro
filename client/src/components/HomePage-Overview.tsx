@@ -9,15 +9,34 @@ export default function HomeOverview() {
   };
   const { tabs, goals } = state;
 
+  const groupedGoals = goals.reduce((acc, goal) => {
+    if (!acc[goal.list_name]) {
+      acc[goal.list_name] = [];
+    }
+    acc[goal.list_name].push(goal);
+    return acc;
+  }, {} as Record<string, typeof goals>);
+
   return (
     <div className="overview-container">
       {tabs.map((tab) => (
         <div className="tab-overview-box" key={tab.name}>
           <h4 className="overview-header">{tab.name}</h4>
           <div className="goals-overview">
-            {goals.map((goal) =>
-              goal.tab === tab.id ? <span key={goal.task_name}>O</span> : null
-            )}
+            {Object.entries(groupedGoals).map(([listName, listGoals]) => (
+              <div className="goal-group" key={listName}>
+                <div className="goal-list-header">{listName}</div>
+                <div className="goal-statuses">
+                  {listGoals
+                    .filter((goal) => goal.tab === tab.id)
+                    .map((goal) => (
+                      <span key={goal.task_name}>
+                        {goal.complete ? "✅" : "❌"}
+                      </span>
+                    ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       ))}
