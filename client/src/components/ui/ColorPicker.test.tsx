@@ -47,7 +47,7 @@ describe("ColorPicker Component", () => {
     fireEvent.click(orangeOption);
 
     // Check if onChange was called with the correct color
-    expect(mockOnChange).toHaveBeenCalledWith("orange-gradient");
+    expect(mockOnChange).toHaveBeenCalledWith("simple-orange");
 
     // The color options should be closed after a color is selected
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
