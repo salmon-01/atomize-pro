@@ -12,6 +12,7 @@ import Tab from "./components/Tab.js";
 import { fetchAllTabs, fetchAllGoals } from "./ApiService.js";
 import "./App.css";
 import { AppContext } from "./AppContext.js";
+import Loader from "./components/ui/Loader.js";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -77,26 +78,35 @@ function App() {
     <AppContext.Provider value={{ state, dispatch }}>
       <div className="wrapper">
         <NavBar />
-        <Routes>
-          <Route path="/home/*" element={<HomePage />} />
-          <Route path="/create-new" element={<CreateNew />} />
-          <Route path="/create-new/list" element={<CreateNewList />} />
-          <Route path="/create-new/tab" element={<CreateNewTab />} />
-          <Route
-            path="/create-new/goal"
-            element={<CreateNewGoal tabs={tabs} />}
-          />
-          <Route path="/edit" element={<MakeEdits />} />
-          {!isLoading &&
-            tabs.length > 0 &&
-            tabs.map((tab) => {
-              if (tab.name) {
-                return (
-                  <Route key={tab.name} path={`/:tabName`} element={<Tab />} />
-                );
-              }
-            })}
-        </Routes>
+        {/* Display Loader when isLoading is true */}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Routes>
+            <Route path="/home/*" element={<HomePage />} />
+            <Route path="/create-new" element={<CreateNew />} />
+            <Route path="/create-new/list" element={<CreateNewList />} />
+            <Route path="/create-new/tab" element={<CreateNewTab />} />
+            <Route
+              path="/create-new/goal"
+              element={<CreateNewGoal tabs={tabs} />}
+            />
+            <Route path="/edit" element={<MakeEdits />} />
+            {!isLoading &&
+              tabs.length > 0 &&
+              tabs.map((tab) => {
+                if (tab.name) {
+                  return (
+                    <Route
+                      key={tab.name}
+                      path={`/:tabName`}
+                      element={<Tab />}
+                    />
+                  );
+                }
+              })}
+          </Routes>
+        )}
       </div>
     </AppContext.Provider>
   );
