@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "types": ["vitest", "node"] // Ensure "vitest" is included here
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
