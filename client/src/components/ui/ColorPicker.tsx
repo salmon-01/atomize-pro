@@ -8,9 +8,12 @@ interface ColorPickerProps {
 
 const colorOptions = [
   { name: "turq-gradient", label: "Turquoise" },
-  { name: "orange-gradient", label: "Orange" },
+  { name: "orange-gradient", label: "Orange-g" },
   { name: "purple-gradient", label: "Purple" },
   { name: "yellow-gradient", label: "Yellow" },
+  { name: "simple-red", label: "Red" },
+  { name: "simple-purple", label: "Purple" },
+  { name: "simple-orange", label: "Orange" },
 ];
 
 export function ColorPicker({ color, onChange }: ColorPickerProps) {

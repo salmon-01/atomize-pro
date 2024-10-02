@@ -3,6 +3,51 @@
   --orange-gradient: linear-gradient(135deg, #ff7e5f, #feb47b);
   --purple-gradient: linear-gradient(135deg, #7f00ff, #e100ff);
   --yellow-gradient: linear-gradient(135deg, #fbd786, #f7797d);
+  --simple-red-bg: #f13647;
+  --simple-red-border: #fd5665 #e82839 #e82839 #fd5665;
+
+  --simple-purple-bg: #5b33bf;
+  --simple-purple-border: #673cd4 #5530af #5530af #673cd4;
+
+  --simple-orange-bg: #ff6c02;
+  --simple-orange-border: #ff7f38 #e86100 #e86100 #ff7f38;
+}
+
+/* Apply Variables to Classes */
+.simple-red {
+  background-color: var(--simple-red-bg);
+  border-color: var(--simple-red-border);
+}
+
+.simple-purple {
+  color: white;
+  background-color: var(--simple-purple-bg);
+  border-color: var(--simple-purple-border);
+}
+
+.simple-orange {
+  color: white;
+  background-color: var(--simple-orange-bg);
+  border-color: var(--simple-orange-border);
+}
+
+.turq-gradient {
+  background: linear-gradient(135deg, #06beb6, #48b1bf);
+  color: white;
+}
+
+.orange-gradient {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: white;
+}
+
+.purple-gradient {
+  background: linear-gradient(135deg, #7f00ff, #e100ff);
+}
+
+.yellow-gradient {
+  background: linear-gradient(135deg, #fbd786, #f7797d);
+  color: white;
 }
 
 .wrapper {

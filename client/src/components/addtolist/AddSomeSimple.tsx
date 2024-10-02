@@ -81,6 +81,7 @@ export default function AddSomeSimple({
                   onChange={(newColor) =>
                     setValue(`goals.${index}.color` as const, newColor)
                   }
+                  goalType="Simple List"
                 />
               </td>
             </tr>
