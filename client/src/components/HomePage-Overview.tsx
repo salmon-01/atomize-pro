@@ -23,20 +23,24 @@ export default function HomeOverview() {
         <div className="tab-overview-box" key={tab.name}>
           <h4 className="overview-header">{tab.name}</h4>
           <div className="goals-overview">
-            {Object.entries(groupedGoals).map(([listName, listGoals]) => (
-              <div className="goal-group" key={listName}>
-                <div className="goal-list-header">{listName}</div>
-                <div className="goal-statuses">
-                  {listGoals
-                    .filter((goal) => goal.tab === tab.id)
-                    .map((goal) => (
+            {Object.entries(groupedGoals).map(([listName, listGoals]) => {
+              const tabGoals = listGoals.filter((goal) => goal.tab === tab.id);
+              if (tabGoals.length === 0) {
+                return null;
+              }
+              return (
+                <div className="goal-group" key={listName}>
+                  <div className="goal-list-header">{listName}</div>
+                  <div className="goal-statuses">
+                    {tabGoals.map((goal) => (
                       <span key={goal.task_name}>
                         {goal.complete ? "✅" : "❌"}
                       </span>
                     ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       ))}

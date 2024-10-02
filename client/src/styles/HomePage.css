@@ -1,49 +1,56 @@
 .overview-container {
-  width: 100%;
-  display: flex;
-  margin-top: 30px;
-  justify-content: space-around;
+  margin-top: 1.5rem;
+  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  padding: 1rem;
 }
 
 .overview-header {
-  width: 100%;
-  margin-bottom: 1px solid blue;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.65rem;
 }
 
 .goals-overview {
-  background-color: white;
-  padding: 40px;
+  display: flex;
+  flex-direction: column;
 }
 
 .tab-overview-box {
-  background-color: #e8ff79;
-  overflow: hidden;
   border-radius: 30px;
-  width: 400px;
-  text-align: center;
+  flex: 1 1 10rem;
+  min-width: 10rem;
+  background-color: #fbeffe;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
-  border: 1px solid blue;
-  color: blue;
 }
 
 .goal-list-header {
-  margin-top: 0.3rem;
   font-weight: bold;
-  border-bottom: 1px solid #ccc;
-  width: 80%;
-  padding-bottom: 0.2rem;
+  flex: 1;
+}
+
+.goal-statuses {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
 }
 
 .goal-statuses span {
-  margin-left: 0.5rem;
+  font-size: 1.2rem;
 }
 
 .goal-group {
+  padding: 0.65rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.2rem 0;
+  border-bottom: 1px solid #ddd;
 }
 
 .plan-container {
