@@ -43,8 +43,8 @@ export default function Sets({ goal }: SetsProps) {
 
   return (
     <div className="goal-container">
-      <div className="set-container">
-        <div className="set-name-box">{goal.task_name}</div>
+      <div className={`set-container ${goal.color}`}>
+        <div className={`set-name-box`}>{goal.task_name}</div>
         <div className="set-tracker">
           {Array.from({ length: totalSets }).map((_, index) => (
             <div
