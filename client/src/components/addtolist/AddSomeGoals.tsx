@@ -5,7 +5,7 @@ import AddSomeBars from "./AddSomeBars";
 import AddSomeLevels from "./AddSomeLevels";
 import AddSomeSets from "./AddSomeSets";
 import AddSomeMixed from "./AddSomeMixed";
-import { createGoal } from "../../ApiService.jsx";
+import { createGoal } from "../../ApiService.js";
 import { Goal } from "../../types/types.js";
 import { useFormContext } from "../../context/createListContext.js";
 import { useAppContext } from "../../AppContext.js";
