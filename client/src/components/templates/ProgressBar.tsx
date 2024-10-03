@@ -11,8 +11,8 @@ interface ProgressBarProps {
 export default function ProgressBar({ goal }: ProgressBarProps) {
   const { dispatch } = useAppContext(); // Access dispatch from global context
 
-  // Local state for the current progress, initially set to goal's current_number
-  const [current, setCurrent] = useState<number>(goal.current_number || 0);
+  // Remove local state and rely on the global state for current progress
+  const current = goal.current_number || 0;
   const [progressToAdd, setToAdd] = useState<string>("");
 
   // Ensure goal.goal_number has a default fallback value
@@ -44,9 +44,6 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
       return;
     }
 
-    // Update local state to reflect the new progress
-    setCurrent(newProgress);
-
     // Dispatch action to update the global state with new progress
     dispatch({
       type: "UPDATE_GOAL",
@@ -55,6 +52,8 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
         updates: { current_number: newProgress },
       },
     });
+
+    dispatch({ type: "CALCULATE_GOAL_XP" }); // Recalculate XP
 
     // Make the API call to update the progress on the backend
     updateGoalProgress({

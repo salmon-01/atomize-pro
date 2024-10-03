@@ -19,7 +19,6 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { goals, tabs, isLoading } = state;
 
-  // Combined function to fetch tabs and goal data
   const loadData = async () => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
@@ -53,6 +52,9 @@ function App() {
         ];
         console.log("Dispatching all goals:", allGoals);
         dispatch({ type: "SET_GOALS", payload: allGoals });
+
+        // Now dispatch CALCULATE_GOAL_XP with the updated goals array
+        dispatch({ type: "CALCULATE_GOAL_XP", payload: allGoals });
       } else {
         dispatch({ type: "SET_GOALS", payload: [] });
       }
@@ -68,12 +70,12 @@ function App() {
     loadData();
   }, []);
 
-  // If there are any goals, calculates the goal XP and updates the centralised state.
-  useEffect(() => {
-    if (goals.length > 0) {
-      dispatch({ type: "CALCULATE_GOAL_XP", payload: goals });
-    }
-  }, [goals, dispatch]);
+  // // If there are any goals, calculates the goal XP and updates the centralised state.
+  // useEffect(() => {
+  //   if (goals.length > 0) {
+  //     dispatch({ type: "CALCULATE_GOAL_XP", payload: goals });
+  //   }
+  // }, [goals, dispatch]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

@@ -21,31 +21,29 @@ export function reducer(
         ...state,
         tabs: action.payload,
       };
+
     case "SET_GOALS":
+      updatedGoals = action.payload;
       return {
         ...state,
-        goals: action.payload,
+        goals: updatedGoals,
       };
+
     case "CREATE_TAB":
       return {
         ...state,
         tabs: [...state.tabs, action.payload],
       };
+
     case "CREATE_GOAL":
-      return {
-        ...state,
-        goals: [...state.goals, action.payload],
-      };
-    case "CALCULATE_GOAL_XP":
-      const { totalGoalXPBar, totalCurrentXP } = calculateGoalXP(
-        action.payload
-      );
+      updatedGoals = [...state.goals, action.payload];
+      console.log("Goals after creation: ", updatedGoals); // Debugging
 
       return {
         ...state,
-        goalXPBar: totalGoalXPBar,
-        currentXP: totalCurrentXP,
+        goals: updatedGoals,
       };
+
     case "UPDATE_GOAL":
       updatedGoals = state.goals.map((goal) =>
         goal.id === action.payload.id
@@ -54,16 +52,18 @@ export function reducer(
       );
       return {
         ...state,
-        goals: updatedGoals, // Create a new goals array
+        goals: updatedGoals, // Update goals without recalculating XP here
       };
+
     case "DELETE_GOAL":
-      const remainingGoals = state.goals.filter(
+      updatedGoals = state.goals.filter(
         (goal) => goal.id !== action.payload.id
       );
       return {
         ...state,
-        goals: remainingGoals,
+        goals: updatedGoals,
       };
+
     case "DELETE_LIST":
       updatedGoals = state.goals.filter(
         (goal) => goal.list_name !== action.payload.list_name
@@ -72,16 +72,28 @@ export function reducer(
         ...state,
         goals: updatedGoals,
       };
+
     case "DELETE_TAB":
       return {
         ...state,
         tabs: state.tabs.filter((tab) => tab.id !== action.payload.id),
       };
+
     case "SET_LOADING":
       return {
         ...state,
         isLoading: action.payload,
       };
+
+    // This case will handle the XP calculation separately
+    case "CALCULATE_GOAL_XP":
+      const { totalGoalXPBar, currentXP } = calculateGoalXP(state.goals);
+      return {
+        ...state,
+        goalXPBar: totalGoalXPBar,
+        currentXP: currentXP,
+      };
+
     default:
       return state;
   }

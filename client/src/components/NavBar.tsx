@@ -13,6 +13,7 @@ export default function NavBar() {
     state: State;
   };
   const { tabs, goalXPBar, currentXP } = state;
+  console.log("NavBar state:", state);
 
   const formatDate = (date: Date) => {
     const dateFormat = date.toLocaleDateString("en-GB", {
