@@ -50,6 +50,7 @@ export default function MakeEdits() {
     // Delete the selected tab
     deleteTab(selectedTab.id);
     dispatch({ type: "DELETE_TAB", payload: { id: selectedTab.id } });
+    dispatch({ type: "CALCULATE_GOAL_XP" }); // Recalculate XP
     dispatch({ type: "SET_LOADING", payload: false });
   };
 
@@ -65,6 +66,8 @@ export default function MakeEdits() {
       payload: { id: selectedGoal.id as number },
     });
 
+    dispatch({ type: "CALCULATE_GOAL_XP" }); // Recalculate XP
+
     // Checking if the list is now empty
     const listNotEmpty = goals.some(
       (goal) => goal.list_name === holdList && goal.id !== selectedGoal.id
@@ -73,6 +76,7 @@ export default function MakeEdits() {
     if (!listNotEmpty) {
       // If the list is empty, using the reducer to update global state
       dispatch({ type: "DELETE_LIST", payload: { list_name: holdList } });
+      dispatch({ type: "CALCULATE_GOAL_XP" }); // Recalculate XP
     }
   };
 

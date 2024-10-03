@@ -27,6 +27,7 @@ export default function SimpleGoal({ goalID }: SimpleGoalProps) {
           type: "UPDATE_GOAL",
           payload: { id: goal.id as number, updates: { complete: true } },
         });
+        dispatch({ type: "CALCULATE_GOAL_XP" }); // Recalculate XP
 
         // Update goal progress on the backend
         await updateGoalProgress(goal);

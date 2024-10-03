@@ -46,7 +46,6 @@ export default function AddSomeGoals() {
   const onSubmit = async (data: FormData) => {
     dispatch({ type: "SET_LOADING", payload: true });
 
-    // Find the tab object by its ID
     const selectedTabObj = state.tabs.find(
       (tab: Tab) => tab.id === selectedTab
     );
@@ -93,15 +92,12 @@ export default function AddSomeGoals() {
         console.log("Sending API request for:", goalData);
 
         // Send the goal creation request and get the response
-        const response = await createGoal(goalData); // Ensure this is awaited correctly
-
-        console.log("API Response for goal:", goal.task_name, response);
+        const response = await createGoal(goalData);
 
         if (response.success) {
           goalData.id = response.data.id;
           dispatch({ type: "CREATE_GOAL", payload: goalData });
-
-          return response.data.id; // Return the created goal's id
+          return response.data.id;
         } else {
           throw new Error(response.error || "Failed to create goal");
         }
@@ -109,8 +105,10 @@ export default function AddSomeGoals() {
 
       // Wait for all API calls to finish
       const goalIds = await Promise.all(promises);
-      console.log(goalIds);
       console.log("Created goal IDs:", goalIds);
+
+      // Trigger XP recalculation after all goals are created
+      dispatch({ type: "CALCULATE_GOAL_XP", payload: state.goals });
 
       // Navigate only after all state updates and API calls are done
       const normalizedTabName = encodeURIComponent(
@@ -121,7 +119,6 @@ export default function AddSomeGoals() {
       }
     } catch (error) {
       console.log("Error submitting list and goals:", error);
-      dispatch({ type: "SET_LOADING", payload: false });
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }

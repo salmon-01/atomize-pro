@@ -28,6 +28,8 @@ export default function LevelsBlock({ goal }: LevelsBlockProps) {
         },
       });
 
+      dispatch({ type: "CALCULATE_GOAL_XP" }); // Recalculate XP
+
       // Update the backend with the new progress
       updateGoalProgress({ ...goal, level: newCompletedLevels });
     }

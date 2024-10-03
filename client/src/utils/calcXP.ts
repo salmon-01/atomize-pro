@@ -2,7 +2,7 @@ import { Goal } from "../types/types";
 
 export function calculateGoalXP(goals: Goal[]) {
   let totalGoalXPBar = 0;
-  let totalCurrentXP = 0;
+  let currentXP = 0;
 
   goals.forEach((goal) => {
     if (goal.type === "Simple List") {
@@ -20,13 +20,13 @@ export function calculateGoalXP(goals: Goal[]) {
 
     // Calculate XP based on completion
     if (goal.type === "Simple List" && goal.complete) {
-      totalCurrentXP += 1;
+      currentXP += 1;
     }
     if (goal.type === "Sets" && goal.completed_sets !== undefined) {
-      totalCurrentXP += goal.completed_sets;
+      currentXP += goal.completed_sets;
     }
     if (goal.type === "Levels" && goal.level !== undefined) {
-      totalCurrentXP += goal.level;
+      currentXP += goal.level;
     }
     if (
       goal.type === "Progress Bar" &&
@@ -37,12 +37,12 @@ export function calculateGoalXP(goals: Goal[]) {
         goal.goal_number > 0
           ? Math.round((goal.current_number / goal.goal_number) * 10)
           : 0;
-      totalCurrentXP += progress;
+      currentXP += progress;
     }
   });
 
   return {
     totalGoalXPBar,
-    totalCurrentXP,
+    currentXP,
   };
 }

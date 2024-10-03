@@ -53,6 +53,8 @@ export default function ProgressBar({ goal }: ProgressBarProps) {
       },
     });
 
+    dispatch({ type: "CALCULATE_GOAL_XP" }); // Recalculate XP
+
     // Make the API call to update the progress on the backend
     updateGoalProgress({
       ...goal,

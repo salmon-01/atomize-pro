@@ -21,35 +21,29 @@ export function reducer(
         ...state,
         tabs: action.payload,
       };
+
     case "SET_GOALS":
+      updatedGoals = action.payload;
       return {
         ...state,
-        ...calculateGoalXP(action.payload),
-        goals: action.payload,
+        goals: updatedGoals,
       };
+
     case "CREATE_TAB":
       return {
         ...state,
         tabs: [...state.tabs, action.payload],
       };
+
     case "CREATE_GOAL":
       updatedGoals = [...state.goals, action.payload];
+      console.log("Goals after creation: ", updatedGoals); // Debugging
 
       return {
         ...state,
         goals: updatedGoals,
-        ...calculateGoalXP(updatedGoals),
       };
-    case "CALCULATE_GOAL_XP":
-      const { totalGoalXPBar, totalCurrentXP } = calculateGoalXP(
-        action.payload
-      );
 
-      return {
-        ...state,
-        goalXPBar: totalGoalXPBar,
-        currentXP: totalCurrentXP,
-      };
     case "UPDATE_GOAL":
       updatedGoals = state.goals.map((goal) =>
         goal.id === action.payload.id
@@ -58,18 +52,18 @@ export function reducer(
       );
       return {
         ...state,
-        goals: updatedGoals, // Create a new goals array
-        ...calculateGoalXP(updatedGoals),
+        goals: updatedGoals, // Update goals without recalculating XP here
       };
+
     case "DELETE_GOAL":
-      const remainingGoals = state.goals.filter(
+      updatedGoals = state.goals.filter(
         (goal) => goal.id !== action.payload.id
       );
       return {
         ...state,
-        goals: remainingGoals,
-        ...calculateGoalXP(remainingGoals),
+        goals: updatedGoals,
       };
+
     case "DELETE_LIST":
       updatedGoals = state.goals.filter(
         (goal) => goal.list_name !== action.payload.list_name
@@ -77,18 +71,29 @@ export function reducer(
       return {
         ...state,
         goals: updatedGoals,
-        ...calculateGoalXP(updatedGoals),
       };
+
     case "DELETE_TAB":
       return {
         ...state,
         tabs: state.tabs.filter((tab) => tab.id !== action.payload.id),
       };
+
     case "SET_LOADING":
       return {
         ...state,
         isLoading: action.payload,
       };
+
+    // This case will handle the XP calculation separately
+    case "CALCULATE_GOAL_XP":
+      const { totalGoalXPBar, currentXP } = calculateGoalXP(state.goals);
+      return {
+        ...state,
+        goalXPBar: totalGoalXPBar,
+        currentXP: currentXP,
+      };
+
     default:
       return state;
   }

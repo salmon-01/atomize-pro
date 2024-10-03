@@ -37,7 +37,7 @@ export type Action =
   | { type: "SET_GOALS"; payload: Goal[] }
   | { type: "CREATE_TAB"; payload: Tab }
   | { type: "CREATE_GOAL"; payload: Goal }
-  | { type: "CALCULATE_GOAL_XP"; payload: Goal[] }
+  | { type: "CALCULATE_GOAL_XP" }
   | { type: "UPDATE_GOAL"; payload: { id: number; updates: Partial<Goal> } } // New action to update goal
   // | { type: 'UPDATE_LIST'; payload: UNSURE_YET }
   | { type: "DELETE_TAB"; payload: { id: number } }
