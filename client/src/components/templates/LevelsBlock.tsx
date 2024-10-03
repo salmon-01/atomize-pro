@@ -13,14 +13,11 @@ export default function LevelsBlock({ goal }: LevelsBlockProps) {
   const maxLevel = 3;
 
   // State to track number of completed levels
-  const [progress, setProgress] = useState<number>(goal.level || 0);
+  const progress = goal.level || 0;
 
   const handleCompletedLevels = () => {
     if (progress < maxLevel) {
       const newCompletedLevels = progress + 1;
-
-      // Update the state with the new number of completed sets
-      setProgress(newCompletedLevels);
 
       // Dispatch action to update the global state
       dispatch({

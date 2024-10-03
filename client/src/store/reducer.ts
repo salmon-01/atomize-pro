@@ -24,6 +24,7 @@ export function reducer(
     case "SET_GOALS":
       return {
         ...state,
+        ...calculateGoalXP(action.payload),
         goals: action.payload,
       };
     case "CREATE_TAB":
@@ -32,9 +33,12 @@ export function reducer(
         tabs: [...state.tabs, action.payload],
       };
     case "CREATE_GOAL":
+      updatedGoals = [...state.goals, action.payload];
+
       return {
         ...state,
-        goals: [...state.goals, action.payload],
+        goals: updatedGoals,
+        ...calculateGoalXP(updatedGoals),
       };
     case "CALCULATE_GOAL_XP":
       const { totalGoalXPBar, totalCurrentXP } = calculateGoalXP(
@@ -55,6 +59,7 @@ export function reducer(
       return {
         ...state,
         goals: updatedGoals, // Create a new goals array
+        ...calculateGoalXP(updatedGoals),
       };
     case "DELETE_GOAL":
       const remainingGoals = state.goals.filter(
@@ -63,6 +68,7 @@ export function reducer(
       return {
         ...state,
         goals: remainingGoals,
+        ...calculateGoalXP(remainingGoals),
       };
     case "DELETE_LIST":
       updatedGoals = state.goals.filter(
@@ -71,6 +77,7 @@ export function reducer(
       return {
         ...state,
         goals: updatedGoals,
+        ...calculateGoalXP(updatedGoals),
       };
     case "DELETE_TAB":
       return {

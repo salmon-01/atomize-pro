@@ -100,6 +100,7 @@ export default function AddSomeGoals() {
         if (response.success) {
           goalData.id = response.data.id;
           dispatch({ type: "CREATE_GOAL", payload: goalData });
+
           return response.data.id; // Return the created goal's id
         } else {
           throw new Error(response.error || "Failed to create goal");

@@ -11,16 +11,13 @@ interface SetsProps {
 export default function Sets({ goal }: SetsProps) {
   const { dispatch } = useAppContext(); // Access dispatch from global context
 
-  // State to track the number of completed sets
-  const [completedSets, setCompletedSets] = useState(goal.completed_sets || 0);
+  const completedSets = goal.completed_sets || 0;
+  const totalSets = goal.sets || 0;
 
   // Handle clicking to complete the next set in the sequence
   const handleCompleteSet = () => {
     if (goal.sets !== undefined && completedSets < goal.sets) {
       const newCompletedSets = completedSets + 1;
-
-      // Update the state with the new number of completed sets
-      setCompletedSets(newCompletedSets);
 
       // Dispatch action to update the global state
       dispatch({
@@ -38,8 +35,6 @@ export default function Sets({ goal }: SetsProps) {
       });
     }
   };
-
-  const totalSets = goal.sets || 0;
 
   return (
     <div className="goal-container">
