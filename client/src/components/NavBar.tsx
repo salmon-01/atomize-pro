@@ -65,7 +65,7 @@ export default function NavBar() {
             <div
               className="progress-bar xpbar-fill"
               role="progressbar"
-              style={{ width: `${(currentXP / goalXPBar) * 100}%` }}
+              style={{ width: `${(currentXP / (goalXPBar || 1)) * 100}%` }}
             ></div>
           </div>
         </div>
