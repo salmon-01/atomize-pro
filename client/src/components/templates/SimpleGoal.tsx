@@ -42,18 +42,6 @@ export default function SimpleGoal({ goalID }: SimpleGoalProps) {
     return <div>Goal not found</div>;
   }
 
-  // // Determine goalClass based on goal color
-  // const goalClass = (() => {
-  //   switch (goal.color) {
-  //     case "red":
-  //       return "simple-red";
-  //     case "purple":
-  //       return "simple-purple";
-  //     default:
-  //       return "simple-orange";
-  //   }
-  // })();
-
   return (
     <div className="goal-container" onClick={completeGoal}>
       <div className="simple-container">
