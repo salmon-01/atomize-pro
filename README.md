@@ -1,5 +1,9 @@
 # Atomize-Pro
 
+<p align="center">
+  <img src="client/public/icons/atomic-icon.png" />
+</p>
+
 Atomize Pro is a productivity app that aims to enhance the overall experience of goal-tracking and progress management for all spheres of life. Keep track of both short-term and long-term goals, and measure progress in a variety of ways, not just standard box-ticking.
 
 ##### Create different types of goals:
@@ -52,6 +56,6 @@ PORT=3000
 - Vitest
 
 ## Authors
-- Joshua Tuddenham - [GitHub]() - [LinkedIn]()
-- Ilya Onoprienko - [GitHub]() - [LinkedIn]()
-- Kieran Mozer - [GitHub]() - [LinkedIn]()
+- Joshua Tuddenham - [GitHub](https://github.com/joshuaisaact) - [LinkedIn](https://www.linkedin.com/in/joshuatuddenham/)
+- Ilya Onoprienko - [GitHub](https://github.com/salmon-01) - [LinkedIn](https://www.linkedin.com/in/ilya-onoprienko/)
+- Kieran Mozer - [GitHub](https://github.com/kmoze) - [LinkedIn](https://www.linkedin.com/in/kiermozer/)
