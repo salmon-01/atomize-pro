@@ -48,8 +48,8 @@ PORT=3000
 
 ## Tech Stack
 
-
-- React + Vite + TS
+- React + Vite
+- Typescript
 - Express
 - Sequelize
 - Jest + Supertest
