@@ -1,17 +1,57 @@
-## Atomize Pro. 
+# Atomize-Pro
 
- Atomize Productivity, aka. 'Atomize Pro.,' is a productivity app that aims to enhance the overall experience of goal-tracking and progress management for all spheres of life. Keep track of both short-term and long-term goals, and measure progress in a variety of ways, not just standard box-ticking.
- 
- The front-end is built with vanilla Javascript, CSS, and React, but with improvements, will include features supported by libraries such as Dnd Kit. On the back-end, Express keeps the server afloat and a PostGresql database holds all the user's stored data and preferences.
+Atomize Pro is a productivity app that aims to enhance the overall experience of goal-tracking and progress management for all spheres of life. Keep track of both short-term and long-term goals, and measure progress in a variety of ways, not just standard box-ticking.
 
- 
-## Current Features
+##### Create different types of goals:
 
-### Goal Creation:
-Choose from four different templates to track your goal and your day's progress: 1) A check-list for simplicity and black-and-white outcomes, 2) A progress bar for meeting a specific number of units, 3) Sets for tracking repetitions of activities, and 4) A three-level block for measuring progress in stages.
-  
-### Set List Categories with Tabs:
-Keep your goals organized in lists and stored under customized tabs for easy navigation and overwhelm prevention.
+1) A check-list for simplicity and black-and-white outcomes
+2) A progress bar for meeting a specific number of units
+3) Sets for tracking repetitions of activities
+4) A three-level block for measuring progress in stages.
 
-### An Aesthetically Pleasing Interface:
-Interact with an interface that is pleasant to navigate and look at. Life is not an office and so it shouldn't feel like one when you're planning your next steps.
+##### Other features:
+
+- Keep your goals organized in lists and stored under customized tabs for easy navigation and overwhelm prevention.
+- Track overall progress of all goals using the global progress bar
+- Pick a theme for your spaces
+
+### Getting Started
+
+1. Clone the repo 
+```sh
+git clone https://github.com/salmon-01/atomize-pro.git
+```
+2. Front-end setup
+```sh
+cd client
+npm install
+npm run dev
+```
+3. Back-end setup
+```sh
+cd server
+npm install
+npm run dev
+```
+##### Server environments:
+Create a .env file
+```sh
+PSQL_DATABASE=name-of-the-db
+PSQL_USER=db-user
+PASSWORD=your-password
+PORT=3000
+```
+
+## Tech Stack
+
+
+- React + Vite + TS
+- Express
+- Sequelize
+- Jest + Supertest
+- Vitest
+
+## Authors
+- Joshua Tuddenham - [GitHub]() - [LinkedIn]()
+- Ilya Onoprienko - [GitHub]() - [LinkedIn]()
+- Kieran Mozer - [GitHub]() - [LinkedIn]()
